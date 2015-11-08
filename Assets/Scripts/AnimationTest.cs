@@ -3,21 +3,19 @@ using System.Collections;
 
 public class AnimationTest : MonoBehaviour {
 	
-	Animation animation;
-	Camera camera;
+	private Animation anim;
 
 	void Start() {
-		animation = GetComponent<Animation> ();
-		camera = Camera.main;
+		anim = GetComponent<Animation> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			animation.Play("Run");
+			anim.Play("Run");
 		}
 
-		if (animation.IsPlaying ("Run")) {
+		if (anim.IsPlaying ("Run")) {
 			transform.position += 0.1f * Vector3.forward;
 		}
 
