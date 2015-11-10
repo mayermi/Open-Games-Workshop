@@ -3,11 +3,22 @@ using System.Collections;
 
 public class MoveOnSphere : MonoBehaviour {
 
+    public float runSpeed;
+
     Vector3 target =  Vector3.zero;
+    Vector3 from = Vector3.zero;
     float moveTime;
     float startTime;
 
-	void Update () {
+    Animation anim;
+
+    void Start()
+    {
+        anim = GetComponent<Animation>();
+    }
+
+	void Update ()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -18,8 +29,9 @@ public class MoveOnSphere : MonoBehaviour {
             if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
             {
                 target = hit.point;
+                from = transform.position;
                 moveTime = calcMovementTime();
-                startTime = Time.time;
+                startTime = Time.time;               
             }
             
         }
@@ -31,13 +43,17 @@ public class MoveOnSphere : MonoBehaviour {
     {
         
         if(target != Vector3.zero)
-        {            
-            float delta = (Time.time - startTime) / moveTime;
-            Vector3 from = transform.position;
-            transform.position = Vector3.Slerp(from, target, delta);
+        {
+            anim.Play("Run");
+            float progress = (Time.time - startTime) / moveTime;
+            transform.position = Vector3.Slerp(from, target, progress);
 
             // at target
-            if (delta == 1.0) target = Vector3.zero;
+            if (progress >= 1.0)
+            {
+                target = Vector3.zero;
+                anim.Stop("Run");      
+            }
  
         }
         
@@ -45,19 +61,6 @@ public class MoveOnSphere : MonoBehaviour {
 
     float calcMovementTime()
     {
-        /*var R = 6371000; // metres
-        var φ1 = lat1.toRadians();
-        var φ2 = lat2.toRadians();
-        var Δφ = (lat2 - lat1).toRadians();
-        var Δλ = (lon2 - lon1).toRadians();
-
-        var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                Math.cos(φ1) * Math.cos(φ2) *
-                Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        var d = R * c;*/
-
         float R = GameObject.Find("Planet").transform.localScale.x;
         Vector2 polarTarget = CoordinateHelper.CartesianToPolar(target);
         Vector2 polarFrom = CoordinateHelper.CartesianToPolar(transform.position);
@@ -75,8 +78,9 @@ public class MoveOnSphere : MonoBehaviour {
                   Mathf.Sin(deltaLon / 2.0f) * Mathf.Sin(deltaLon / 2.0f);
         float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
 
-        // return the distance
-        return R * c;
+        // return the time 
+        float distance = R * c;
+        return distance / runSpeed;
     }
 
 }

@@ -190,7 +190,7 @@ ModelImporter:
       takeName: Run
       firstFrame: 0
       lastFrame: 41
-      wrapMode: 0
+      wrapMode: 1
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
