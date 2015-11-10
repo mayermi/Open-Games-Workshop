@@ -7,6 +7,7 @@ public class MoveOnSphere : MonoBehaviour {
 
     Vector3 target =  Vector3.zero;
     Vector3 from = Vector3.zero;
+    Vector3 lookAt;
     float moveTime;
     float startTime;
 
@@ -31,9 +32,15 @@ public class MoveOnSphere : MonoBehaviour {
                 target = hit.point;
                 from = transform.position;
                 moveTime = calcMovementTime();
-                startTime = Time.time;               
+                startTime = Time.time;
+
+                // look at target
+                Vector3 up = target - GameObject.Find("Planet").transform.position;
+                Vector3 lookAt = Vector3.Cross(up, target) + up;
+                transform.LookAt(lookAt, up);
+
             }
-            
+
         }
 
         move();
