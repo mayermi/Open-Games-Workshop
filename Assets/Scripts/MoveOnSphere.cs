@@ -5,17 +5,15 @@ public class MoveOnSphere : MonoBehaviour {
 
     public float runSpeed;
 
-    Vector3 target =  Vector3.zero;
-    Vector3 from = Vector3.zero;
+    Vector3 target;
     Vector3 lookAt;
-    float moveTime;
-    float startTime;
 
     Animation anim;
 
     void Start()
     {
         anim = GetComponent<Animation>();
+        target = transform.position;
     }
 
 	void Update ()
@@ -30,43 +28,37 @@ public class MoveOnSphere : MonoBehaviour {
             if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
             {
                 target = hit.point;
-                from = transform.position;
-                moveTime = calcMovementTime();
-                startTime = Time.time;
 
                 // look at target
                 Vector3 up = target - GameObject.Find("Planet").transform.position;
                 Vector3 lookAt = Vector3.Cross(up, target) + up;
-                transform.LookAt(lookAt, up);
-
+                transform.LookAt(lookAt, up);             
             }
 
         }
+        
+    }
 
+    void FixedUpdate()
+    {
         move();
     }
 
     void move()
     {
-        
-        if(target != Vector3.zero)
+        // moves toward target until arrived
+        if(calcDistance() > 0.1f)
         {
             anim.Play("Run");
-            float progress = (Time.time - startTime) / moveTime;
-            transform.position = Vector3.Slerp(from, target, progress);
-
-            // at target
-            if (progress >= 1.0)
-            {
-                target = Vector3.zero;
-                anim.Stop("Run");      
-            }
- 
+            transform.position += runSpeed * transform.forward;         
+        } else {
+            target = transform.position;
+            anim.Stop("Run");
         }
         
     }
 
-    float calcMovementTime()
+    float calcDistance()
     {
         float R = GameObject.Find("Planet").transform.localScale.x;
         Vector2 polarTarget = CoordinateHelper.CartesianToPolar(target);
@@ -85,9 +77,9 @@ public class MoveOnSphere : MonoBehaviour {
                   Mathf.Sin(deltaLon / 2.0f) * Mathf.Sin(deltaLon / 2.0f);
         float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
 
-        // return the time 
+        // return the distance 
         float distance = R * c;
-        return distance / runSpeed;
+        return distance;
     }
 
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlanetGravity : MonoBehaviour {
 
-	public float gravity = -9.81f;
+	public float gravity = -15f;
 	
 	void OnTriggerStay(Collider other)
     {
