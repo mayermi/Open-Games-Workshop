@@ -28,7 +28,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
     {
         if(noObjects && Time.time - startTime > 1)
         {
-          // placeObjects();
+           placeObjects();
         }
     }
 
@@ -51,31 +51,29 @@ public class CreatePlanetLandscape : MonoBehaviour {
         mesh.RecalculateNormals();
         transform.GetComponent<MeshCollider>().sharedMesh = mesh;
         gameObject.GetComponent<SkinnedMeshRenderer>().sharedMesh = mesh;
-        gameObject.GetComponent<SkinnedMeshRenderer>().BakeMesh(mesh);
 
-        gameObject.AddComponent<MeshRenderer>();
-        gameObject.GetComponent<MeshFilter>().mesh = mesh;
     }
 
-    // funktioniert noch nicht ganz richtig... Objekte sind nicht immer auf der Oberfläche
+    // funktioniert noch nicht ganz richtig... Objekte sind nicht immer auf der Oberfläche, da altes Mesh (Kugel) verwendet wird
     void placeObjects()
     {
         noObjects = false;
-        Vector3[] verts = gameObject.GetComponent<SkinnedMeshRenderer>().sharedMesh.vertices;
+        Vector3[] verts = gameObject.GetComponent<MeshFilter>().mesh.vertices; // diese Zeile ist das Problem
         for (int i = 0; i < objCount; i++)
         {
-            GameObject tree = Instantiate((GameObject)Resources.Load("_Prefabs/Tree"));
-            tree.transform.localScale *= 1.5f;
+            GameObject tree = Instantiate((GameObject)Resources.Load("_Prefabs/Tree2"));      
             Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;          
-            Vector3 dir = (transform.position - pos).normalized;
+            Vector3 dir = (transform.position - pos).normalized;            
             tree.transform.forward = -dir;
             tree.transform.position = pos;
+            tree.transform.localScale *= 1.5f;
+            tree.transform.Rotate(transform.up, Random.Range(0f, 360f));
             
         }
     }
 
     // returns a noise value for x,y,z
-    // uses two noise calculations with different frequencies
+    // uses three noise calculations with different frequencies
     float Noise(float x, float y, float z)
     {
         x += randomOffset;
