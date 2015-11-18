@@ -82,6 +82,8 @@ public class CreatePlanetLandscape : MonoBehaviour {
         float noise1 = Mathf.PerlinNoise(x / scale, z / scale);
         z -= randomOffset;
         float noise2 = Mathf.PerlinNoise(z / scale * 0.5f, y / scale * 0.5f);
-        return Mathf.Pow((noise1 + noise2)*magn, exp);
+        y += randomOffset;
+        float noise3 = Mathf.PerlinNoise(y / scale * 0.25f, z / scale * 0.25f);
+        return Mathf.Pow((noise1 + noise2 + noise3)*magn, exp);
     }
 }
