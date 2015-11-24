@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ShyMonster : Monster {
 
-	public ShyMonster(int attack, int health, float speed, int range) : base(health, speed, range)  {
+	public ShyMonster(int attack, int health, float speed, int range) : base(attack, health, speed, range)  {
 		
 	}
 
-	public void Idle() {}
+	public override void Idle() {}
 
 }

@@ -954,7 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad19653adce322b4eb9701b55d5b4595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 1
+  runSpeed: .150000006
 --- !u!137 &13768056
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1030,7 +1030,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: runSpeed
-      value: 1
+      value: .150000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
