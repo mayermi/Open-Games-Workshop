@@ -23,8 +23,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
         randomOffset = Random.Range(-25.0f, 25.0f);
         ShapeLandscape();
 		ShyMonster m = new ShyMonster (1,1,0.15f,1);
-		GameObject g = Resources.Load ("monster") as GameObject;
-		m.GameObject = Instantiate(g, new Vector3(0,80,-100), Quaternion.identity) as GameObject;
+		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
 	}
 
     void Update()

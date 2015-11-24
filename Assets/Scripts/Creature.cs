@@ -16,21 +16,21 @@ public abstract class Creature{
 		VisionRange = range;
 	}
 
-	public void moveTo(Vector3 target)
+	public void MoveTo(Vector3 target)
 	{
 	}
 
-	public void takeDamage(int d) 
+	public void TakeDamage(int d) 
 	{
 		CurrentHealth = CurrentHealth - d;
 	}
 
-	public void die() 
+	public void Die() 
 	{
 
 	}
 
-	public bool isInRange(GameObject g)
+	public bool IsInRange(GameObject g)
 	{
 		if(true /* TODO */) 
 			return true;
