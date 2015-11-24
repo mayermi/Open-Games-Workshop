@@ -67,7 +67,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
             tree.transform.forward = -dir;
             tree.transform.position = pos;
             tree.transform.localScale *= 1.5f;
-            tree.transform.Rotate(transform.up, Random.Range(0f, 360f));
+            tree.transform.RotateAround(tree.transform.forward, Random.Range(0f, 360f));
             
         }
     }
