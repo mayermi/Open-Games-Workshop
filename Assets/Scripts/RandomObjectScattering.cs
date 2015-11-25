@@ -1,0 +1,53 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class RandomObjectScattering : MonoBehaviour {
+
+    public int objCount = 1;
+
+    void Start()
+    {
+        placeObjects();
+    }
+
+    void Update()
+    {
+    }
+
+    void placeObjects()
+    {
+        for (int i = 0; i < objCount; i++)
+        {
+            var theta = Random.Range(0f, 360f);
+            var phi = Random.Range(0f, 360f);
+            var r = transform.localScale.x;
+            Vector3 pos = RandomPointOnSphere();
+            Vector3 dir = (transform.position - pos).normalized;
+
+            GameObject pyramid = Instantiate((GameObject)Resources.Load("pyramid"));
+            pyramid.transform.forward = -dir;
+            pyramid.transform.position = pos;
+            pyramid.transform.localScale *= ScaleFunction(4f);
+            pyramid.transform.RotateAround(pyramid.transform.forward, Random.Range(0f, 360f));
+        }
+    }
+
+    float ScaleFunction(float factor)
+    {
+        //e^(ax-a²)+0.5 -> lots of small and few big objects
+        return Mathf.Exp(factor * Random.Range(0f, factor) - factor * factor) + 0.5f;
+    }
+
+    Vector3 RandomPointOnSphere()
+    {
+        var theta = Random.Range(0f, 360f);
+        var phi = Random.Range(0f, 360f);
+        var r = transform.GetComponent<Renderer>().bounds.size.x * 0.5f;
+
+        var x = r * Mathf.Sin(theta) * Mathf.Cos(phi);
+        var y = r * Mathf.Sin(theta) * Mathf.Sin(phi);
+        var z = r * Mathf.Cos(theta);
+
+        return new Vector3(x, y, z);
+    }
+}
