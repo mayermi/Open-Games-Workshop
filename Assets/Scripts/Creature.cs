@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Creature{
+public abstract class Creature {
 
 	public int MaxHealth { get; set;}
 	public int CurrentHealth { get; set;}
@@ -32,7 +32,8 @@ public abstract class Creature{
 
 	public bool IsInRange(GameObject g)
 	{
-		if(true /* TODO */) 
+        float d = CoordinateHelper.calcDistance(GameObject.transform.position, g.transform.position);
+        if (d < VisionRange)  
 			return true;
 		return false;
 	}

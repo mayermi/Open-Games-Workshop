@@ -11,11 +11,15 @@ public class Alien : Creature {
 		this.state = AlienState.SEARCHING;
 	}
 
-	public void TakeResource(GameObject res) {
+	public void TakeResource(GameObject res)
+    {
 		Resource = res;
 	}
 
-	public void DropResource() {}
+	public void DropResource()
+    {
+        Resource = null;
+    }
 
 	public void Search() {}
 

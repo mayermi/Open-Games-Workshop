@@ -41,4 +41,28 @@ public static class CoordinateHelper {
     {
         return a * Mathf.PI / 180;
     }
+
+    public static float calcDistance(Vector3 from, Vector3 to)
+    {
+        float R = GameObject.Find("Planet").transform.localScale.x;
+        Vector2 polarTarget = CoordinateHelper.CartesianToPolar(to);
+        Vector2 polarFrom = CoordinateHelper.CartesianToPolar(from);
+
+        // convert Lat to radians
+        float lat1 = CoordinateHelper.DegreeToRadians(polarTarget.x);
+        float lat2 = CoordinateHelper.DegreeToRadians(polarFrom.x);
+
+        // delta angle in radians
+        float deltaLat = CoordinateHelper.DegreeToRadians(polarTarget.x - polarFrom.x);
+        float deltaLon = CoordinateHelper.DegreeToRadians(polarTarget.y - polarFrom.y);
+
+        float a = Mathf.Sin(deltaLat / 2.0f) * Mathf.Sin(deltaLat / 2.0f) +
+                  Mathf.Cos(lat1) * Mathf.Cos(lat2) *
+                  Mathf.Sin(deltaLon / 2.0f) * Mathf.Sin(deltaLon / 2.0f);
+        float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
+
+        // return the distance 
+        float distance = R * c;
+        return distance;
+    }
 }

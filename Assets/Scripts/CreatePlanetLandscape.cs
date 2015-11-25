@@ -30,13 +30,9 @@ public class CreatePlanetLandscape : MonoBehaviour {
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
 		gs.monsters.Add (m.GameObject, m);
 
-		EvilMonster e = new EvilMonster (10,10,0.5f,10);
-		e.GameObject = Creator.Create ("Tree2", new Vector3(10,80,-100));
-		gs.monsters.Add (e.GameObject, e);
-
-		PredatoryMonster p = new PredatoryMonster (1,1,0.15f,1);
-		p.GameObject = Creator.Create ("Tree", new Vector3(-10,80,-100));
-		gs.monsters.Add (p.GameObject, p);
+		Alien p = new Alien (1,0.15f,1);
+		p.GameObject = Creator.Create ("Alien", new Vector3(0,50,-110));
+		gs.aliens.Add (p.GameObject, p);
 	}
 
     void Update()
