@@ -17,13 +17,26 @@ public class CreatePlanetLandscape : MonoBehaviour {
     float startTime;
     bool noObjects = true;
 
+	GameState gs;
+
 	void Start () {
+		gs = GameObject.Find ("GameState").GetComponent<GameState> ();
         startTime = Time.time;
         mesh = gameObject.GetComponent<MeshFilter>().mesh;
         randomOffset = Random.Range(-25.0f, 25.0f);
         ShapeLandscape();
+
 		ShyMonster m = new ShyMonster (1,1,0.15f,1);
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
+		gs.monsters.Add (m.GameObject, m);
+
+		EvilMonster e = new EvilMonster (10,10,0.5f,10);
+		e.GameObject = Creator.Create ("Tree2", new Vector3(10,80,-100));
+		gs.monsters.Add (e.GameObject, e);
+
+		PredatoryMonster p = new PredatoryMonster (1,1,0.15f,1);
+		p.GameObject = Creator.Create ("Tree", new Vector3(-10,80,-100));
+		gs.monsters.Add (p.GameObject, p);
 	}
 
     void Update()
@@ -32,6 +45,14 @@ public class CreatePlanetLandscape : MonoBehaviour {
         {
            //placeObjects();
         }
+		if (Input.GetMouseButtonDown (1)) 
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			Physics.Raycast(ray, out hit);
+			Monster c = gs.monsters [hit.transform.gameObject] as Monster;
+			Debug.Log (c);
+		}
     }
 
     void ShapeLandscape()
