@@ -199,6 +199,220 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &982358687 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 133996, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
+  m_PrefabInternal: {fileID: 182966024}
+--- !u!114 &982358705
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8425e81730581264e8bc707bd5925622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  FriendlyName: Hand Closed
+  Enabled: 1
+  FoldoutOpen: 0
+  AssociatedAction: {fileID: 0}
+  WhichHand: 3
+  HandIndex: 0
+  ContinuousTracking: 0
+  OpennessFactor: 50
+--- !u!114 &982358706
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a9c13c9dfa1744dad9f0bd59806111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  FriendlyName: Hand Openned
+  Enabled: 1
+  FoldoutOpen: 0
+  AssociatedAction: {fileID: 0}
+  WhichHand: 3
+  HandIndex: 0
+  ContinuousTracking: 0
+  OpennessFactor: 50
+--- !u!114 &982358707
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4015b9e4cf58a4041b7385ec4ee7677d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  FriendlyName: Hand Lost
+  Enabled: 1
+  FoldoutOpen: 0
+  AssociatedAction: {fileID: 0}
+  WhichHand: 2
+  HandIndex: 0
+  ContinuousTracking: 0
+--- !u!114 &982358708
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88af3c1916ce4fa40841c26b1f0c6c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  FriendlyName: Hand Tracking
+  Enabled: 1
+  FoldoutOpen: 0
+  AssociatedAction: {fileID: 0}
+  WhichHand: 3
+  HandIndex: 0
+  ContinuousTracking: 0
+  TrackedJoint: 1
+  RealWorldBoxCenter: {x: 0, y: 0, z: 50}
+  RealWorldBoxDimensions: {x: 100, y: 100, z: 100}
+--- !u!114 &982358709
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb47ff5857ab8e4f88121a6b662e695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  FriendlyName: Hand Detected
+  Enabled: 0
+  FoldoutOpen: 0
+  AssociatedAction: {fileID: 0}
+  WhichHand: 2
+  HandIndex: 0
+  ContinuousTracking: 0
+--- !u!114 &982358710
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  ErrorDetected: 0
+  FriendlyName: Stop Event
+  Rules:
+  - {fileID: 982358705}
+  - {fileID: 982358707}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &982358711
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e75dd1724a016924e8c0d3ee4d369a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  ErrorDetected: 0
+  FriendlyName: Tracking Source
+  Rules:
+  - {fileID: 982358708}
+  TriggerAttributeName: TrackTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &982358712
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 982358713}
+  ErrorDetected: 0
+  FriendlyName: Start Event
+  Rules:
+  - {fileID: 982358706}
+  - {fileID: 982358709}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &982358713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 982358687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3ae914e0f3da747b807decded34a0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedTriggers:
+  - {fileID: 982358712}
+  - {fileID: 982358711}
+  - {fileID: 982358710}
+  CustomTag: 
+  CustomActionId: 2
+  VirtualWorldBoxCenter: {x: 0, y: 0, z: 0}
+  VirtualWorldBoxDimensions: {x: 10, y: 10, z: 10}
+  CenterReference: 0
+  ReferenceGameObject: {fileID: 0}
+  SmoothingFactor: 20
+  SmoothingType: 2
+  Constraints:
+    Position:
+      X: 1
+      Y: 1
+      Z: 1
+    Rotation:
+      X: 1
+      Y: 0
+      Z: 1
+  InvertTransform:
+    Position:
+      X: 0
+      Y: 0
+      Z: 0
+    Rotation:
+      X: 0
+      Y: 1
+      Z: 0
+  EffectPhysics: 0
+  RotationSpeed: 1
+  SetDefaultsTo: 1
+  _lastDefaults: 1
 --- !u!1 &1215227918
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +467,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1215227918}
-  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381676, w: .875426054}
+  m_LocalRotation: {x: .408217967, y: -.234569743, z: .109381683, w: .875426114}
   m_LocalPosition: {x: 74.3000031, y: 52.2000008, z: -124.400002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
