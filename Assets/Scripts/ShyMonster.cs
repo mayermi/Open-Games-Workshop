@@ -9,7 +9,7 @@ public class ShyMonster : Monster {
 
 	public override void Idle()
     {
-        this.GameObject.GetComponent<MoveOnSphere>().target = this.GameObject.transform.position;
+        GameObject.GetComponent<MoveOnSphere>().target = this.GameObject.transform.position;
     }
 
 }

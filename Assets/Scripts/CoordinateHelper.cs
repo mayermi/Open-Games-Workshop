@@ -44,7 +44,7 @@ public static class CoordinateHelper {
 
     public static float calcDistance(Vector3 from, Vector3 to)
     {
-        float R = GameObject.Find("Planet").transform.localScale.x;
+        float R = 10f * GameObject.Find("Planet").transform.localScale.x;
         Vector2 polarTarget = CoordinateHelper.CartesianToPolar(to);
         Vector2 polarFrom = CoordinateHelper.CartesianToPolar(from);
 
@@ -62,7 +62,7 @@ public static class CoordinateHelper {
         float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1 - a));
 
         // return the distance 
-        float distance = R * c;
+        float distance =  R * c;
         return distance;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public abstract class Creature {
@@ -23,11 +24,14 @@ public abstract class Creature {
 	public void TakeDamage(int d) 
 	{
 		CurrentHealth = CurrentHealth - d;
+        Debug.Log(CurrentHealth);
+        GameObject.GetComponentInChildren<Slider>().value = CurrentHealth / 100f ;
+        if (CurrentHealth < 0) Die();
 	}
 
 	public void Die() 
 	{
-
+        MonoBehaviour.Destroy(GameObject);
 	}
 
 	public bool IsInRange(GameObject g)

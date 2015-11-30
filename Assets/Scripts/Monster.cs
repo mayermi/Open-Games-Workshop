@@ -16,15 +16,19 @@ public abstract class Monster : Creature {
     {
         c.TakeDamage(AttackDamage);
         state = MonsterState.ATTACKING;
+        //Debug.Log(this + "is attacking " + c);
     }
 	
 	public void Chase(Creature c)
     {
         MoveTo(c.GameObject.transform.position);
         state = MonsterState.CHASING;
-        Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
+       //Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
         this.GameObject.GetComponent<MoveOnSphere>().SetTarget( c.GameObject.transform.position );
     }
 	
 	public abstract void Idle();
+
+
+
 }

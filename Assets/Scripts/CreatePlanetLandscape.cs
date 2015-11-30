@@ -26,12 +26,12 @@ public class CreatePlanetLandscape : MonoBehaviour {
         randomOffset = Random.Range(-25.0f, 25.0f);
         ShapeLandscape();
 
-		ShyMonster m = new ShyMonster (1,1,0.15f,1);
+		ShyMonster m = new ShyMonster (attack: 1, health: 100, speed: 0.15f, range: 10);
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
 		gs.monsters.Add (m.GameObject, m);
 
-		Alien p = new Alien (1,0.15f,1);
-		p.GameObject = Creator.Create ("Alien", new Vector3(0,50,-110));
+		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
+		p.GameObject = Creator.Create ("Alien", new Vector3(0,90,-75));
 		gs.aliens.Add (p.GameObject, p);
 	}
 
@@ -39,7 +39,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
     {
         if(noObjects && Time.time - startTime > 1)
         {
-           //placeObjects();
+           placeObjects();
         }
 		if (Input.GetMouseButtonDown (1)) 
 		{
@@ -80,14 +80,17 @@ public class CreatePlanetLandscape : MonoBehaviour {
         Vector3[] verts = gameObject.GetComponent<MeshFilter>().mesh.vertices; // diese Zeile ist das Problem
         for (int i = 0; i < objCount; i++)
         {
-            GameObject tree = Instantiate((GameObject)Resources.Load("_Prefabs/Tree2"));      
+            //GameObject tree = Instantiate((GameObject)Resources.Load("_Prefabs/Tree2"));      
             Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;          
-            Vector3 dir = (transform.position - pos).normalized;            
-            tree.transform.forward = -dir;
+            //Vector3 dir = (transform.position - pos).normalized;            
+            /*tree.transform.forward = -dir;
             tree.transform.position = pos;
             tree.transform.localScale *= 1.5f;
-            tree.transform.RotateAround(tree.transform.forward, Random.Range(0f, 360f));
-            
+            tree.transform.RotateAround(tree.transform.forward, Random.Range(0f, 360f));*/
+            ShyMonster m = new ShyMonster(1, 1, 0.15f, 1);
+            m.GameObject = Creator.Create("monster", pos);
+            gs.monsters.Add(m.GameObject, m);
+
         }
     }
 
