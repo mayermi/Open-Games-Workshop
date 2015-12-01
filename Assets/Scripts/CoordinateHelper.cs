@@ -37,6 +37,15 @@ public static class CoordinateHelper {
 
     }
 
+    public static Vector3 PolarToCartesian(float theta, float phi, float radius)
+    {
+        var x = radius * Mathf.Sin(theta) * Mathf.Cos(phi);
+        var y = radius * Mathf.Sin(theta) * Mathf.Sin(phi);
+        var z = radius * Mathf.Cos(theta);
+
+        return new Vector3(x, y, z);
+    }
+
     public static float DegreeToRadians(float a)
     {
         return a * Mathf.PI / 180;
