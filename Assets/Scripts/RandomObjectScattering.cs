@@ -16,43 +16,14 @@ public class RandomObjectScattering : MonoBehaviour {
 
     void placeObjects()
     {
-        /*for (int i = 0; i < objCount; i++)
-        {
-            var theta = Random.Range(0f, 360f);
-            var phi = Random.Range(0f, 360f);
-            var r = transform.localScale.x;
-            Vector3 pos = RandomPointOnSphere();
-            Vector3 dir = (transform.position - pos).normalized;
-
-             GameObject pyramid = Instantiate((GameObject)Resources.Load("pyramid"));
-             pyramid.transform.forward = -dir;
-             pyramid.transform.position = pos;
-             pyramid.transform.localScale *= ScaleFunction(4f);
-             pyramid.transform.RotateAround(pyramid.transform.forward, Random.Range(0f, 360f));
-         }
-
-         for (int i = 0; i < objCount / 10; i++)
-         {
-             var theta = Random.Range(0f, 360f);
-             var phi = Random.Range(0f, 360f);
-             var r = transform.localScale.x;
-             Vector3 pos = RandomPointOnSphere();
-             Vector3 dir = (transform.position - pos).normalized;
-             pos -= Random.RandomRange(2f, 4f) * dir;
-
-             GameObject rock = Instantiate((GameObject)Resources.Load("flyingrock"));
-             rock.transform.up = -dir;
-             rock.transform.position = pos;
-             rock.transform.RotateAround(rock.transform.up, Random.Range(0f, 360f));
-         }*/
-
-        GameObject ico = GameObject.Find("icosphere");
-        Vector3[] verts = ico.GetComponent<MeshFilter>().mesh.vertices;
+        var c = new IcoSphereFactory();
+        var ico = c.Create(subdivisions: 2);
+        Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
         float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x*1.5f;
-
+        Debug.Log(verts.Length);
         for (int i = 0; i < verts.Length; i++)
         {
-            if (Random.Range(0f, 1f) > 0.96f)
+            if (Random.Range(0.0f, 1.0f)  < 0.7)
             {
                 Vector3 pos = verts[i].normalized * radius;
                 GameObject rock = Instantiate((GameObject)Resources.Load("flyingrock"));
@@ -60,54 +31,6 @@ public class RandomObjectScattering : MonoBehaviour {
                 rock.transform.position = pos;
             }
         }
-
-        /*var r = transform.GetComponent<Renderer>().bounds.size.x * 0.5f;
-        for (int theta = -90; theta < 90; theta+=10)
-        {
-            for (int phi = 0; phi < 360; phi+=10)
-            {
-                var t = (float)theta;
-                var p = (float)phi;
-                Vector3 point = CoordinateHelper.PolarToCartesian(t, p, r) ;
-                var random = Noise(point.x,point.y,point.z);
-                if (random > 0.3f)
-                {
-                   
-                    
-                    Vector3 dir = (transform.position - point);
-
-                    GameObject rock = Instantiate((GameObject)Resources.Load("flyingrock"));
-                    rock.transform.up = -dir;
-                    rock.transform.position = point;
-                    //rock.transform.RotateAround(rock.transform.up, Random.Range(0f, 360f));
-                }
-            }
-        }*/
-        /*
-        var bounds = transform.GetComponent<Renderer>().bounds.size.x;
-        var radius = transform.GetComponent<Renderer>().bounds.size.x * 0.5f;
-        int off = (int)(bounds * 0.5f);
-        float goldenAngle = Mathf.PI * (3 - Mathf.Sqrt(3));
-        for (float i = -1; i <= 1; i += 0.1f)
-        {
-            for (float j = -1; j <= 1; j += 0.1f)
-            {
-                for (float k = -1; k <= 1; k += 0.1f)
-                {
-                    
-                    var v = new Vector3(i,j,k);
-                    var length = v.magnitude;
-                    var random = Random.Range(0.0f, 1.0f);
-                    var random2 = Random.Range(0.0f, 1.0f);
-                    if (length <= 1)
-                    {
-                        GameObject rock = Instantiate((GameObject)Resources.Load("flyingrock"));
-                        v = v.normalized * (radius + 5.0f);
-                        rock.transform.position = v;
-                    }
-                }
-            }
-        }*/
     }
 
     float ScaleFunction(float factor)
