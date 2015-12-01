@@ -16,6 +16,7 @@ public abstract class Monster : Creature {
     {
         c.TakeDamage(AttackDamage);
         state = MonsterState.ATTACKING;
+        GameObject.GetComponent<MoveOnSphere>().SetTarget(GameObject.transform.position);
         //Debug.Log(this + "is attacking " + c);
     }
 	
@@ -24,7 +25,7 @@ public abstract class Monster : Creature {
         MoveTo(c.GameObject.transform.position);
         state = MonsterState.CHASING;
        //Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
-        this.GameObject.GetComponent<MoveOnSphere>().SetTarget( c.GameObject.transform.position );
+        GameObject.GetComponent<MoveOnSphere>().SetTarget( c.GameObject.transform.position );
     }
 	
 	public abstract void Idle();

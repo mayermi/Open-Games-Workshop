@@ -211,9 +211,10 @@ GameObject:
   - 54: {fileID: 5442440}
   - 65: {fileID: 6552810}
   - 135: {fileID: 13520352}
+  - 111: {fileID: 11163170}
   - 114: {fileID: 11481290}
   - 114: {fileID: 11417212}
-  - 111: {fileID: 11163170}
+  - 114: {fileID: 11425278}
   m_Layer: 0
   m_Name: monster
   m_TagString: Untagged
@@ -1006,6 +1007,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4556fd3bfefea5444a2690653acc2005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11425278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c18e70dff856c74389827d2d47a6d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11427428

@@ -6,20 +6,13 @@ public class MonsterHelper : MonoBehaviour {
 
     GameState gs;
     Monster m;
-	Canvas c;
 
 	void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
-		c = gameObject.GetComponentInChildren<Canvas> ();
     }
 
-	void Update() {
-		// make sure the health bar faces the camera
-		c.transform.LookAt (Camera.main.transform.position);
-	}
-	
 	void OnTriggerStay(Collider other)
     {     
         if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters
