@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7d6ae6a97f0327d47990197a3e6e4880
-timeCreated: 1448978488
+guid: bedd9cebe157c4f44a761a5bd694f33d
+timeCreated: 1448984741
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Icosphere
+    4300000: Plane
     7400000: Default Take
     9500000: //RootNode
   materials:

@@ -19,14 +19,13 @@ public class RandomObjectScattering : MonoBehaviour
         var c = new IcoSphereFactory();
         var ico = c.Create(subdivisions: 2);
         Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
-        float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 1.5f;
-        Debug.Log(verts.Length);
+        float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 1.49f;
         for (int i = 0; i < verts.Length; i++)
         {
-            if (Random.Range(0.0f, 1.0f) < 0.7)
+            if (Random.Range(0.0f, 1.0f) > 0.9f)
             {
                 Vector3 pos = verts[i].normalized * radius;
-                GameObject rock = Instantiate((GameObject)Resources.Load("flyingrock"));
+                GameObject rock = Instantiate((GameObject)Resources.Load("rock"));
                 rock.transform.up = -(transform.position - pos).normalized;
                 rock.transform.position = pos;
             }
