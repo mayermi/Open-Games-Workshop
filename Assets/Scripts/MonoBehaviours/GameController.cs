@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour {
 
     GameState gs;
     GameObject planet;
+    RecursiveLightning lightning;
     Camera cam;
     float rotationYAxis = 0.0f;
     float rotationXAxis = 0.0f;
@@ -13,13 +14,24 @@ public class GameController : MonoBehaviour {
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         planet = GameObject.Find("Planet");
+        lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
         cam = Camera.main;
         Vector3 angles = cam.transform.eulerAngles;
         rotationXAxis = angles.x;
         rotationYAxis = angles.y;
 	}
-	
-	void LateUpdate () {
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            lightning.firstVertexPosition = GameObject.Find("Alien(Clone)").transform.position;
+            lightning.lastVertexPosition = GameObject.Find("monster(Clone)").transform.position;
+            lightning.StrikeLightning();
+        }
+    }
+
+    void LateUpdate () {
 
         if (Input.GetKey(KeyCode.A))
         {

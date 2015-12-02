@@ -41,14 +41,6 @@ public class CreatePlanetLandscape : MonoBehaviour {
         {
            placeObjects();
         }
-		if (Input.GetMouseButtonDown (1)) 
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			Physics.Raycast(ray, out hit);
-			Monster c = gs.monsters [hit.transform.gameObject] as Monster;
-			Debug.Log (c);
-		}
     }
 
     void ShapeLandscape()
