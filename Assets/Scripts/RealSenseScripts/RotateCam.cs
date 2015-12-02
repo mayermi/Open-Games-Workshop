@@ -24,17 +24,6 @@ public class RotateCam : VirtualWorldBoxAction
     Quaternion angles;
     Vector3 camAngles_ini;
 
-    [BaseAction.ShowAtFirst]
-    public Defaults SetDefaultsTo = Defaults.HandTracking;
-
-    #endregion
-
-    #region Private Fields
-
-    [SerializeField]
-    [HideInInspector]
-    private Defaults _lastDefaults = Defaults.HandTracking;
-
     #endregion
 
     #region Public methods
@@ -50,48 +39,23 @@ public class RotateCam : VirtualWorldBoxAction
     /// </param>
     public override void SetDefaultTriggerValues(int index, Trigger trigger)
     {
-        if (SetDefaultsTo == Defaults.HandTracking)
-        {
-            switch (index)
-            {
-                case 0:
-                    trigger.FriendlyName = "Start Event";
-                    ((EventTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandDetectedRule>() };
-                    break;
-                case 1:
-                    ((TrackTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandTrackingRule>() };
-                    break;
-                case 2:
-                    trigger.FriendlyName = "Stop Event";
-                    ((EventTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandLostRule>() };
-                    break;
-            }
+       switch (index)
+       {
+            case 0:
+                trigger.FriendlyName = "Start Event";
+                ((EventTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandDetectedRule>() };
+                break;
+            case 1:
+                ((TrackTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandTrackingRule>() };
+                break;
+            case 2:
+                trigger.FriendlyName = "Stop Event";
+                ((EventTrigger)trigger).Rules = new BaseRule[1] { AddHiddenComponent<HandLostRule>() };
+                break;
         }
-        else if (SetDefaultsTo == Defaults.FaceTracking)
-        {
-           //Do Nothing
-        }
-        else if (SetDefaultsTo == Defaults.ObjectTracking)
-        {
-           //Do Nothing
-        }
+       
     }
 
-    /// <summary>
-    /// Updates the inspector.
-    /// </summary>
-    public override void UpdateInspector()
-    {
-        if (_lastDefaults != SetDefaultsTo)
-        {
-            CleanSupportedTriggers();
-            SupportedTriggers = null;
-            InitializeSupportedTriggers();
-            _lastDefaults = SetDefaultsTo;
-        }
-    }
-
-    #endregion
 
     #region Protected methods
 
@@ -178,24 +142,7 @@ public class RotateCam : VirtualWorldBoxAction
                 _lastX = _lastX + deltaX;
             }
         }
-    }
-
+   }
     #endregion
-
-    #region Nested Types
-
-    /// <summary>
-    /// Default trackig modes that can be selected by SetDefaultsTo
-    /// </summary>
-    public enum Defaults
-    {
-        FaceTracking,
-        HandTracking,
-        ObjectTracking
-    }
-
-
-
-    #endregion
-
 }
+#endregion
