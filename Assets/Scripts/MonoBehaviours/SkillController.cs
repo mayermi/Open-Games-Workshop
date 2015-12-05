@@ -35,7 +35,7 @@ public class SkillController : MonoBehaviour {
     void Lightning()
     {
         // Start and end positions are placeholders at the moment
-        Vector3 from = GameObject.Find("Alien(Clone)").transform.position;
+        Vector3 from = GameObject.Find("Alien(Clone)").transform.position + new Vector3(0, 1, 0);
         Vector3 to = GameObject.Find("monster(Clone)").transform.position;
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
