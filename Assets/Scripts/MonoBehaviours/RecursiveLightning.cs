@@ -8,7 +8,6 @@ public class RecursiveLightning : MonoBehaviour {
 	public Vector3 firstVertexPosition; 
 	public Vector3 lastVertexPosition;
 	public float fadeOutTime = 0.3f;
-	public bool strikeOnStart = false;
 	public bool fadeOutAfterStrike = true;
 	public RecursiveLightning leftBranch = null;
 	public RecursiveLightning rightBranch = null;
@@ -18,10 +17,6 @@ public class RecursiveLightning : MonoBehaviour {
 	
 	void Start () {
 		InitializeLineRenderer();
-
-		if(strikeOnStart)
-			StrikeLightning();
-
 	}
 
 	void InsertFirstAndLastNode(){

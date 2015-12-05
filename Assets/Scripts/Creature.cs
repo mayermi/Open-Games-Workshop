@@ -26,7 +26,7 @@ public abstract class Creature {
 		CurrentHealth = CurrentHealth - d;
         Debug.Log(CurrentHealth);
         GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
-        if (CurrentHealth < 0) Die();
+        if (CurrentHealth <= 0) Die();
 	}
 
 	public void Die() 
