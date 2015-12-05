@@ -134,11 +134,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 471738}
   - 111: {fileID: 11144130}
-  - 64: {fileID: 6489620}
   - 114: {fileID: 11449700}
+  - 54: {fileID: 5439498}
+  - 65: {fileID: 6501436}
+  - 65: {fileID: 6577120}
   m_Layer: 0
   m_Name: Alien
-  m_TagString: Untagged
+  m_TagString: Alien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -402,7 +404,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.2011323, y: 76.6710663, z: -98.4415817}
+  m_LocalPosition: {x: 3.66344929, y: 94.7979889, z: -81.3455811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 415862}
@@ -462,8 +464,23 @@ Transform:
   - {fileID: 416216}
   m_Father: {fileID: 474946}
   m_RootOrder: 1
---- !u!64 &6489620
-MeshCollider:
+--- !u!54 &5439498
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 45
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6501436
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -472,8 +489,20 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 0}
+  m_Size: {x: 1.75, y: 3.49000001, z: 1}
+  m_Center: {x: 0, y: 1.79999995, z: 0}
+--- !u!65 &6577120
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.54999995, y: .230000004, z: 2.52999997}
+  m_Center: {x: 0, y: .119999997, z: 0}
 --- !u!111 &11144130
 Animation:
   m_ObjectHideFlags: 1
@@ -761,7 +790,27 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Alien
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AngularDrag
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147676}
