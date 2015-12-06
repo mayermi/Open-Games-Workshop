@@ -17,7 +17,7 @@ public class RandomObjectScattering : MonoBehaviour
     void placeObjects()
     {
         var c = new IcoSphereFactory();
-        var ico = c.Create(subdivisions: 2);
+        var ico = c.Create(subdivisions: 3);
         Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
         float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 1.49f;
 
@@ -26,17 +26,30 @@ public class RandomObjectScattering : MonoBehaviour
             var r = Random.Range(0.0f, 1.0f);
             Vector3 pos = verts[i].normalized * radius;
             GameObject mainObject;
-            if ( r > 0.7f)
+            if ( r > 0.99f)
+            {
+                mainObject = Instantiate((GameObject)Resources.Load("flyingrock"));
+                mainObject.transform.up = -(transform.position - pos).normalized;
+                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f, 360f));
+                mainObject.transform.position = pos;
+            }
+            else if (r > 0.8f)
+            {
+                mainObject = Instantiate((GameObject)Resources.Load("rock_var1"));
+                mainObject.transform.up = -(transform.position - pos).normalized;
+                mainObject.transform.position = pos;
+                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f,360f));
+                var scale = 0.75f * ScaleFunction(Random.Range(1.0f, 2.0f));
+                mainObject.transform.localScale = new Vector3(scale, scale, scale);
+            }
+            else if (r > 0.7f)
             {
                 mainObject = Instantiate((GameObject)Resources.Load("pyramid_rotated"));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
-            }
-            else if (r > 0.5f)
-            {
-                mainObject = Instantiate((GameObject)Resources.Load("flyingrock"));
-                mainObject.transform.up = -(transform.position - pos).normalized;
-                mainObject.transform.position = pos;
+                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f, 360f));
+                var scale = ScaleFunction(Random.Range(1.0f, 2.0f));
+                mainObject.transform.localScale = new Vector3(scale, scale, scale);
             }
             var detailCount = Random.Range(0, 4);
             for (int j = 0; j < detailCount; j++)
@@ -51,12 +64,17 @@ public class RandomObjectScattering : MonoBehaviour
 
                 var detailDecision = Random.Range(0.0f, 1.0f);
                 GameObject detail;
-                if (detailDecision > 0.5f)
+                if (detailDecision > 0.7f)
                     detail = Instantiate((GameObject)Resources.Load("mushroom_1"));
-                else
+                else if (detailDecision > 0.4f)
                     detail = Instantiate((GameObject)Resources.Load("flower_2"));
+                else
+                    detail = Instantiate((GameObject)Resources.Load("pyr_sm"));
                 detail.transform.up = -(transform.position - sec_pos).normalized;
                 detail.transform.position = sec_pos;
+                var scale = 0.5f * ScaleFunction(Random.Range(1.0f,2.0f));
+                detail.transform.localScale = new Vector3(scale, scale, scale);
+                detail.transform.RotateAround(detail.transform.up, Random.Range(0f, 360f));
             }
         }
 
@@ -65,8 +83,8 @@ public class RandomObjectScattering : MonoBehaviour
 
     float ScaleFunction(float factor)
     {
-        //e^(ax-a²)+0.5 -> lots of small and few big objects
-        return Mathf.Exp(factor * Random.Range(0f, factor) - factor * factor) + 0.5f;
+        //e^(ax-a²)+1 -> lots of small and few big objects
+        return Mathf.Exp(factor * Random.Range(0f, factor) - factor * factor) + 1.0f;
     }
 
     Vector3 RandomPointOnSphere()
