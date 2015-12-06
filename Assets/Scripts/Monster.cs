@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class Monster : Creature {
 	
-	public enum MonsterState { IDLE, CHASING, ATTACKING }
+	public enum MonsterState { IDLE, CHASING, ATTACKING, GRABBED }
 	public MonsterState state;
 	public int AttackDamage { get; set; }
 
@@ -14,18 +14,27 @@ public abstract class Monster : Creature {
 
 	public void Attack(Creature c)
     {
+        GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
         c.TakeDamage(AttackDamage);
         state = MonsterState.ATTACKING;
         GameObject.GetComponent<MoveOnSphere>().SetTarget(GameObject.transform.position);
-        //Debug.Log(this + "is attacking " + c);
+        Debug.Log(this + "is attacking " + c);
     }
 	
 	public void Chase(Creature c)
     {
+        GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
         MoveTo(c.GameObject.transform.position);
         state = MonsterState.CHASING;
-       //Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
+        Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
         GameObject.GetComponent<MoveOnSphere>().SetTarget( c.GameObject.transform.position );
+    }
+
+    public void GetGrabbed()
+    {
+        GameObject.GetComponent<MoveOnSphere>().RunningLocked = true;
+        state = MonsterState.GRABBED;
+        Debug.Log(this + " is grabbed");
     }
 	
 	public abstract void Idle();

@@ -4,7 +4,7 @@ using System.Collections;
 public class MoveOnSphere : MonoBehaviour {
 
     public float runSpeed;
-
+    public bool RunningLocked { get; set; }
     public Vector3 target;
     Vector3 lookAt;
 
@@ -36,7 +36,7 @@ public class MoveOnSphere : MonoBehaviour {
 
     void FixedUpdate()
     {
-        move();
+        if(!RunningLocked) move();
     }
 
     public void SetTarget(Vector3 t)
