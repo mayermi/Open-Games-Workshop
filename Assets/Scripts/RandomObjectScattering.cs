@@ -28,7 +28,7 @@ public class RandomObjectScattering : MonoBehaviour
             GameObject mainObject;
             if ( r > 0.7f)
             {
-                mainObject = Instantiate((GameObject)Resources.Load("rock"));
+                mainObject = Instantiate((GameObject)Resources.Load("pyramid_rotated"));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
             }
@@ -37,29 +37,30 @@ public class RandomObjectScattering : MonoBehaviour
                 mainObject = Instantiate((GameObject)Resources.Load("flyingrock"));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
+            }
+            var detailCount = Random.Range(0, 4);
+            for (int j = 0; j < detailCount; j++)
+            {
+                var x_rot = Random.Range(-0.05f, 0.05f);
+                var y_rot = Random.Range(-0.05f, 0.05f);
+                var z_rot = Random.Range(-0.05f, 0.05f);
 
-                var detailCount = Random.Range(0, 4);
-                for (int j = 0; j < detailCount; j++)
-                {
-                    var x_rot = Random.Range(-0.05f, 0.05f);
-                    var y_rot = Random.Range(-0.05f, 0.05f);
-                    var z_rot = Random.Range(-0.05f, 0.05f);
+                var sec_pos = Vector3.RotateTowards(pos, new Vector3(1, 0, 0) * pos.magnitude, x_rot, pos.magnitude);
+                sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 1, 0) * pos.magnitude, y_rot, pos.magnitude);
+                sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 0, 1) * pos.magnitude, z_rot, pos.magnitude);
 
-                    var sec_pos = Vector3.RotateTowards(pos, new Vector3(1, 0, 0) * pos.magnitude, x_rot, pos.magnitude);
-                    sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 1, 0) * pos.magnitude, y_rot, pos.magnitude);
-                    sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 0, 1) * pos.magnitude, z_rot, pos.magnitude);
-
-                    var detailDecision = Random.Range(0.0f, 1.0f);
-                    GameObject detail;
-                    if(detailDecision > 0.5f)
-                        detail = Instantiate((GameObject)Resources.Load("mushroom_1"));
-                    else
-                        detail = Instantiate((GameObject)Resources.Load("flower_2"));
-                    detail.transform.up = -(transform.position - sec_pos).normalized;
-                    detail.transform.position = sec_pos;
-                }
+                var detailDecision = Random.Range(0.0f, 1.0f);
+                GameObject detail;
+                if (detailDecision > 0.5f)
+                    detail = Instantiate((GameObject)Resources.Load("mushroom_1"));
+                else
+                    detail = Instantiate((GameObject)Resources.Load("flower_2"));
+                detail.transform.up = -(transform.position - sec_pos).normalized;
+                detail.transform.position = sec_pos;
             }
         }
+
+
     }
 
     float ScaleFunction(float factor)
