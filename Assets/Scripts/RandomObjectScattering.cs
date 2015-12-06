@@ -25,32 +25,29 @@ public class RandomObjectScattering : MonoBehaviour
         {
             var r = Random.Range(0.0f, 1.0f);
             Vector3 pos = verts[i].normalized * radius;
-            GameObject mainObject;
+            float scaleFactor = 1.0f;
+            string mainObjectName = "nothing";
             if ( r > 0.99f)
-            {
-                mainObject = Instantiate((GameObject)Resources.Load("flyingrock"));
-                mainObject.transform.up = -(transform.position - pos).normalized;
-                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f, 360f));
-                mainObject.transform.position = pos;
-            }
+                mainObjectName = "flyingrock";
             else if (r > 0.8f)
-            {
-                mainObject = Instantiate((GameObject)Resources.Load("rock_var1"));
-                mainObject.transform.up = -(transform.position - pos).normalized;
-                mainObject.transform.position = pos;
-                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f,360f));
-                var scale = 0.75f * ScaleFunction(Random.Range(1.0f, 2.0f));
-                mainObject.transform.localScale = new Vector3(scale, scale, scale);
-            }
+                mainObjectName = "rock_var1";
             else if (r > 0.7f)
+                mainObjectName = "pyramid_rotated";
+            else if (r > 0.6f)
             {
-                mainObject = Instantiate((GameObject)Resources.Load("pyramid_rotated"));
+                mainObjectName = "rocks_0";
+                scaleFactor = 0.3f;
+            }
+            if (mainObjectName != "nothing")
+            {
+                GameObject mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
                 mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f, 360f));
-                var scale = ScaleFunction(Random.Range(1.0f, 2.0f));
+                var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
             }
+
             var detailCount = Random.Range(0, 4);
             for (int j = 0; j < detailCount; j++)
             {
