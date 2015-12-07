@@ -33,10 +33,15 @@ public class RandomObjectScattering : MonoBehaviour
                 mainObjectName = "rock_var1";
             else if (r > 0.7f)
                 mainObjectName = "pyramid_rotated";
-            else if (r > 0.6f)
+            else if (r > 0.65f)
             {
                 mainObjectName = "rocks_0";
                 scaleFactor = 0.3f;
+            }
+            else if (r > 0.6f)
+            {
+                mainObjectName = "rocks_1";
+                
             }
             if (mainObjectName != "nothing")
             {
