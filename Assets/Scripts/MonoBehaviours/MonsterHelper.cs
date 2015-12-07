@@ -11,6 +11,7 @@ public class MonsterHelper : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
+
     }
 
     // Always looking if an Alien enters the AggroRange

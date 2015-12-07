@@ -6,6 +6,7 @@ public class PathNavigator : MonoBehaviour
 {
 	public SphericalGrid sphericalGrid;
 	public Transform target;
+    GameObject PathFinding;
 
 	Vector3 prevTargetPos;
 
@@ -27,7 +28,11 @@ public class PathNavigator : MonoBehaviour
 
 	void Awake()
 	{
-		planetBody = GetComponent<PlanetBody>();
+        
+        PathFinding = GameObject.FindWithTag("PathFinding");
+        sphericalGrid = PathFinding.GetComponent<SphericalGrid>();
+        if (sphericalGrid != null) Debug.Log("Found Pathfinding");
+        planetBody = GetComponent<PlanetBody>();
 	}
 
 	void Update()

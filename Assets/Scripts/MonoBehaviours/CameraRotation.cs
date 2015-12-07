@@ -8,6 +8,8 @@ public class CameraRotation : MonoBehaviour {
     float rotationYAxis = 0.0f;
     float rotationXAxis = 0.0f;
 
+    public int initCameraDistance = 20;
+
     void Start () {
         planet = GameObject.Find("Planet");
         cam = Camera.main;
@@ -39,8 +41,8 @@ public class CameraRotation : MonoBehaviour {
         Quaternion cameraRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
         cam.transform.rotation = cameraRotation;
 
-        // let the camera circle around the planet in a distance of 185
-        Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -185) + planet.transform.position;
+        // 07-12-2015 changed to public variable : let the camera circle around the planet in a distance of 185
+        Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, initCameraDistance) + planet.transform.position;
         cam.transform.position = cameraPosition;
     }
 }

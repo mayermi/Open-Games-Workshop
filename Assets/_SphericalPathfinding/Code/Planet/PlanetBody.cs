@@ -12,7 +12,8 @@ public class PlanetBody : MonoBehaviour
 
 	void Start()
 	{
-		transform.position = GroundPosition(transform.position);
+        planetTransform = GameObject.Find("Planet").transform; 
+        transform.position = GroundPosition(transform.position);
 	}
 
 	void Update()
@@ -31,12 +32,15 @@ public class PlanetBody : MonoBehaviour
 	public Quaternion RotateToPlanet()
 	{
 		if(planetTransform != null)
-		{
+		{   
 			// find what way is up based on the body's current position
 			Vector3 gravityUp = (planetTransform.position - this.transform.position).normalized;
 			// Rotation object to new rotation
 			return Quaternion.FromToRotation(transform.up, gravityUp) * transform.rotation;
-		}
+        }
+        else
+        {
+            Debug.Log(" Planet transform not found");        }
 
 		return new Quaternion();
 	}
