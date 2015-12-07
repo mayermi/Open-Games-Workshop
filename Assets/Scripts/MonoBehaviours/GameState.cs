@@ -21,4 +21,13 @@ public class GameState : MonoBehaviour {
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
 
+	void RemoveCreature(Creature c) {
+		if (c is Monster) {
+			monsters.Remove (c.GameObject);
+			Debug.Log("Removed monster");
+		} else {
+			aliens.Remove (c.GameObject);
+		}
+	}
+
 }

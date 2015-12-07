@@ -50,5 +50,4 @@ public abstract class Monster : Creature {
 	public abstract void Idle();
 
 
-
 }
