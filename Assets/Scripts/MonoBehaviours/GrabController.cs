@@ -34,11 +34,11 @@ public class GrabController : MonoBehaviour {
         }
 
         // Z Axis
-        if (Input.GetKey(KeyCode.Keypad0))
+        if (Input.GetKey(KeyCode.L))
         {
             transform.position += new Vector3(0, 0, -0.1f * speed);
         }
-        else if (Input.GetKey(KeyCode.Keypad1))
+        else if (Input.GetKey(KeyCode.K))
         {
             transform.position += new Vector3(0, 0, 0.1f * speed);
         }
