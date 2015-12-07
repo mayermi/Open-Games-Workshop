@@ -105,14 +105,14 @@ public class RotateCam : VirtualWorldBoxAction
                 //fixed hand position
                 if (eulerAngles_hand.y < ThreshRightTurn)
                     //turn right
-                    deltaY = 0.2f;
+                    deltaY = -0.2f;
                 else if (eulerAngles_hand.y > ThreshLeftTurn)
                     //turn left
-                    deltaY = -0.2f;
+                    deltaY = 0.2f;
                 else
                     deltaY = 0;
 
-
+                Debug.Log(eulerAngles_hand.x);
                 if (deltaY == 0 && (eulerAngles_hand.x > 310 && eulerAngles_hand.x < 340))
                 {
                     //rotate to the player
