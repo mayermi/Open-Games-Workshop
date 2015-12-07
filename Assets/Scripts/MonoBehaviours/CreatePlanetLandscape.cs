@@ -29,10 +29,12 @@ public class CreatePlanetLandscape : MonoBehaviour {
 		ShyMonster m = new ShyMonster (attack: 15, health: 100, speed: 0.15f, range: 10);
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
 		gs.monsters.Add (m.GameObject, m);
+        gs.creatures.Add(m.GameObject, m as Creature);
 
 		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
 		p.GameObject = Creator.Create ("Alien", new Vector3(0,90,-80));
 		gs.aliens.Add (p.GameObject, p);
+        gs.creatures.Add(p.GameObject, p as Creature);
 	}
 
     void Update()

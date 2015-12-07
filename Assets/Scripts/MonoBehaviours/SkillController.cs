@@ -17,7 +17,7 @@ public class SkillController : MonoBehaviour {
 	void FixedUpdate() {
 		// fire causes continuous damage
 		if (fireBurning) {
-			CauseDamage(fire.transform.position, 5f, 1);
+			//CauseDamage(fire.transform.position, 5f, 1);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class SkillController : MonoBehaviour {
 		fire.transform.position = hand.transform.position;
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
-		CauseDamage(hand.transform.position, 5f, 25);
+		//CauseDamage(hand.transform.position, 5f, 25);
 		StartCoroutine (StopFire(2f));
     }
 
@@ -83,7 +83,14 @@ public class SkillController : MonoBehaviour {
         }
     }
 
-	IEnumerator StopFire(float sec)
+    public void CreatureInFire(GameObject c)
+    {
+            Debug.Log(c);
+            Creature creature = gs.creatures[c] as Creature;
+            creature.TakeDamage(1);
+    }
+
+    IEnumerator StopFire(float sec)
 	{
 		yield return new WaitForSeconds(sec);
 		fire.GetComponent<ParticleSystem> ().enableEmission = false;
