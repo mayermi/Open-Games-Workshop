@@ -3,7 +3,8 @@
 public class RandomObjectScattering : MonoBehaviour
 {
 
-    public int objCount = 1;
+    public int minDetails = 1;
+    public int maxDetails = 4;
 
     void Start()
     {
@@ -21,66 +22,83 @@ public class RandomObjectScattering : MonoBehaviour
         Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
         float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 1.49f;
 
-        for (int i = 0; i < verts.Length; i++)
+        foreach (var vertex in verts)
         {
-            var r = Random.Range(0.0f, 1.0f);
-            Vector3 pos = verts[i].normalized * radius;
+            Vector3 pos = vertex.normalized * radius;
             float scaleFactor = 1.0f;
-            string mainObjectName = "nothing";
-            if ( r > 0.99f)
-                mainObjectName = "flyingrock";
-            else if (r > 0.8f)
-                mainObjectName = "rock_var1";
-            else if (r > 0.7f)
-                mainObjectName = "pyramid_rotated";
-            else if (r > 0.65f)
+            string mainObjectName = DecideMainObject();
+            if (!mainObjectName.Equals("nothing"))
             {
-                mainObjectName = "rocks_0";
-                scaleFactor = 0.3f;
-            }
-            else if (r > 0.6f)
-            {
-                mainObjectName = "rocks_1";
-                
-            }
-            if (mainObjectName != "nothing")
-            {
+                if (mainObjectName.Equals("rocks_0"))
+                    scaleFactor = 0.3f;
+
                 GameObject mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
-                mainObject.transform.RotateAround(mainObject.transform.up, Random.Range(0f, 360f));
+                mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
             }
 
-            var detailCount = Random.Range(0, 4);
+            var detailCount = Random.Range(minDetails, maxDetails);
+            Vector3 helpVector = RandomVector();
+            
             for (int j = 0; j < detailCount; j++)
             {
-                var x_rot = Random.Range(-0.05f, 0.05f);
-                var y_rot = Random.Range(-0.05f, 0.05f);
-                var z_rot = Random.Range(-0.05f, 0.05f);
+                var rotation = Random.Range(0.03f, 0.06f);
+                Vector3 sec_pos = Vector3.RotateTowards(pos, helpVector * pos.magnitude, rotation, pos.magnitude);
+                float angle = j * 360.0f/detailCount;
+                
+                var detail_pos = Quaternion.AngleAxis(angle, pos) * sec_pos;
 
-                var sec_pos = Vector3.RotateTowards(pos, new Vector3(1, 0, 0) * pos.magnitude, x_rot, pos.magnitude);
-                sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 1, 0) * pos.magnitude, y_rot, pos.magnitude);
-                sec_pos = Vector3.RotateTowards(sec_pos, new Vector3(0, 0, 1) * pos.magnitude, z_rot, pos.magnitude);
-
-                var detailDecision = Random.Range(0.0f, 1.0f);
-                GameObject detail;
-                if (detailDecision > 0.7f)
-                    detail = Instantiate((GameObject)Resources.Load("mushroom_1"));
-                else if (detailDecision > 0.4f)
-                    detail = Instantiate((GameObject)Resources.Load("flower_2"));
-                else
-                    detail = Instantiate((GameObject)Resources.Load("pyr_sm"));
-                detail.transform.up = -(transform.position - sec_pos).normalized;
-                detail.transform.position = sec_pos;
-                var scale = 0.5f * ScaleFunction(Random.Range(1.0f,2.0f));
+                var detailName = DecideDetailObject();
+                GameObject detail = Instantiate((GameObject)Resources.Load(detailName));
+                detail.transform.up = -(transform.position - detail_pos).normalized;
+                detail.transform.position = detail_pos;
+                var scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
                 detail.transform.localScale = new Vector3(scale, scale, scale);
-                detail.transform.RotateAround(detail.transform.up, Random.Range(0f, 360f));
+                detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);              
             }
         }
+    }
 
+    string DecideMainObject()
+    {
+        var r = Random.Range(0.0f, 1.0f);
+        string mainObjectName = "nothing";
+        if (r > 0.99f)
+            mainObjectName = "flyingrock";
+        else if (r > 0.8f)
+            mainObjectName = "rock_var1";
+        else if (r > 0.7f)
+            mainObjectName = "pyramid_rotated";
+        else if (r > 0.65f)
+            mainObjectName = "rocks_0";
+        else if (r > 0.6f)
+            mainObjectName = "rocks_1";
 
+        return mainObjectName;
+    }
+
+    string DecideDetailObject()
+    {
+        var detailDecision = Random.Range(0.0f, 1.0f);
+        string detailObjectName;
+        if (detailDecision > 0.7f)
+            detailObjectName = "mushroom_1";
+        else if (detailDecision > 0.4f)
+            detailObjectName = "flower_2";
+        else
+            detailObjectName = "pyr_sm";
+        return detailObjectName;
+    }
+
+    Vector3 RandomVector()
+    {
+        var x = Random.Range(0f, 1f);
+        var y = Random.Range(0f, 1f);
+        var z = Random.Range(0f, 1f);
+        return new Vector3 (x, y, z).normalized;
     }
 
     float ScaleFunction(float factor)

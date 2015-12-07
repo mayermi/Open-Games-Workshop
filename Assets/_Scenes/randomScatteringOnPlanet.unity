@@ -218,7 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810418155fd79e54db529223c9b8bee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objCount: 100
+  minDetails: 0
+  maxDetails: 10
 --- !u!137 &1505183785
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
