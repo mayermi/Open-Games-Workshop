@@ -6,12 +6,13 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ground_Test
-  m_Shader: {fileID: 4800000, guid: 834ffbebbaf73dd4497ccf0275829ee4, type: 3}
-  m_ShaderKeywords: _EMISSION _NORMALMAP
-  m_LightmapFlags: 1
-  m_CustomRenderQueue: 2000
-  stringTagMap: {}
+  m_Name: AlienHelmet__BAKE
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -78,13 +79,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _LightMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -93,7 +87,7 @@ Material:
       data:
         first:
           name: _DstBlend
-        second: 0
+        second: 10
       data:
         first:
           name: _Cutoff
@@ -101,15 +95,15 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0121999998
+        second: .0199999996
       data:
         first:
           name: _ZWrite
-        second: 1
+        second: 0
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -129,29 +123,17 @@ Material:
       data:
         first:
           name: _Mode
-        second: 0
+        second: 3
       data:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _RimPower
-        second: 6.5
     m_Colors:
       data:
         first:
           name: _EmissionColor
-        second: {r: .00477941055, g: .0163184498, b: .0500000007, a: 1}
+        second: {r: 0, g: 0, b: 0, a: 1}
       data:
         first:
           name: _Color
-        second: {r: .12736474, g: .070880197, b: .139705896, a: 1}
-      data:
-        first:
-          name: _RimColor
-        second: {r: .0808823705, g: .0808823705, b: .0808823705, a: 0}
-      data:
-        first:
-          name: _Spec
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .800000012, g: .800000012, b: .800000012, a: .196078435}

@@ -13,6 +13,7 @@ public class MonsterHelper : MonoBehaviour {
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
     }
 
+    // Always looking if an Alien enters the AggroRange
 	void OnTriggerStay(Collider other)
     {     
         if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters

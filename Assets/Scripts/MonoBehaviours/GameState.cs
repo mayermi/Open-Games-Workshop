@@ -19,6 +19,6 @@ public class GameState : MonoBehaviour {
 
 	public float timeLeft;
 	public int CollectedResources { get; set; }
-
+    public int ActiveSkill { get; set; }
 
 }
