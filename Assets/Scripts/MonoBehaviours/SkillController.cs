@@ -5,11 +5,21 @@ public class SkillController : MonoBehaviour {
 
     GameState gs;
     RecursiveLightning lightning;
+	GameObject fire;
+	bool fireBurning = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
+		fire = GameObject.Find ("Fire");
     }
+
+	void FixedUpdate() {
+		// fire causes continuous damage
+		if (fireBurning) {
+			CauseDamage(fire.transform.position, 5f, 1);
+		}
+	}
 
     public void PerformActiveSkill()
     {
@@ -20,7 +30,7 @@ public class SkillController : MonoBehaviour {
                 Lightning();
                 break;
             case 2:
-                Nummer2();
+                Fire();
                 break;
             case 3:
                 Nummer3();
@@ -40,13 +50,18 @@ public class SkillController : MonoBehaviour {
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
         lightning.StrikeLightning();
-        CauseDamage(to, 5f, 25);
     }
 
     // Skill 2
-    void Nummer2()
+    void Fire()
     {
-        Debug.Log("Skill 2 triggered");
+		GameObject hand = GameObject.Find ("HandOfGod");
+		fire.transform.SetParent(hand.transform);
+		fire.transform.position = hand.transform.position;
+		fireBurning = true;
+		fire.GetComponent<ParticleSystem> ().enableEmission = true;
+		CauseDamage(hand.transform.position, 5f, 25);
+		StartCoroutine (StopFire(2f));
     }
 
     // Skill 3
@@ -67,4 +82,11 @@ public class SkillController : MonoBehaviour {
             }
         }
     }
+
+	IEnumerator StopFire(float sec)
+	{
+		yield return new WaitForSeconds(sec);
+		fire.GetComponent<ParticleSystem> ().enableEmission = false;
+		fireBurning = false;
+	}
 }
