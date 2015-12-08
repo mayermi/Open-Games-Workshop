@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetTransform: {fileID: 0}
-  planetRadius: 5
+  planetRadius: 50
 --- !u!114 &11421356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -858,6 +858,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: lookSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: planetRadius
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

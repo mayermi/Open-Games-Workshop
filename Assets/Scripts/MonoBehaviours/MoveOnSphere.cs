@@ -4,17 +4,13 @@ using System.Collections;
 public class MoveOnSphere : MonoBehaviour {
 
     public float runSpeed;
-    public bool RunningLocked { get; set; }
-    public Vector3 target;
 	public string animName;
-    Vector3 lookAt;
 
     Animation anim;
 
     void Start()
     {
         anim = GetComponent<Animation>();
-        target = transform.position;
     }
 
 	void Update ()
@@ -28,7 +24,7 @@ public class MoveOnSphere : MonoBehaviour {
             // we hit the planet -> set target
             if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
             {
-                //SetTarget(hit.point);                            
+                GetComponent<PathNavigator>().SetTarget(hit.point);                            
             }
 
         }

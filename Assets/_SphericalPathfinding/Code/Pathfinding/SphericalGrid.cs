@@ -258,6 +258,7 @@ public class SphericalGrid : MonoBehaviour
 		}
 
 		gridPointDistance = new GridPointDistance[0,0];
+        Debug.Log("Create Nodes done.");
 	}
 
 	// Adds neighbour nodes to all of the nodes
@@ -613,18 +614,6 @@ public class SphericalGrid : MonoBehaviour
 	// *************************
 
 	public bool ShowBakedNodes = false;
-
-	void PlanetNodesActive(bool active)
-	{
-		Debug.Log ("PlanetNodesActive - " + active + "  - node count: " + nodes.Length);
-		if(active)
-		{
-			for(int i = 0; i < nodes.Length; i++)
-			{
-
-			}
-		}
-	}
 
 	public void OnDrawGizmos()
 	{

@@ -14,7 +14,6 @@ public abstract class Monster : Creature {
 
 	public void Attack(Creature c)
     {
-        //GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
         c.TakeDamage(AttackDamage);
         state = MonsterState.ATTACKING;
 		MoveTo(c.GameObject.transform.position);
@@ -24,7 +23,6 @@ public abstract class Monster : Creature {
 	public void Chase(Creature c)
     {
 		Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
-        //GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
         MoveTo(c.GameObject.transform.position);
         state = MonsterState.CHASING;
         
@@ -32,7 +30,6 @@ public abstract class Monster : Creature {
 
     public void GetGrabbed()
     {
-        GameObject.GetComponent<MoveOnSphere>().RunningLocked = true;
         state = MonsterState.GRABBED;
         Debug.Log(this + " is grabbed");
     }
