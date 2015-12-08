@@ -41,10 +41,10 @@ public class SphericalGrid : MonoBehaviour
 {
 	// Icosahedron values
 	[Range(1, 56)]
-	public int subDivisions = 4;	
+	public int subDivisions = 20;	
 
 	// planet
-	public float planetRadius = 2f;
+	public float planetRadius = 50f;
 	public Vector3 planetCenter = Vector3.zero;
 
 	// node
@@ -91,7 +91,7 @@ public class SphericalGrid : MonoBehaviour
 	public void BakeNodeProcess()
 	{
 		Debug.Log ("Started baking process");
-		
+        float time = Time.time;
 		// sub divide the mesh
 		// grab the grid positions from the vertices
 		CreateGridPositions();
@@ -105,7 +105,7 @@ public class SphericalGrid : MonoBehaviour
 		// Add neighNodes
 		AddNeighbourNodes();
 
-		Debug.Log ("Baking process complete!");
+		Debug.Log ("Baking process complete! Time:" + (Time.time - time) + "s");
 	}
 
 
@@ -136,6 +136,8 @@ public class SphericalGrid : MonoBehaviour
 	// nodes created for each position
 	public void CreateNodes()
 	{
+        Debug.Log("Start CreateNodes");
+        float time = Time.time;
 		float sqrtOfNodeCount = Mathf.Sqrt((float)gridPositions.Length);
 		roundNumber = Mathf.CeilToInt(360f / sqrtOfNodeCount);
 		int arraySize = Mathf.CeilToInt(360f / roundNumber) + 1;
@@ -258,12 +260,14 @@ public class SphericalGrid : MonoBehaviour
 		}
 
 		gridPointDistance = new GridPointDistance[0,0];
-        Debug.Log("Create Nodes done.");
+        Debug.Log("Create Nodes done in " + (Time.time - time) +"s");
 	}
 
 	// Adds neighbour nodes to all of the nodes
 	public void AddNeighbourNodes()
 	{
+        Debug.Log("Add Neigbours started");
+        float time = Time.time;
 		for(int x = 0; x < gridPointX.Length; x++)
 		{
 			for(int y = 0; y < gridPointX[x].gridPointY.Length; y++)
@@ -274,9 +278,9 @@ public class SphericalGrid : MonoBehaviour
 				}
 			}
 		}
-
-		//nodes = new Node[0];
-	}
+        Debug.Log("Add Neighbours done in" + (Time.time - time) + "s");
+        //nodes = new Node[0];
+    }
 
 
 

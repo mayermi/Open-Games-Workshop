@@ -1106,8 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad19653adce322b4eb9701b55d5b4595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: .100000001
-  target: {x: 0, y: 0, z: 0}
+  runSpeed: 3
   animName: Run
 --- !u!114 &11452212
 MonoBehaviour:
@@ -1374,6 +1373,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: planetRadius
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

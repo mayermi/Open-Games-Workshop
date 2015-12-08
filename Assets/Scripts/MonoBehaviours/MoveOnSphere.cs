@@ -34,7 +34,7 @@ public class MoveOnSphere : MonoBehaviour {
 	public void moveTowards(Vector3 targetPos) 
 	{
 			anim.Play(animName);
-			transform.position += runSpeed * transform.forward;         
+			transform.position += runSpeed * Time.deltaTime * transform.forward;         
 	}
 
     

@@ -31,7 +31,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
 		gs.monsters.Add (m.GameObject, m);
 
 		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
-		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-35));
+		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-55));
 		gs.aliens.Add (p.GameObject, p);
 	}
 

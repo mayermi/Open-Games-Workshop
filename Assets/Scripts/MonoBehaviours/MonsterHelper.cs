@@ -18,7 +18,7 @@ public class MonsterHelper : MonoBehaviour {
     {     
         if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters
         {
-			Debug.Log ((transform.position - other.transform.position).sqrMagnitude);
+			//Debug.Log ((transform.position - other.transform.position).sqrMagnitude);
             if ((transform.position - other.transform.position).sqrMagnitude <= 12f)
             {
                 m.Attack(gs.aliens[other.gameObject] as Alien);

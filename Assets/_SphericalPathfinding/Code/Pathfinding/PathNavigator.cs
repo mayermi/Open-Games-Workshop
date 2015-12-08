@@ -54,7 +54,7 @@ public class PathNavigator : MonoBehaviour
 		{
 			Vector3 targetPos = Vector3.zero;
 			if(target != null) targetPos = target.position;
-			//else targetPos = RandomTargetPos();
+			else targetPos = RandomTargetPos();
 
 			// check the distance to its target position, if it's far away start navigating again
 			/*float dist = (transform.position - targetPos).sqrMagnitude;

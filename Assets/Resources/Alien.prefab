@@ -560,8 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad19653adce322b4eb9701b55d5b4595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: .100000001
-  target: {x: 0, y: 0, z: 0}
+  runSpeed: 2
   animName: Walk
 --- !u!114 &11434766
 MonoBehaviour:
@@ -849,7 +848,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: runSpeed
-      value: .100000001
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: animName
