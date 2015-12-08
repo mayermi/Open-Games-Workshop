@@ -7,6 +7,14 @@ public class ShyMonster : Monster {
 		
 	}
 
-	public override void Idle() {}
+	public override void Idle()
+    {
+        // ShyMonster does not move when idle
+        //GameObject.GetComponent<MoveOnSphere>().RunningLocked = true;
+
+        // delete these two lines after wayfinding is implemented
+        GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
+        GameObject.GetComponent<MoveOnSphere>().SetTarget(GameObject.transform.position);
+    }
 
 }

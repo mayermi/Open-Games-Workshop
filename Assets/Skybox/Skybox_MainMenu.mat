@@ -89,42 +89,42 @@ Material:
         first:
           name: _FrontTex
         second:
-          m_Texture: {fileID: 2800000, guid: 8f61fd13302a29d45af633f640008313, type: 3}
+          m_Texture: {fileID: 2800000, guid: 6ced206a9db7fdb42a09ed576649afe6, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BackTex
         second:
-          m_Texture: {fileID: 2800000, guid: 1cda7c5148c65f6419ce27b4619f2718, type: 3}
+          m_Texture: {fileID: 2800000, guid: 4020d8edf2c5a824e8e203c1ecef8e89, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _LeftTex
         second:
-          m_Texture: {fileID: 2800000, guid: 3567fad030ea5054a8ceef672668af26, type: 3}
+          m_Texture: {fileID: 2800000, guid: a27644589b466ad4fb2aeba87472b43c, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _RightTex
         second:
-          m_Texture: {fileID: 2800000, guid: 43161ef1a23aa3544bfb89940a5eaf92, type: 3}
+          m_Texture: {fileID: 2800000, guid: d25021f61460e8e40a5247e6fe1875fa, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _UpTex
         second:
-          m_Texture: {fileID: 2800000, guid: 17e2953097a02aa418bf83fa20cbb8fc, type: 3}
+          m_Texture: {fileID: 2800000, guid: 54d19382fde985843be659a20af0d4b2, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _DownTex
         second:
-          m_Texture: {fileID: 2800000, guid: 587e61c723c23554d818b96571e32a83, type: 3}
+          m_Texture: {fileID: 2800000, guid: b38706cadc66fc442b4d7e9907c0da97, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -195,7 +195,7 @@ Material:
       data:
         first:
           name: _Rotation
-        second: 97
+        second: 0
     m_Colors:
       data:
         first:
@@ -216,4 +216,4 @@ Material:
       data:
         first:
           name: _Tint
-        second: {r: .862223923, g: .192257807, b: .933823526, a: .5}
+        second: {r: .507352948, g: .507352948, b: .507352948, a: .5}

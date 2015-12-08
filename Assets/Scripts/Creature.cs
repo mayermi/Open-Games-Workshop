@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public abstract class Creature{
+public abstract class Creature {
 
 	public int MaxHealth { get; set;}
 	public int CurrentHealth { get; set;}
@@ -23,16 +24,21 @@ public abstract class Creature{
 	public void TakeDamage(int d) 
 	{
 		CurrentHealth = CurrentHealth - d;
+        Debug.Log(CurrentHealth);
+        GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        if (CurrentHealth <= 0) Die();
 	}
 
 	public void Die() 
 	{
-
+		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
+        MonoBehaviour.Destroy(GameObject);
 	}
 
 	public bool IsInRange(GameObject g)
 	{
-		if(true /* TODO */) 
+        float d = CoordinateHelper.calcDistance(GameObject.transform.position, g.transform.position);
+        if (d < VisionRange)  
 			return true;
 		return false;
 	}
