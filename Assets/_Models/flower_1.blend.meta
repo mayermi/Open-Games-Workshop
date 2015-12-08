@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 3475362e84d2a8046bf22f62e8f436ca
-timeCreated: 1447865430
+guid: 4e7ac6bad4d914e41a470efa5cae83c5
+timeCreated: 1449417201
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,9 +9,10 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Circle
+    4300000: Plane
     7400000: Default Take
     9500000: //RootNode
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,7 +71,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
