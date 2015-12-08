@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraRotation : MonoBehaviour {
 
+    public int camDistance = 140;
     GameObject planet;
     Camera cam;
     float rotationYAxis = 0.0f;
@@ -40,7 +41,7 @@ public class CameraRotation : MonoBehaviour {
         cam.transform.rotation = cameraRotation;
 
         // let the camera circle around the planet in a distance of 185
-        Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -185) + planet.transform.position;
+        Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -camDistance) + planet.transform.position;
         cam.transform.position = cameraPosition;
     }
 }

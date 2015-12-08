@@ -21,6 +21,13 @@ public class GameController : MonoBehaviour {
         {
             sc.PerformActiveSkill();
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+
+            gs.ActiveSkill += 1;
+            if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+        }
     }
 
     void LateUpdate () {

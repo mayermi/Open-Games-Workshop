@@ -12,7 +12,6 @@ public class FireCollider : MonoBehaviour {
 
     void OnParticleCollision(GameObject other)
     {
-        Debug.Log(other);
         sc.CreatureInFire(other);
     }
 }
