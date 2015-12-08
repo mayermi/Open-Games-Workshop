@@ -200,6 +200,10 @@ Prefab:
       propertyPath: objCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11472568, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
   m_IsPrefabParent: 0
@@ -1264,6 +1268,18 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 19800002, guid: 2c32987c2bc01844a94adfb917dd677d, type: 2}
+      propertyPath: ExternalForcesModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800002, guid: 2c32987c2bc01844a94adfb917dd677d, type: 2}
+      propertyPath: ExternalForcesModule.multiplier
+      value: -.879999995
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 2c32987c2bc01844a94adfb917dd677d, type: 2}
+      propertyPath: ExternalForcesModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c32987c2bc01844a94adfb917dd677d, type: 2}
   m_IsPrefabParent: 0
