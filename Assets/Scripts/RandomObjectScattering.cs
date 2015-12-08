@@ -27,12 +27,13 @@ public class RandomObjectScattering : MonoBehaviour
             Vector3 pos = vertex.normalized * radius;
             float scaleFactor = 1.0f;
             string mainObjectName = DecideMainObject();
+            GameObject mainObject = null;
             if (!mainObjectName.Equals("nothing"))
             {
                 if (mainObjectName.Equals("rocks_0"))
                     scaleFactor = 0.3f;
 
-                GameObject mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
+                mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
@@ -57,7 +58,7 @@ public class RandomObjectScattering : MonoBehaviour
                 detail.transform.position = detail_pos;
                 var scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
                 detail.transform.localScale = new Vector3(scale, scale, scale);
-                detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);              
+                detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
             }
         }
     }

@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDetails: 0
-  maxDetails: 10
+  maxDetails: 3
 --- !u!137 &1505183785
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
