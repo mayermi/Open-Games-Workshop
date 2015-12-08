@@ -7,11 +7,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
 
     #region Public Fields
 
-    public float SmoothingFactor = 0;
     public GameObject planet;
-    public GameObject hand;
-    private Vector3 rayHitCoordinates = new Vector3(0, 0, 0);
-
 
     /// <summary>
     /// Position / Rotation constraints
@@ -38,6 +34,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
     private Defaults _lastDefaults = Defaults.HandTracking;
 
     private bool _actionTriggered = false;
+
+    private Vector3 rayHitCoordinates = new Vector3(0, 0, 0);
+    private Vector3 localHit = new Vector3(0, 0, 0);
+    private float lastVecZ = 0;
 
     #endregion
 
@@ -218,9 +218,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     vec.z = this.gameObject.transform.localPosition.z;
                 }
 
-                Vector3 handpos = this.hand.transform.position;
+                Vector3 handpos = this.gameObject.transform.position;
+                Vector3 handpos_local = this.gameObject.transform.localPosition;
 
-                Ray ray = new Ray(new Vector3(handpos.x, handpos.y, handpos.z-10), (planet.transform.position - handpos).normalized);
+                Ray ray = new Ray(new Vector3(handpos.x, handpos.y, handpos.z-50), (planet.transform.position - handpos).normalized);
                 RaycastHit hit;
                 // Casts the ray and get the first game object hit
                 Physics.Raycast(ray, out hit);
@@ -228,15 +229,28 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 if (hit.transform && hit.transform.gameObject == planet)
                 {
                     rayHitCoordinates = hit.point;
+                    localHit = transform.InverseTransformPoint(hit.point);
+                    //Debug.Log(localHit);
                 }
 
-                if (rayHitCoordinates.z >= handpos.z)
+                Vector3 currentVec = this.gameObject.transform.localPosition;
+                //Debug.Log("handpos: " + handpos);
+            
+
+                //Debug.Log("vector:" + vec);
+                if (rayHitCoordinates.z >= handpos.z || vec.z <= handpos_local.z)
                 {
                     this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z);
+                    lastVecZ = vec.z;
+                    //Debug.Log("vec: " + vec);
+                    //Debug.Log("handpos_local: " + handpos_local);
+                    //Debug.Log("ray hit:" + rayHitCoordinates);
                 }
                 else
                 {
-                this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, rayHitCoordinates.z);
+                    this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, lastVecZ);
+                    Vector3 vec3 = new Vector3(vec.x, vec.y, lastVecZ);
+                    //Debug.Log(currentVec);
                 }
             }
         }
