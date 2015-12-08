@@ -67,16 +67,12 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var r = Random.Range(0.0f, 1.0f);
         string mainObjectName = "nothing";
-        if (r > 0.99f)
-            mainObjectName = "flyingrock";
+        if (r > 0.9f)
+            mainObjectName = "rock_group_0";
         else if (r > 0.8f)
-            mainObjectName = "rock_var1";
+            mainObjectName = "rock_group_1";
         else if (r > 0.7f)
-            mainObjectName = "pyramid_rotated";
-        else if (r > 0.65f)
-            mainObjectName = "rocks_0";
-        else if (r > 0.6f)
-            mainObjectName = "rocks_1";
+            mainObjectName = "rock_group_3";
 
         return mainObjectName;
     }
@@ -85,12 +81,10 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var detailDecision = Random.Range(0.0f, 1.0f);
         string detailObjectName;
-        if (detailDecision > 0.7f)
+        if (detailDecision > 0.5f)
             detailObjectName = "mushroom_1";
-        else if (detailDecision > 0.4f)
-            detailObjectName = "flower_2";
         else
-            detailObjectName = "pyr_sm";
+            detailObjectName = "flower_2";
         return detailObjectName;
     }
 
