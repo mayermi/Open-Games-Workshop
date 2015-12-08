@@ -126,7 +126,8 @@ namespace RSUnityToolkit
 								if (handData.QueryUniqueId() == gestureData.handId)
 								{
 									MCTTypes.RSUnityToolkitGestures firedGesture = MCTTypes.GetGesture(gestureData.name);
-									                           
+
+                                    //Debug.Log(firedGesture);                   
 	                                if (((!Gesture.Equals(MCTTypes.RSUnityToolkitGestures.None)) && Gesture.Equals(firedGesture)))
 	                                {						
 	                                    if (!_lastFrameDetected)
