@@ -9,9 +9,8 @@ public class PathNavigator : MonoBehaviour
     GameObject PathFinding;
 
 	Vector3 prevTargetPos;
-
-	public float moveSpeed = 2;
-	public float lookSpeed = 2;
+	
+	public float lookSpeed = 1;
 
 	Vector3[] path;
 	int targetIndex;
@@ -27,12 +26,12 @@ public class PathNavigator : MonoBehaviour
 	#region Unity
 
 	void Awake()
-	{
-        
+	{      
         PathFinding = GameObject.FindWithTag("PathFinding");
         sphericalGrid = PathFinding.GetComponent<SphericalGrid>();
         if (sphericalGrid != null) Debug.Log("Found Pathfinding");
         planetBody = GetComponent<PlanetBody>();
+		target = new GameObject ().transform;
 	}
 
 	void Update()
@@ -55,15 +54,15 @@ public class PathNavigator : MonoBehaviour
 		{
 			Vector3 targetPos = Vector3.zero;
 			if(target != null) targetPos = target.position;
-			else targetPos = RandomTargetPos();
+			//else targetPos = RandomTargetPos();
 
 			// check the distance to its target position, if it's far away start navigating again
-			float dist = sphericalGrid.GetSphericalDistance(transform.position, targetPos);
-			if(dist > 0.1f)
+			/*float dist = (transform.position - targetPos).sqrMagnitude;
+			if(dist > 0.15f)
 			{
 				travelling = true;
 				PathRequestManager.RequestPath(transform.position, targetPos, OnPathFound);
-			}
+			}*/
 		}
 	}
 
@@ -73,6 +72,11 @@ public class PathNavigator : MonoBehaviour
 	// *************************
 	//          NAVIGATE
 	// *************************
+
+	public void SetTarget(Vector3 t) 
+	{ 
+		target.position = t;
+	}
 	
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{
@@ -95,9 +99,9 @@ public class PathNavigator : MonoBehaviour
 		
 		while (true) 
 		{
-			float dist = sphericalGrid.GetSphericalDistance(transform.position, currentWaypoint);
+			float dist = (transform.position - currentWaypoint).sqrMagnitude;
 
-			if (dist<= 0.09f) 
+			if (dist<= 0.15f) 
 			{
 				targetIndex ++;
 				if (targetIndex >= path.Length) 
@@ -107,7 +111,6 @@ public class PathNavigator : MonoBehaviour
 				}
 				currentWaypoint = path[targetIndex];
 			}
-
 			MoveTowards(currentWaypoint);
 			yield return null;
 			
@@ -119,7 +122,8 @@ public class PathNavigator : MonoBehaviour
 		Quaternion newRot = planetBody.LookAtTarget(targetPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, newRot, lookSpeed * Time.deltaTime);
 
-		transform.position 	= planetBody.MoveForward(moveSpeed);
+		//transform.position 	= planetBody.MoveForward(moveSpeed);
+		GetComponent<MoveOnSphere> ().moveTowards(targetPos);
 	}
 
 
@@ -131,7 +135,7 @@ public class PathNavigator : MonoBehaviour
 	Vector3 RandomTargetPos()
 	{
 		Vector3 rndDir = new Vector3(transform.forward.x * Random.Range(-1, 1), transform.forward.y * Random.Range(-1, 1), transform.forward.z * Random.Range(-1, 1));
-		float distance = Random.Range(1, 20);
+		float distance = Random.Range(1, 60);
 		Vector3 point = transform.position + ((rndDir) * distance);
 		
 		return planetBody.GroundPosition(point);

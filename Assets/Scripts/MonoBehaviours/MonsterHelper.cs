@@ -11,7 +11,6 @@ public class MonsterHelper : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
-
     }
 
     // Always looking if an Alien enters the AggroRange
@@ -19,7 +18,8 @@ public class MonsterHelper : MonoBehaviour {
     {     
         if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters
         {
-            if (CoordinateHelper.calcDistance(transform.position, other.transform.position) <= 1.5f)
+			Debug.Log ((transform.position - other.transform.position).sqrMagnitude);
+            if ((transform.position - other.transform.position).sqrMagnitude <= 12f)
             {
                 m.Attack(gs.aliens[other.gameObject] as Alien);
             } else {

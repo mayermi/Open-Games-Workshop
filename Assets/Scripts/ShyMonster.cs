@@ -14,7 +14,6 @@ public class ShyMonster : Monster {
 
         // delete these two lines after wayfinding is implemented
         GameObject.GetComponent<MoveOnSphere>().RunningLocked = false;
-        GameObject.GetComponent<MoveOnSphere>().SetTarget(GameObject.transform.position);
     }
 
 }
