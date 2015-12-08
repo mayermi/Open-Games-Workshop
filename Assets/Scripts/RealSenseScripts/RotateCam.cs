@@ -86,8 +86,9 @@ public class RotateCam : VirtualWorldBoxAction
         ProcessAllTriggers();
 
         TrackTrigger trgr = (TrackTrigger)SupportedTriggers[1];
-
-        if (trgr.Success)
+        Vector3 handpos = trgr.Position;
+ 
+        if (trgr.Success && handpos.x <= 0.4)
         {
             // Rotation
             {
@@ -105,10 +106,10 @@ public class RotateCam : VirtualWorldBoxAction
                 //fixed hand position
                 if (eulerAngles_hand.y < ThreshRightTurn)
                     //turn right
-                    deltaY = 0.2f;
+                    deltaY = -0.2f;
                 else if (eulerAngles_hand.y > ThreshLeftTurn)
                     //turn left
-                    deltaY = -0.2f;
+                    deltaY = 0.2f;
                 else
                     deltaY = 0;
 
@@ -130,7 +131,7 @@ public class RotateCam : VirtualWorldBoxAction
                 }else
                     deltaX = 0;
 
-
+                
                 //Rotation and positioning of camera
                 Quaternion cameraRotation = Quaternion.Euler(_lastX - deltaX, _lastY + deltaY, 0);
                 cam.transform.rotation = cameraRotation;

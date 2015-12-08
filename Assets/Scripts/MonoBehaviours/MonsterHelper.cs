@@ -33,5 +33,17 @@ public class MonsterHelper : MonoBehaviour {
         m.Idle();
     }
 
+	// this function is called by a monster after attacking
+	public void StartCoolDown(float sec, Monster m)
+	{
+		StartCoroutine (AttackCooldown(sec, m));
+	}
+
+	IEnumerator AttackCooldown(float sec, Monster m)
+	{
+		yield return new WaitForSeconds (sec);
+		m.AttackReady = true;
+	}
+
 
 }

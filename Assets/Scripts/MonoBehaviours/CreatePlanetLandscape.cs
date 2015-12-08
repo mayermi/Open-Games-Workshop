@@ -26,13 +26,15 @@ public class CreatePlanetLandscape : MonoBehaviour {
         randomOffset = Random.Range(-25.0f, 25.0f);
         //ShapeLandscape();
 
-		ShyMonster m = new ShyMonster (attack: 1, health: 100, speed: 0.15f, range: 10);
+		ShyMonster m = new ShyMonster (attack: 15, health: 100, speed: 0.15f, range: 10);
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
 		gs.monsters.Add (m.GameObject, m);
+        gs.creatures.Add(m.GameObject, m as Creature);
 
 		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
 		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-55));
 		gs.aliens.Add (p.GameObject, p);
+        gs.creatures.Add(p.GameObject, p as Creature);
 	}
 
     void Update()

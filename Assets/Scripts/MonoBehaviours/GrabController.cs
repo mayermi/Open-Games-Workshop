@@ -34,11 +34,11 @@ public class GrabController : MonoBehaviour {
         }
 
         // Z Axis
-        if (Input.GetKey(KeyCode.Keypad0))
+        if (Input.GetKey(KeyCode.L))
         {
             transform.position += new Vector3(0, 0, -0.1f * speed);
         }
-        else if (Input.GetKey(KeyCode.Keypad1))
+        else if (Input.GetKey(KeyCode.K))
         {
             transform.position += new Vector3(0, 0, 0.1f * speed);
         }
@@ -54,27 +54,37 @@ public class GrabController : MonoBehaviour {
 
     void Grab()
     {
-        Debug.Log(objectToBeGrabbed);
+        //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore
-        if(objectToBeGrabbed != null)
+        if (grabbing)
+            Release();
+        else
         {
-            grabbing = true;
-            Monster m = gs.monsters[objectToBeGrabbed] as Monster;
-            m.GetGrabbed();
-            objectToBeGrabbed.transform.SetParent(transform);
-            objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
+            if (objectToBeGrabbed != null)
+            {
+                Debug.Log("grab");
+                grabbing = true;
+                Monster m = gs.monsters[objectToBeGrabbed] as Monster;
+                m.GetGrabbed();
+                objectToBeGrabbed.transform.SetParent(transform);
+                objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
+            }
         }
        
     }
 
     void Release()
-    {      
-        Monster m = gs.monsters[objectToBeGrabbed] as Monster;
-        objectToBeGrabbed.transform.SetParent(null);
-        objectToBeGrabbed.transform.position = transform.position;
-        objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
-        m.Idle();
-        grabbing = false;
+    {
+        if (grabbing)
+        {
+            Debug.Log("Release");
+            Monster m = gs.monsters[objectToBeGrabbed] as Monster;
+            objectToBeGrabbed.transform.SetParent(null);
+            objectToBeGrabbed.transform.position = transform.position;
+            objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
+            m.Idle();
+            grabbing = false;
+        }
     }
 
     void OnTriggerEnter(Collider other)
