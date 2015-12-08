@@ -24,7 +24,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
         startTime = Time.time;
         mesh = gameObject.GetComponent<MeshFilter>().mesh;
         randomOffset = Random.Range(-25.0f, 25.0f);
-        ShapeLandscape();
+        //ShapeLandscape();
 
 		ShyMonster m = new ShyMonster (attack: 15, health: 100, speed: 0.15f, range: 10);
 		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));

@@ -19,6 +19,7 @@ public class SkillController : MonoBehaviour {
 		if (fireBurning) {
 			//CauseDamage(fire.transform.position, 5f, 1);
 		}
+        UpdateFire();
 	}
 
     public void PerformActiveSkill()
@@ -57,7 +58,7 @@ public class SkillController : MonoBehaviour {
     {
 		GameObject hand = GameObject.Find ("HandOfGod");
 		fire.transform.SetParent(hand.transform);
-		fire.transform.position = hand.transform.position;
+		//fire.transform.position = hand.transform.position;
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
 		//CauseDamage(hand.transform.position, 5f, 25);
@@ -81,6 +82,14 @@ public class SkillController : MonoBehaviour {
                 m.TakeDamage(damage);
             }
         }
+    }
+
+    void UpdateFire()
+    {
+        GameObject planet = GameObject.Find("Planet");
+        GameObject hand = GameObject.Find("HandOfGod");
+        float radius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * planet.transform.localScale.x * 0.5f;
+        fire.transform.position = hand.transform.position.normalized * (radius + 0.3f);
     }
 
     public void CreatureInFire(GameObject c)
