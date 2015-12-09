@@ -28,9 +28,9 @@ public class Alien : Creature {
 		if (target == Vector3.zero)
 			target = GameObject.transform.position;
 
-		Debug.Log ((GameObject.transform.position - target).sqrMagnitude);
+		//Debug.Log ((GameObject.transform.position - target).sqrMagnitude);
 
-		if ((GameObject.transform.position - target).sqrMagnitude <= 25f)
+		if ((GameObject.transform.position - target).sqrMagnitude <= 50f)
 		{
 			Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
 			                             GameObject.transform.forward.y * Random.Range(-1, 1),
@@ -39,7 +39,7 @@ public class Alien : Creature {
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
 			MoveTo (target);
-			Debug.Log ("new target");
+			Debug.Log ("new target: " + target);
 		}
 	}
 

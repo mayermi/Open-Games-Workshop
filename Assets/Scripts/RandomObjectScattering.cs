@@ -21,7 +21,7 @@ public class RandomObjectScattering : MonoBehaviour
 
 	public void Setup()
 	{
-		radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
+		radius = GameValues.PlanetRadius;
 		var c = new IcoSphereFactory();
 		var ico = c.Create(subdivisions: 3);
 		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
@@ -32,7 +32,7 @@ public class RandomObjectScattering : MonoBehaviour
 	void PlaceSpaceship() 
 	{
 		int index = Random.Range (0, verts.Length);
-		Vector3 ship_pos = verts [index].normalized * radius;
+		ship_pos = verts [index].normalized * radius;
 		GameObject.Find ("GameState").GetComponent<GameState> ().ShipPos = ship_pos;
 
 		GameObject ship = Instantiate((GameObject)Resources.Load("Spaceship_whole"));
@@ -92,11 +92,11 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var r = Random.Range(0.0f, 1.0f);
         string mainObjectName = "nothing";
-        if (r > 0.95f)
+        if (r > 0.9f)
             mainObjectName = "rock_group_0";
-        else if (r > 0.9f)
-            mainObjectName = "rock_group_1";
         else if (r > 0.8f)
+            mainObjectName = "rock_group_1";
+        else if (r > 0.7f)
             mainObjectName = "rock_group_3";
 
         return mainObjectName;
