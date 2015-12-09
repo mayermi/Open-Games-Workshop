@@ -20,7 +20,7 @@ public class RandomObjectScattering : MonoBehaviour
         var c = new IcoSphereFactory();
         var ico = c.Create(subdivisions: 3);
         Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
-        float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 1.49f;
+        float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
 
         foreach (var vertex in verts)
         {

@@ -19,6 +19,7 @@ public abstract class Creature {
 
 	public void MoveTo(Vector3 target)
 	{
+		GameObject.GetComponent<PathNavigator> ().SetTarget (target);
 	}
 
 	public void TakeDamage(int d) 

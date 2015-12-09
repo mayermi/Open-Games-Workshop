@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22450168}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23,7 +23,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 416216}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - 224: {fileID: 22432712}
   - 222: {fileID: 22229428}
   - 114: {fileID: 11401928}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - 223: {fileID: 22325076}
   - 114: {fileID: 11451850}
   - 114: {fileID: 11434766}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415862}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 463462}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 476266}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 441622}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,8 +137,10 @@ GameObject:
   - 114: {fileID: 11449700}
   - 54: {fileID: 5439498}
   - 65: {fileID: 6501436}
-  - 65: {fileID: 6577120}
-  m_Layer: 8
+  - 114: {fileID: 11412136}
+  - 114: {fileID: 11486608}
+  - 114: {fileID: 11421356}
+  m_Layer: 0
   m_Name: Alien
   m_TagString: Alien
   m_Icon: {fileID: 0}
@@ -153,7 +155,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 491254}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +170,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 448224}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +185,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474946}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +200,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 445202}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +216,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 22479492}
   - 114: {fileID: 11442660}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +231,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 455748}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +246,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431564}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +261,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 434548}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Bone_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +277,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 483688}
   - 137: {fileID: 13709610}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Circle_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,18 +493,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 3.49000001, z: 1}
   m_Center: {x: 0, y: 1.79999995, z: 0}
---- !u!65 &6577120
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147676}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.54999995, y: .230000004, z: 2.52999997}
-  m_Center: {x: 0, y: .119999997, z: 0}
 --- !u!111 &11144130
 Animation:
   m_ObjectHideFlags: 1
@@ -546,6 +536,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11412136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e5d36999e6ed584cbc7c9340d004e88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetTransform: {fileID: 0}
+  planetRadius: 50
+--- !u!114 &11421356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad19653adce322b4eb9701b55d5b4595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 2
+  animName: Walk
 --- !u!114 &11434766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -642,6 +658,21 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11486608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da94c383f08b2ea498db65f53464d882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sphericalGrid: {fileID: 0}
+  target: {fileID: 0}
+  lookSpeed: 5
+  drawPath: 1
 --- !u!137 &13709610
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -812,8 +843,24 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: drawPath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: animName
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lookSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: planetRadius
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

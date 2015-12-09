@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
         planet = GameObject.Find("Planet");
-        gs.ActiveSkill = 0;      
+        gs.ActiveSkill = 0;
+        if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
 	}
 
     void Update()

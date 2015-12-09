@@ -40,6 +40,7 @@ public class CameraRotation : MonoBehaviour {
         Quaternion cameraRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
         cam.transform.rotation = cameraRotation;
 
+
         // let the camera circle around the planet in a distance of 185
         Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -camDistance) + planet.transform.position;
         cam.transform.position = cameraPosition;
