@@ -5,9 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Alien
-  - NotWalkable
-  - Walkable
-  - PathFinding
+  - Monster
+  - Resource
   layers:
   - Default
   - TransparentFX
