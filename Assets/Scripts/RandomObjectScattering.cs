@@ -50,7 +50,7 @@ public class RandomObjectScattering : MonoBehaviour
             Vector3 pos = vertex.normalized * radius;
 			if(pos == ship_pos) break;
 
-            float scaleFactor = 0.75f;
+            float scaleFactor = 0.8f;
             string mainObjectName = DecideMainObject();
             GameObject mainObject = null;
             if (!mainObjectName.Equals("nothing"))
@@ -92,11 +92,11 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var r = Random.Range(0.0f, 1.0f);
         string mainObjectName = "nothing";
-        if (r > 0.9f)
+        if (r > 0.95f)
             mainObjectName = "rock_group_0";
-        else if (r > 0.8f)
+        else if (r > 0.9f)
             mainObjectName = "rock_group_1";
-        else if (r > 0.7f)
+        else if (r > 0.8f)
             mainObjectName = "rock_group_3";
 
         return mainObjectName;
@@ -106,8 +106,8 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var detailDecision = Random.Range(0.0f, 1.0f);
         string detailObjectName;
-        if (detailDecision > 0.5f)
-            detailObjectName = "mushroom_1";
+        if (detailDecision > 0.85f)
+            detailObjectName = "flower_3";
         else
             detailObjectName = "flower_2";
         return detailObjectName;

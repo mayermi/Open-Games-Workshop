@@ -286,7 +286,6 @@ GameObject:
   - 65: {fileID: 6577334}
   - 135: {fileID: 13540810}
   - 114: {fileID: 11449884}
-  - 114: {fileID: 11499328}
   - 114: {fileID: 11483160}
   - 114: {fileID: 11476736}
   - 114: {fileID: 11452094}
@@ -1179,17 +1178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetTransform: {fileID: 0}
   planetRadius: 50
---- !u!114 &11499328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 166168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c18e70dff856c74389827d2d47a6d64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &13540810
 SphereCollider:
   m_ObjectHideFlags: 1

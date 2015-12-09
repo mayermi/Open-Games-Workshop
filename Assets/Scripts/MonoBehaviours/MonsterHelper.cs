@@ -2,16 +2,22 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MonsterHelper : MonoBehaviour {
+public class MonsterHelper : CreatureHelper {
 
     GameState gs;
     Monster m;
 
 	void Start () {
+		base.Start ();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
     }
+
+	void Update() 
+	{
+		base.Update ();
+	}
 
     // Always looking if an Alien enters the AggroRange
 	void OnTriggerStay(Collider other)
