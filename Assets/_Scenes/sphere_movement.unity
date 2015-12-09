@@ -204,6 +204,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 13541130, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
+      propertyPath: m_Radius
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
   m_IsPrefabParent: 0
@@ -969,6 +973,12 @@ GameObject:
   - 114: {fileID: 1316614037}
   - 114: {fileID: 1316614036}
   - 114: {fileID: 1316614043}
+  - 114: {fileID: 1316614046}
+  - 114: {fileID: 1316614045}
+  - 114: {fileID: 1316614044}
+  - 114: {fileID: 1316614050}
+  - 114: {fileID: 1316614049}
+  - 114: {fileID: 1316614047}
   m_Layer: 0
   m_Name: HandOfGod
   m_TagString: Untagged
@@ -1050,7 +1060,7 @@ MonoBehaviour:
   AssociatedAction: {fileID: 0}
   WhichHand: 4
   HandIndex: 0
-  ContinuousTracking: 1
+  ContinuousTracking: 0
   TrackedJoint: 0
   RealWorldBoxCenter: {x: 10, y: -10, z: 40}
   RealWorldBoxDimensions: {x: 100, y: 100, z: 100}
@@ -1199,6 +1209,120 @@ MonoBehaviour:
   HandIndex: 0
   ContinuousTracking: 0
   OpennessFactor: 50
+--- !u!114 &1316614044
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af32bad64e00ae459bee76f086536cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 1316614046}
+  FriendlyName: Gesture Detected
+  Enabled: 1
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Gesture: 3
+  WhichHand: 4
+  HandIndex: 0
+  ContinuousTracking: 0
+--- !u!114 &1316614045
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 1316614046}
+  ErrorDetected: 0
+  FriendlyName: Event Source
+  Rules:
+  - {fileID: 1316614044}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &1316614046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8ca451fae141046aaac1dc626433f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedTriggers:
+  - {fileID: 1316614045}
+  CustomTag: 
+  CustomActionId: 2
+  FunctionName: Grab
+--- !u!114 &1316614047
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af32bad64e00ae459bee76f086536cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 1316614050}
+  FriendlyName: Gesture Detected
+  Enabled: 1
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Gesture: 4
+  WhichHand: 2
+  HandIndex: 0
+  ContinuousTracking: 0
+--- !u!114 &1316614049
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 1316614050}
+  ErrorDetected: 0
+  FriendlyName: Event Source
+  Rules:
+  - {fileID: 1316614047}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &1316614050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8ca451fae141046aaac1dc626433f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedTriggers:
+  - {fileID: 1316614049}
+  CustomTag: 
+  CustomActionId: 3
+  FunctionName: Release
 --- !u!1 &1459772179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9dde45a2590cf45a0c5a6b61815c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camDistance: 140
 --- !u!4 &1537739575 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 2c32987c2bc01844a94adfb917dd677d, type: 2}

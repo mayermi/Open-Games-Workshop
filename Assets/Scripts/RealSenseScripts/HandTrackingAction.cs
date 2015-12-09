@@ -38,6 +38,8 @@ public class HandTrackingAction : VirtualWorldBoxAction
     private Vector3 rayHitCoordinates = new Vector3(0, 0, 0);
     private Vector3 localHit = new Vector3(0, 0, 0);
     private float lastVecZ = 0;
+    private float lastVecY = 0;
+    private float lastVecX = 0;
 
     #endregion
 
@@ -232,15 +234,26 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     localHit = transform.InverseTransformPoint(hit.point);
                     //Debug.Log(localHit);
                 }
+                Vector3 planetmid = planet.transform.localPosition;
+                float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+                float distance = Vector3.Distance(planet.transform.position, transform.position);
+                //Debug.Log("planetmid: " + planetmid);
 
-                Vector3 currentVec = this.gameObject.transform.localPosition;
-                //Debug.Log("handpos: " + handpos);
-            
+                //Debug.Log("distance: " + distance);
+                //Debug.Log("planetradius: " + planetradius);
+                //Debug.Log("ray hit:" + rayHitCoordinates);
+
+                Vector3 currentVec = this.gameObject.transform.position;
+               
+
 
                 //Debug.Log("vector:" + vec);
-                if (rayHitCoordinates.z >= handpos.z || vec.z <= handpos_local.z)
+                //if (rayHitCoordinates.z >= handpos.z || vec.z <= handpos_local.z)
+                if (distance > planetradius || vec.z <= handpos_local.z)
                 {
                     this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z);
+                    lastVecX = vec.x;
+                    lastVecY = vec.y;
                     lastVecZ = vec.z;
                     //Debug.Log("vec: " + vec);
                     //Debug.Log("handpos_local: " + handpos_local);
@@ -248,9 +261,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 }
                 else
                 {
-                    this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, lastVecZ);
-                    Vector3 vec3 = new Vector3(vec.x, vec.y, lastVecZ);
-                    //Debug.Log(currentVec);
+                        this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
             }
         }
