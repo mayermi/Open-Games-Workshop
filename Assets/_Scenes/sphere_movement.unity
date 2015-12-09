@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLeft: 0
+  maxAliens: 10
 --- !u!4 &143735186
 Transform:
   m_ObjectHideFlags: 0
@@ -977,8 +978,8 @@ GameObject:
   - 114: {fileID: 1316614045}
   - 114: {fileID: 1316614044}
   - 114: {fileID: 1316614050}
-  - 114: {fileID: 1316614049}
-  - 114: {fileID: 1316614047}
+  - 114: {fileID: 1316614051}
+  - 114: {fileID: 1316614052}
   m_Layer: 0
   m_Name: HandOfGod
   m_TagString: Untagged
@@ -1008,7 +1009,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 3, z: 5}
+  m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1316614035
 Transform:
@@ -1266,7 +1267,44 @@ MonoBehaviour:
   CustomTag: 
   CustomActionId: 2
   FunctionName: Grab
---- !u!114 &1316614047
+--- !u!114 &1316614050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8ca451fae141046aaac1dc626433f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedTriggers:
+  - {fileID: 1316614051}
+  CustomTag: 
+  CustomActionId: 3
+  FunctionName: Release
+--- !u!114 &1316614051
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1316614032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 1316614050}
+  ErrorDetected: 0
+  FriendlyName: Event Source
+  Rules:
+  - {fileID: 1316614052}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &1316614052
 MonoBehaviour:
   m_ObjectHideFlags: 2
   m_PrefabParentObject: {fileID: 0}
@@ -1282,47 +1320,10 @@ MonoBehaviour:
   Enabled: 1
   FoldoutOpen: 1
   AssociatedAction: {fileID: 0}
-  Gesture: 4
-  WhichHand: 2
+  Gesture: 0
+  WhichHand: 4
   HandIndex: 0
   ContinuousTracking: 0
---- !u!114 &1316614049
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1316614032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionOwner: {fileID: 1316614050}
-  ErrorDetected: 0
-  FriendlyName: Event Source
-  Rules:
-  - {fileID: 1316614047}
-  TriggerAttributeName: EventTriggerAtt
-  FoldoutOpen: 1
-  AssociatedAction: {fileID: 0}
-  Source: 
-  Success: 0
---- !u!114 &1316614050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1316614032}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8ca451fae141046aaac1dc626433f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SupportedTriggers:
-  - {fileID: 1316614049}
-  CustomTag: 
-  CustomActionId: 3
-  FunctionName: Release
 --- !u!1 &1459772179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,6 +1706,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 2071312449}
   - 114: {fileID: 2071312450}
+  - 114: {fileID: 2071312453}
+  - 114: {fileID: 2071312452}
+  - 114: {fileID: 2071312451}
   m_Layer: 0
   m_Name: SkillController
   m_TagString: Untagged
@@ -1737,3 +1741,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae79a19d4829ce7459db25d06f03e80a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2071312451
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2071312448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af32bad64e00ae459bee76f086536cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 2071312453}
+  FriendlyName: Gesture Detected
+  Enabled: 1
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Gesture: 2
+  WhichHand: 4
+  HandIndex: 0
+  ContinuousTracking: 0
+--- !u!114 &2071312452
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2071312448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e33140781a3e92d40add2490c4ce1fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionOwner: {fileID: 2071312453}
+  ErrorDetected: 0
+  FriendlyName: Event Source
+  Rules:
+  - {fileID: 2071312451}
+  TriggerAttributeName: EventTriggerAtt
+  FoldoutOpen: 1
+  AssociatedAction: {fileID: 0}
+  Source: 
+  Success: 0
+--- !u!114 &2071312453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2071312448}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8ca451fae141046aaac1dc626433f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SupportedTriggers:
+  - {fileID: 2071312452}
+  CustomTag: 
+  CustomActionId: 1
+  FunctionName: PerformActiveSkill

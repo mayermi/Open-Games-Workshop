@@ -7,6 +7,7 @@ public class GrabController : MonoBehaviour {
     public float speed = 1f;
     bool grabbing = false;
     GameObject objectToBeGrabbed = null;
+    int timesGrabbed = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -54,14 +55,15 @@ public class GrabController : MonoBehaviour {
 
     void Grab()
     {
+        timesGrabbed++;
         //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore
         if (grabbing)
         {
-            //do nothing...
+                //doNothing
         }
         else
-        {
+        {    
             if (objectToBeGrabbed != null)
             {
                 Debug.Log("grab");
@@ -71,6 +73,7 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.transform.SetParent(transform);
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
             }
+        
         }
        
     }
@@ -86,6 +89,7 @@ public class GrabController : MonoBehaviour {
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
             m.Idle();
             grabbing = false;
+            objectToBeGrabbed = null;
         }
     }
 
@@ -99,7 +103,7 @@ public class GrabController : MonoBehaviour {
     void OnTriggerLeave(Collider other)
     {
         // if the selected Monster leaves the range, deselect it 
-        if (objectToBeGrabbed == other.gameObject)
+        if (objectToBeGrabbed == other.gameObject || gs.monsters[other.gameObject] == null)
             objectToBeGrabbed = null;
     }
 }

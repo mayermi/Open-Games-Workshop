@@ -234,11 +234,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     localHit = transform.InverseTransformPoint(hit.point);
                     //Debug.Log(localHit);
                 }
-                Vector3 planetmid = planet.transform.localPosition;
+               
                 float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
                 float distance = Vector3.Distance(planet.transform.position, transform.position);
-                //Debug.Log("planetmid: " + planetmid);
-
+              
                 //Debug.Log("distance: " + distance);
                 //Debug.Log("planetradius: " + planetradius);
                 //Debug.Log("ray hit:" + rayHitCoordinates);
@@ -247,9 +246,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
                
 
 
-                //Debug.Log("vector:" + vec);
+                //Debug.Log("handpos_local:" + handpos_local);
+                //Debug.Log("vec_z:" + vec.z);
                 //if (rayHitCoordinates.z >= handpos.z || vec.z <= handpos_local.z)
-                if (distance > planetradius || vec.z <= handpos_local.z)
+                if (distance > planetradius+3 || vec.z <= handpos_local.z)
                 {
                     this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z);
                     lastVecX = vec.x;
@@ -261,6 +261,13 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 }
                 else
                 {
+                    /*if (distance > planetradius)
+                    {
+                        this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, lastVecZ);
+                        lastVecX = vec.x;
+                        lastVecY = vec.y;
+                    }
+                    else*/
                         this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
             }
