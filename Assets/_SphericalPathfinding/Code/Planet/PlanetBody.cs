@@ -13,8 +13,7 @@ public class PlanetBody : MonoBehaviour
 	void Start()
 	{
         planetTransform = GameObject.Find("Planet").transform; 
-        transform.position = GroundPosition(transform.position);
-		Debug.Log (planetTransform);
+        transform.position = GroundPosition(transform.position);;
 	}
 
 	void Update()

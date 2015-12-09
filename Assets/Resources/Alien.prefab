@@ -140,6 +140,7 @@ GameObject:
   - 114: {fileID: 11412136}
   - 114: {fileID: 11486608}
   - 114: {fileID: 11421356}
+  - 114: {fileID: 11432648}
   m_Layer: 0
   m_Name: Alien
   m_TagString: Alien
@@ -562,6 +563,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 2
   animName: Walk
+--- !u!114 &11432648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fddb10f173443cca65fe4df2275f1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11434766
 MonoBehaviour:
   m_ObjectHideFlags: 1

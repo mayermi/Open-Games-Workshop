@@ -74,4 +74,27 @@ public static class CoordinateHelper {
         float distance =  R * c;
         return distance;
     }
+
+	public static Vector3 GroundPosition(Vector3 currentPosition)
+	{
+		float planetRadius = GameValues.PlanetRadius;
+		Vector3 dir = (new Vector3(0,0,0) - currentPosition).normalized;
+		Vector3 startRayPos = -dir * (planetRadius * 1.1f);
+		
+		Ray ray = new Ray();
+		ray.origin = startRayPos;
+		ray.direction = dir;
+		
+		int groundTypeLayer = 1<<10;
+		RaycastHit hit;
+		
+		//Debug.DrawRay(startRayPos,  dir * radius);
+		//Debug.Break();
+		if(Physics.Raycast(startRayPos, dir, out hit, (planetRadius * 1.1f), groundTypeLayer))
+		{
+			return hit.point;
+		}
+		
+		return currentPosition;
+	}
 }

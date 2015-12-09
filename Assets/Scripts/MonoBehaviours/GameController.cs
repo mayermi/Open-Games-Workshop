@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
         planet = GameObject.Find("Planet");
+		GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
         gs.ActiveSkill = 0;
 		planet.GetComponent<RandomObjectScattering> ().Setup ();
 		if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour {
 			gs.aliens.Add (a.GameObject, a);
 			gs.creatures.Add(a.GameObject, a as Creature);
 			a.GameObject.transform.up = -(transform.position - gs.ShipPos).normalized;
+			a.Search();
 		}
 	}
 
