@@ -19,8 +19,12 @@ public class GameState : MonoBehaviour {
 	public Hashtable aliens = new Hashtable();
 
 	public float timeLeft;
+	[SerializeField]
+	public int maxAliens = 10;
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
+
+	public Vector3 ShipPos { get; set; }
 
 	void RemoveCreature(Creature c) {
 		if (c is Monster) {

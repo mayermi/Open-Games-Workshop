@@ -13,7 +13,10 @@ public class GameController : MonoBehaviour {
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
         planet = GameObject.Find("Planet");
         gs.ActiveSkill = 0;
-        if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+		planet.GetComponent<RandomObjectScattering> ().Setup ();
+		if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+
+		SpawnAliens (gs.maxAliens);
 	}
 
     void Update()
@@ -31,9 +34,22 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void LateUpdate () {
+	void SpawnAliens(int count) 
+	{
+		for (int i = 0; i < count; i++) {
+			var rotation = Random.Range(0.03f, 0.06f);
+			Vector3 sec_pos = Vector3.RotateTowards(gs.ShipPos, new Vector3(0,0,1) * gs.ShipPos.magnitude, rotation, gs.ShipPos.magnitude);
+			float angle = i * 360.0f/count;
+			
+			var detail_pos = Quaternion.AngleAxis(angle, gs.ShipPos) * sec_pos;
 
-    }
+			Alien a = new Alien (health: 100, speed: 0.15f, range: 1);
+			a.GameObject = Creator.Create ("Alien", detail_pos);
+			gs.aliens.Add (a.GameObject, a);
+			gs.creatures.Add(a.GameObject, a as Creature);
+			a.GameObject.transform.up = -(transform.position - gs.ShipPos).normalized;
+		}
+	}
 
         
 }

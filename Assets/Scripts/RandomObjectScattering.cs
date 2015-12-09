@@ -6,35 +6,60 @@ public class RandomObjectScattering : MonoBehaviour
     public int minDetails = 1;
     public int maxDetails = 4;
 
+
+	Vector3[] verts;
+	float radius;
+	Vector3 ship_pos;
+
     void Start()
     {
-        placeObjects();
     }
 
     void Update()
     {
     }
 
-    void placeObjects()
-    {
-        var c = new IcoSphereFactory();
-        var ico = c.Create(subdivisions: 3);
-        Vector3[] verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
-        float radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
+	public void Setup()
+	{
+		radius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
+		var c = new IcoSphereFactory();
+		var ico = c.Create(subdivisions: 3);
+		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
+		PlaceSpaceship ();
+		PlaceObjects ();
+	}
 
+	void PlaceSpaceship() 
+	{
+		int index = Random.Range (0, verts.Length);
+		Vector3 ship_pos = verts [index].normalized * radius;
+		GameObject.Find ("GameState").GetComponent<GameState> ().ShipPos = ship_pos;
+
+		GameObject ship = Instantiate((GameObject)Resources.Load("Spaceship_whole"));
+		ship.transform.position = ship_pos;
+		Vector3 up = -(transform.position - ship_pos).normalized;
+		ship.transform.up = up;
+		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().camDistance;
+		Camera.main.transform.LookAt (transform.position);
+	}
+
+    void PlaceObjects()
+    {           
         foreach (var vertex in verts)
         {
             Vector3 pos = vertex.normalized * radius;
-            float scaleFactor = 1.0f;
+			if(pos == ship_pos) break;
+
+            float scaleFactor = 0.75f;
             string mainObjectName = DecideMainObject();
             GameObject mainObject = null;
             if (!mainObjectName.Equals("nothing"))
             {
                 if (mainObjectName.Equals("rocks_0"))
                     scaleFactor = 0.3f;
-
+			
                 mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
-                mainObject.transform.up = -(transform.position - pos).normalized;
+				mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.position = pos;
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
