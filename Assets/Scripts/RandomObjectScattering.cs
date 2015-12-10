@@ -50,7 +50,7 @@ public class RandomObjectScattering : MonoBehaviour
             Vector3 pos = vertex.normalized * radius;
 			if(pos == ship_pos) break;
 
-            float scaleFactor = 0.8f;
+            float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
             GameObject mainObject = null;
             if (!mainObjectName.Equals("nothing"))
