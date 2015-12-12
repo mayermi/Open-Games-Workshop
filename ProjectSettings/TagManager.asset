@@ -7,6 +7,10 @@ TagManager:
   - Alien
   - Monster
   - Resource
+  - Walkable
+  - Fire
+  - PathFinding
+  - SpaceShip
   layers:
   - Default
   - TransparentFX

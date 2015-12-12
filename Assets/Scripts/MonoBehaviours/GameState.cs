@@ -18,9 +18,10 @@ public class GameState : MonoBehaviour {
 	public Hashtable monsters = new Hashtable();
 	public Hashtable aliens = new Hashtable();
 
-	public float timeLeft;
 	[SerializeField]
 	public int maxAliens = 10;
+    [SerializeField]
+    public int maxResources = 20;
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
 
@@ -29,7 +30,6 @@ public class GameState : MonoBehaviour {
 	void RemoveCreature(Creature c) {
 		if (c is Monster) {
 			monsters.Remove (c.GameObject);
-			Debug.Log("Removed monster");
 		} else {
 			aliens.Remove (c.GameObject);
 		}

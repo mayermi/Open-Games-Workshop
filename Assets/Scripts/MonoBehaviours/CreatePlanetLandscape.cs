@@ -27,12 +27,12 @@ public class CreatePlanetLandscape : MonoBehaviour {
         //ShapeLandscape();
 
 		ShyMonster m = new ShyMonster (attack: 15, health: 100, speed: 0.15f, range: 10);
-		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100));
+		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100), "ShyMonster");
 		gs.monsters.Add (m.GameObject, m);
         gs.creatures.Add(m.GameObject, m as Creature);
 
 		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
-		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-55));
+		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-55), "Alien");
 		gs.aliens.Add (p.GameObject, p);
         gs.creatures.Add(p.GameObject, p as Creature);
 	}
@@ -82,7 +82,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
             tree.transform.localScale *= 1.5f;
             tree.transform.RotateAround(tree.transform.forward, Random.Range(0f, 360f));*/
             ShyMonster m = new ShyMonster(1, 100, 0.2f, 10);
-            m.GameObject = Creator.Create("monster", pos);
+            m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
 
         }

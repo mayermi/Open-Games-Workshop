@@ -10,6 +10,8 @@ public class RandomObjectScattering : MonoBehaviour
 	Vector3[] verts;
 	float radius;
 	Vector3 ship_pos;
+    int placedResources = 0;
+    int maxResources;
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class RandomObjectScattering : MonoBehaviour
 		var c = new IcoSphereFactory();
 		var ico = c.Create(subdivisions: 3);
 		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
+        maxResources = GameObject.Find("GameState").GetComponent<GameState>().maxResources;
 		PlaceSpaceship ();
 		PlaceObjects ();
 	}
@@ -35,10 +38,11 @@ public class RandomObjectScattering : MonoBehaviour
 		ship_pos = verts [index].normalized * radius;
 		GameObject.Find ("GameState").GetComponent<GameState> ().ShipPos = ship_pos;
 
-		GameObject ship = Instantiate((GameObject)Resources.Load("Spaceship_whole"));
-		ship.transform.position = ship_pos;
+        GameObject ship = Creator.Create("Spaceship_whole", ship_pos, "SpaceShip");
 		Vector3 up = -(transform.position - ship_pos).normalized;
 		ship.transform.up = up;
+
+        //Let Camera look directly at spaceship
 		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().camDistance;
 		Camera.main.transform.LookAt (transform.position);
 	}
@@ -58,9 +62,8 @@ public class RandomObjectScattering : MonoBehaviour
                 if (mainObjectName.Equals("rocks_0"))
                     scaleFactor = 0.3f;
 			
-                mainObject = Instantiate((GameObject)Resources.Load(mainObjectName));
-				mainObject.transform.up = -(transform.position - pos).normalized;
-                mainObject.transform.position = pos;
+                mainObject = Creator.Create(mainObjectName, pos, mainObjectName);
+                mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
@@ -78,13 +81,18 @@ public class RandomObjectScattering : MonoBehaviour
                 var detail_pos = Quaternion.AngleAxis(angle, pos) * sec_pos;
 
                 var detailName = DecideDetailObject();
-                GameObject detail = Instantiate((GameObject)Resources.Load(detailName));
+                GameObject detail = Creator.Create(detailName, detail_pos, detailName);
                 detail.transform.up = -(transform.position - detail_pos).normalized;
-                detail.transform.position = detail_pos;
                 var scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
                 detail.transform.localScale = new Vector3(scale, scale, scale);
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
             }
+        }
+
+        // not enough Resources placed
+        if(placedResources < maxResources)
+        {
+            Debug.Log("Only " + placedResources + " placed.");
         }
     }
 
@@ -108,8 +116,14 @@ public class RandomObjectScattering : MonoBehaviour
         string detailObjectName;
         if (detailDecision > 0.85f)
             detailObjectName = "flower_3";
-        else
+        else if (detailDecision > 0.2f || placedResources == maxResources)
             detailObjectName = "flower_2";
+        else {
+            detailObjectName = "resource";
+            placedResources++;
+        }
+            
+
         return detailObjectName;
     }
 

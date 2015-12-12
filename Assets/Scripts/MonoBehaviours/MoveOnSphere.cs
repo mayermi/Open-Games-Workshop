@@ -24,7 +24,7 @@ public class MoveOnSphere : MonoBehaviour {
             // we hit the planet -> set target
             if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
             {
-                GetComponent<PathNavigator>().SetTarget(hit.point);                            
+                //GetComponent<PathNavigator>().SetTarget(hit.point);                            
             }
 
         }

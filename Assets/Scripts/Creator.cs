@@ -4,9 +4,19 @@ using System.Collections;
 // this class only serves as a static wrapper for prefab instantiation
 public static class Creator {
 	
-	public static GameObject Create(string name, Vector3 pos)
+	public static GameObject Create(string resName, Vector3 pos, string newName, Quaternion rot)
 	{
-		GameObject g = Resources.Load (name) as GameObject;
-		return MonoBehaviour.Instantiate (g, pos, Quaternion.identity) as GameObject;
+		GameObject g = Resources.Load (resName) as GameObject;
+		GameObject created = MonoBehaviour.Instantiate (g, pos, rot) as GameObject;
+        created.name = newName;
+        return created;
 	}
+
+    public static GameObject Create(string resName, Vector3 pos, string newName)
+    {
+        GameObject g = Resources.Load(resName) as GameObject;
+        GameObject created = MonoBehaviour.Instantiate(g, pos, Quaternion.identity) as GameObject;
+        created.name = newName;
+        return created;
+    }
 }
