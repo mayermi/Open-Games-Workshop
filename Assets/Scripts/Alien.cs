@@ -7,6 +7,7 @@ public class Alien : Creature {
 	public GameObject Resource { get; set;}
 	public AlienState state;
 	private Vector3 target;
+	private float searchTime;
 
 	public Alien(int health, float speed, int range) : base(health, speed, range){
 		state = AlienState.SEARCHING;
@@ -30,8 +31,9 @@ public class Alien : Creature {
 	{
         //Debug.Log((GameObject.transform.position - target).magnitude);
         state = AlienState.SEARCHING;
+
         // for initialisation
-        if (target == Vector3.zero)
+        if (target == Vector3.zero || (Time.time - searchTime) > 15f)
 			target = GameObject.transform.position;
 
 		if ((GameObject.transform.position - target).magnitude <= 8f)
@@ -42,6 +44,8 @@ public class Alien : Creature {
 			float distance = Random.Range(10, 60);
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
+			Debug.Log ("Last Search: " + (Time.time - searchTime));
+			searchTime = Time.time;
 			MoveTo (target);
 		}
 	}
