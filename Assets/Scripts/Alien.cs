@@ -44,7 +44,7 @@ public class Alien : Creature {
 			float distance = Random.Range(10, 60);
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
-			Debug.Log ("Last Search: " + (Time.time - searchTime));
+			//Debug.Log ("Last Search: " + (Time.time - searchTime));
 			searchTime = Time.time;
 			MoveTo (target);
 		}
@@ -57,7 +57,6 @@ public class Alien : Creature {
 
     public void CarryResource(Vector3 ship_pos)
     {
-        Debug.Log("carrying...");
         state = AlienState.CARRYING;
 
         if (target != ship_pos)

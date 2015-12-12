@@ -29,7 +29,6 @@ public class PathNavigator : MonoBehaviour
 	{      
         PathFinding = GameObject.FindWithTag("PathFinding");
         if(PathFinding) sphericalGrid = PathFinding.GetComponent<SphericalGrid>();
-        if (sphericalGrid != null) Debug.Log("Found Pathfinding");
         planetBody = GetComponent<PlanetBody>();
 		target = new GameObject ().transform;
 	}

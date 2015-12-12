@@ -32,6 +32,7 @@ public abstract class Creature {
 
 	public void Die() 
 	{
+		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
 		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
         MonoBehaviour.Destroy(GameObject);
 	}

@@ -54,5 +54,16 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-        
+      
+	void RemoveReferences(Creature c) {
+		// If the creature is an alien, tell the chasing monster that the target is dead
+		foreach (DictionaryEntry d in gs.monsters) {
+			Monster m = d.Value as Monster;
+			if(m.AlienTarget == c.GameObject) {
+				Debug.Log ("Removed alientarget");
+				m.AlienTarget = null;
+			}
+
+		}
+	}
 }

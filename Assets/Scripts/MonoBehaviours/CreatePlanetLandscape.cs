@@ -25,16 +25,16 @@ public class CreatePlanetLandscape : MonoBehaviour {
         mesh = gameObject.GetComponent<MeshFilter>().mesh;
         randomOffset = Random.Range(-25.0f, 25.0f);
         //ShapeLandscape();
-
-		ShyMonster m = new ShyMonster (attack: 15, health: 100, speed: 0.15f, range: 10);
-		m.GameObject = Creator.Create ("monster", new Vector3(0,80,-100), "ShyMonster");
-		gs.monsters.Add (m.GameObject, m);
-        gs.creatures.Add(m.GameObject, m as Creature);
-
-		Alien p = new Alien (health: 100, speed: 0.15f, range: 1);
-		p.GameObject = Creator.Create ("Alien", new Vector3(0,0,-55), "Alien");
-		gs.aliens.Add (p.GameObject, p);
-        gs.creatures.Add(p.GameObject, p as Creature);
+		          
+		/*ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
+		m.GameObject = Creator.Create("monster", new Vector3(0,0,-70), "ShyMonster");
+		gs.monsters.Add(m.GameObject, m);
+		gs.creatures.Add (m.GameObject, m as Creature);
+		         
+		Alien a = new Alien(100, 0.2f, 10);
+		a.GameObject = Creator.Create("Alien", new Vector3(12,0,-70), "Alien");
+		gs.aliens.Add(a.GameObject, a);
+		gs.creatures.Add (a.GameObject, a as Creature);*/
 	}
 
     void Update()
@@ -66,25 +66,18 @@ public class CreatePlanetLandscape : MonoBehaviour {
         gameObject.GetComponent<SkinnedMeshRenderer>().sharedMesh = mesh;
 
     }
-
-    // funktioniert noch nicht ganz richtig... Objekte sind nicht immer auf der Oberfläche, da altes Mesh (Kugel) verwendet wird
+	
     void placeObjects()
     {
         noObjects = false;
         Vector3[] verts = gameObject.GetComponent<MeshFilter>().mesh.vertices; // diese Zeile ist das Problem
         for (int i = 0; i < objCount; i++)
-        {
-            //GameObject tree = Instantiate((GameObject)Resources.Load("_Prefabs/Tree2"));      
+        {      
             Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;          
-            //Vector3 dir = (transform.position - pos).normalized;            
-            /*tree.transform.forward = -dir;
-            tree.transform.position = pos;
-            tree.transform.localScale *= 1.5f;
-            tree.transform.RotateAround(tree.transform.forward, Random.Range(0f, 360f));*/
-            ShyMonster m = new ShyMonster(1, 100, 0.2f, 10);
+            ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
-
+			gs.creatures.Add (m.GameObject, m as Creature);
         }
     }
 

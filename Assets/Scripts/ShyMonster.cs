@@ -10,7 +10,7 @@ public class ShyMonster : Monster {
 	public override void Idle()
     {
         // ShyMonster does not move when idle
-
+		state = MonsterState.IDLE;
     }
 
 }

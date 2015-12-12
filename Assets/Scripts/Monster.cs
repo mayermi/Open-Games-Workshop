@@ -7,11 +7,13 @@ public abstract class Monster : Creature {
 	public MonsterState state;
 	public int AttackDamage { get; set; }
 	public bool AttackReady { get; set; }
+	public GameObject AlienTarget { get; set; }
 
 	public Monster(int attack, int health, float speed, int range) : base(health, speed, range) {
 		AttackDamage = attack;
 		state = MonsterState.IDLE;
 		AttackReady = true;
+		AlienTarget = null;
 	}
 
 	public void Attack(Creature c)
@@ -28,10 +30,10 @@ public abstract class Monster : Creature {
 		}
     }
 	
-	public void Chase(Creature c)
+	public void Chase()
     {
-		Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
-        MoveTo(c.GameObject.transform.position);
+		//Debug.Log(this + "is chasing ");
+        MoveTo(AlienTarget.transform.position);
         state = MonsterState.CHASING;
     }
 

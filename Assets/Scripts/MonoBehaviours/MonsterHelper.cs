@@ -17,27 +17,50 @@ public class MonsterHelper : CreatureHelper {
 	void Update() 
 	{
 		base.Update ();
+		if (m.AlienTarget == null)
+			m.Idle ();
+		if (m.state == Monster.MonsterState.CHASING || m.state == Monster.MonsterState.ATTACKING)
+			CheckDistance ();			
+		
 	}
 
     // Always looking if an Alien enters the AggroRange
-	void OnTriggerStay(Collider other)
+	/*void OnTriggerStay(Collider other)
     {     
         if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters
         {
-			//Debug.Log ((transform.position - other.transform.position).sqrMagnitude);
-            if ((transform.position - other.transform.position).sqrMagnitude <= 12f)
+            if ((transform.position - other.transform.position).magnitude <= 3f && m.state != Monster.MonsterState.IDLE)
             {
                 m.Attack(gs.aliens[other.gameObject] as Alien);
             } else {
                 m.Chase(gs.aliens[other.gameObject] as Alien);
             }             
         }
-    }
+    }*/
+
+	void OnTriggerEnter(Collider other){
+		if (other.gameObject.tag == "Alien" && m.AlienTarget == null) {
+			m.AlienTarget = other.gameObject;
+			m.state = Monster.MonsterState.CHASING;
+			Debug.Log ("Switched target");
+		}
+	}
 
     void OnTriggerLeave(Collider other)
     {
-        m.Idle();
+		if (other.gameObject == m.AlienTarget) {
+			m.AlienTarget = null;
+			m.Idle ();
+		}
     }
+
+	void CheckDistance() {
+		float dist = (transform.position - m.AlienTarget.transform.position).magnitude;
+		if (dist <= 4f)
+			m.Attack (gs.creatures [m.AlienTarget] as Creature);
+		else if (dist > 4f)
+			m.Chase ();
+	}
 
 	// this function is called by a monster after attacking
 	public void StartCoolDown(float sec, Monster m)
