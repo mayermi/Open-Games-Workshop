@@ -11,6 +11,7 @@ TagManager:
   - Fire
   - PathFinding
   - SpaceShip
+  - NotWalkable
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Creature
   - 
   - 
   - 

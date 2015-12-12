@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour {
         {
             gs.ActiveSkill += 1;
             if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+			Debug.Log(gs.ActiveSkill);
         }
     }
 
