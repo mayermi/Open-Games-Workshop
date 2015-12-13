@@ -10,9 +10,11 @@ public class SkillController : MonoBehaviour {
 	GameObject fire;
 	bool fireBurning = false;
     Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool>();
+    GrabController gc;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+        gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
@@ -42,26 +44,29 @@ public class SkillController : MonoBehaviour {
 
     public void PerformActiveSkill()
     {
-        Skills active = (Skills) gs.ActiveSkill;
-        if (skillDisabled[active])
-            return;
-        switch(active)
+        if (!gc.getGrabbed())
         {
-            case Skills.Lightning:
-                Debug.Log("Lightning");
-                Lightning();
-                break;
-            case Skills.Fire:
-                Debug.Log("Fire");
-                Fire();
-                break;
-            case Skills.Skill3:
-                Debug.Log("Nummer3");
-                Nummer3();
-                break;
-            default:
-                break;
-        }      
+            Skills active = (Skills)gs.ActiveSkill;
+            if (skillDisabled[active])
+                return;
+            switch (active)
+            {
+                case Skills.Lightning:
+                    Debug.Log("Lightning");
+                    Lightning();
+                    break;
+                case Skills.Fire:
+                    Debug.Log("Fire");
+                    Fire();
+                    break;
+                case Skills.Skill3:
+                    Debug.Log("Nummer3");
+                    Nummer3();
+                    break;
+                default:
+                    break;
+            }
+        }    
     }
 
     // Skill 1
