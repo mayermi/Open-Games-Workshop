@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a426a365b20f4bdd8dec0918d52be25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLeft: 0
   maxAliens: 10
+  maxResources: 20
 --- !u!4 &143735186
 Transform:
   m_ObjectHideFlags: 0
@@ -301,6 +301,52 @@ Transform:
   - {fileID: 1012284170}
   m_Father: {fileID: 2071312449}
   m_RootOrder: 0
+--- !u!1001 &916158638
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -21.2110519
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -4.50062561
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -.619796753
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 9428b6b7c2ac2744da108762e6f41e7a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &982358687 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 133996, guid: 980a8f4678a437547808cc031376c2c8, type: 2}
@@ -595,6 +641,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 258295468}
   m_RootOrder: 1
+--- !u!1001 &1107105728
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1316614035}
+    m_Modifications:
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400010, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1143936689
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +753,10 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1143936689}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1210784534 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400034, guid: 03ea886b89aece34f853490a8dd9c564, type: 2}
+  m_PrefabInternal: {fileID: 1107105728}
 --- !u!1 &1215227918
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,8 +1072,6 @@ GameObject:
   - 114: {fileID: 1316614039}
   - 114: {fileID: 1316614038}
   - 114: {fileID: 1316614037}
-  - 114: {fileID: 1316614036}
-  - 114: {fileID: 1316614043}
   - 114: {fileID: 1316614046}
   - 114: {fileID: 1316614045}
   - 114: {fileID: 1316614044}
@@ -1018,31 +1116,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1316614032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.6000004, y: -2, z: 47.4000015}
+  m_LocalPosition: {x: 10, y: 2, z: 47.4000015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1143936690}
+  - {fileID: 1210784534}
   m_Father: {fileID: 1459772184}
   m_RootOrder: 0
---- !u!114 &1316614036
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1316614032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4015b9e4cf58a4041b7385ec4ee7677d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionOwner: {fileID: 1316614042}
-  FriendlyName: Hand Lost
-  Enabled: 0
-  FoldoutOpen: 0
-  AssociatedAction: {fileID: 0}
-  WhichHand: 4
-  HandIndex: 0
-  ContinuousTracking: 0
 --- !u!114 &1316614037
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1064,7 +1144,7 @@ MonoBehaviour:
   ContinuousTracking: 0
   TrackedJoint: 0
   RealWorldBoxCenter: {x: 10, y: -10, z: 40}
-  RealWorldBoxDimensions: {x: 100, y: 100, z: 100}
+  RealWorldBoxDimensions: {x: 50, y: 50, z: 100}
 --- !u!114 &1316614038
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1078,8 +1158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionOwner: {fileID: 1316614042}
   FriendlyName: Hand Detected
-  Enabled: 0
-  FoldoutOpen: 0
+  Enabled: 1
+  FoldoutOpen: 1
   AssociatedAction: {fileID: 0}
   WhichHand: 4
   HandIndex: 0
@@ -1098,8 +1178,7 @@ MonoBehaviour:
   ActionOwner: {fileID: 1316614042}
   ErrorDetected: 0
   FriendlyName: Stop Event
-  Rules:
-  - {fileID: 1316614036}
+  Rules: []
   TriggerAttributeName: EventTriggerAtt
   FoldoutOpen: 1
   AssociatedAction: {fileID: 0}
@@ -1141,7 +1220,6 @@ MonoBehaviour:
   ErrorDetected: 0
   FriendlyName: Start Event
   Rules:
-  - {fileID: 1316614043}
   - {fileID: 1316614038}
   TriggerAttributeName: EventTriggerAtt
   FoldoutOpen: 1
@@ -1165,8 +1243,8 @@ MonoBehaviour:
   - {fileID: 1316614039}
   CustomTag: 
   CustomActionId: 1
-  VirtualWorldBoxCenter: {x: 24.6000004, y: -2, z: 47.4000015}
-  VirtualWorldBoxDimensions: {x: 300, y: 300, z: 100}
+  VirtualWorldBoxCenter: {x: 10, y: 2, z: 47.4000015}
+  VirtualWorldBoxDimensions: {x: 350, y: 300, z: 100}
   CenterReference: 0
   ReferenceGameObject: {fileID: 0}
   planet: {fileID: 982358687}
@@ -1188,28 +1266,6 @@ MonoBehaviour:
       X: 0
       Y: 0
       Z: 0
-  SetDefaultsTo: 0
-  _lastDefaults: 0
---- !u!114 &1316614043
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1316614032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a9c13c9dfa1744dad9f0bd59806111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionOwner: {fileID: 1316614042}
-  FriendlyName: Hand Openned
-  Enabled: 1
-  FoldoutOpen: 0
-  AssociatedAction: {fileID: 0}
-  WhichHand: 4
-  HandIndex: 0
-  ContinuousTracking: 0
-  OpennessFactor: 50
 --- !u!114 &1316614044
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1757,7 +1813,7 @@ MonoBehaviour:
   Enabled: 1
   FoldoutOpen: 1
   AssociatedAction: {fileID: 0}
-  Gesture: 2
+  Gesture: 0
   WhichHand: 4
   HandIndex: 0
   ContinuousTracking: 0

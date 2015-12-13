@@ -48,12 +48,15 @@ public class SkillController : MonoBehaviour {
         switch(active)
         {
             case Skills.Lightning:
+                Debug.Log("Lightning");
                 Lightning();
                 break;
             case Skills.Fire:
+                Debug.Log("Fire");
                 Fire();
                 break;
             case Skills.Skill3:
+                Debug.Log("Nummer3");
                 Nummer3();
                 break;
             default:
