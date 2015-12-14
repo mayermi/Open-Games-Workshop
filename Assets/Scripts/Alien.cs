@@ -24,8 +24,17 @@ public class Alien : Creature {
 
 	public void DropResource()
     {
-        Resource = null;
+		Resource.transform.SetParent (null);
+		Resource.transform.position -= new Vector3(0,1,0);
+		Resource.GetComponent<Collider> ().enabled = true;
+		Resource = null;
     }
+
+	public override void Die()
+	{
+		base.Die ();
+		if(Resource) DropResource ();
+	} 
 
 	public void Search()
 	{

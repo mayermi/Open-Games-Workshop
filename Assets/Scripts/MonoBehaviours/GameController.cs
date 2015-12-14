@@ -61,8 +61,9 @@ public class GameController : MonoBehaviour {
 		foreach (DictionaryEntry d in gs.monsters) {
 			Monster m = d.Value as Monster;
 			if(m.alienTargets.Contains (c.GameObject)) {
-				Debug.Log ("Removed alientarget");
-				m.alienTargets.Remove(c.GameObject);
+				Debug.Log ("old length: " + m.alienTargets.Count);
+				Debug.Log ("Removed: " + m.alienTargets.Remove(c.GameObject));
+				Debug.Log ("New length: " + m.alienTargets.Count);
 			}
 
 		}

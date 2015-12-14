@@ -8,7 +8,7 @@ public class AlienHelper : CreatureHelper {
     bool movingToResource = false;
     bool movingToShip = false;
 
-	void Start () {
+	public override void Start () {
 		base.Start ();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         alien = gs.aliens[gameObject] as Alien;
@@ -16,7 +16,7 @@ public class AlienHelper : CreatureHelper {
 
     }
 
-	void Update () {
+	public override void Update () {
 		base.Update ();
         if (alien.state == Alien.AlienState.SEARCHING && !movingToResource) alien.Search();
         else if (alien.state == Alien.AlienState.CARRYING) alien.CarryResource(gs.ShipPos);

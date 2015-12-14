@@ -5,11 +5,11 @@ public class CreatureHelper : MonoBehaviour {
 
     private Canvas c;
 
-    public void Start () {
+    public virtual void Start () {
         c = gameObject.GetComponentInChildren<Canvas>();
     }
 	
-	public void Update () {
+	public virtual void Update () {
         // make sure the health bar faces the camera
         c.transform.LookAt(Camera.main.transform.position);
     }
