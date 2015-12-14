@@ -60,9 +60,9 @@ public class GameController : MonoBehaviour {
 		// If the creature is an alien, tell the chasing monster that the target is dead
 		foreach (DictionaryEntry d in gs.monsters) {
 			Monster m = d.Value as Monster;
-			if(m.AlienTarget == c.GameObject) {
+			if(m.alienTargets.Contains (c.GameObject)) {
 				Debug.Log ("Removed alientarget");
-				m.AlienTarget = null;
+				m.alienTargets.Remove(c.GameObject);
 			}
 
 		}

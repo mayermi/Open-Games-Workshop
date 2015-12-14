@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 
 public class MonsterHelper : CreatureHelper {
 
@@ -17,7 +18,7 @@ public class MonsterHelper : CreatureHelper {
 	void Update() 
 	{
 		base.Update ();
-		if (m.AlienTarget == null)
+		if (m.alienTargets.Count == 0)
 			m.Idle ();
 		if (m.state == Monster.MonsterState.CHASING || m.state == Monster.MonsterState.ATTACKING)
 			CheckDistance ();			
@@ -39,25 +40,24 @@ public class MonsterHelper : CreatureHelper {
     }*/
 
 	void OnTriggerEnter(Collider other){
-		if (other.gameObject.tag == "Alien" && m.AlienTarget == null) {
-			m.AlienTarget = other.gameObject;
-			m.state = Monster.MonsterState.CHASING;
-			Debug.Log ("Switched target");
+		if (other.gameObject.tag == "Alien") {
+			m.alienTargets.Add (other.gameObject);
+			m.Chase ();
 		}
 	}
 
     void OnTriggerLeave(Collider other)
     {
-		if (other.gameObject == m.AlienTarget) {
-			m.AlienTarget = null;
-			m.Idle ();
+		if (m.alienTargets.Contains(other.gameObject)) {
+			m.alienTargets.Remove(other.gameObject);
+			if(m.alienTargets.Count == 0) m.Idle();
 		}
     }
 
 	void CheckDistance() {
-		float dist = (transform.position - m.AlienTarget.transform.position).magnitude;
+		float dist = (transform.position - m.alienTargets.First().transform.position).magnitude;
 		if (dist <= 4f)
-			m.Attack (gs.creatures [m.AlienTarget] as Creature);
+			m.Attack (gs.creatures [m.alienTargets.First ()] as Creature);
 		else if (dist > 4f)
 			m.Chase ();
 	}
