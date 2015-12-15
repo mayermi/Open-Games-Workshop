@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Pantheon.Utils;
 
 public class GameController : MonoBehaviour {
 
@@ -94,7 +95,7 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " ShyMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.ShipPos;
+            Vector3 pos = gs.MonsterSpawnPoints.Any();
             ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
@@ -111,7 +112,7 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " ShyMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.ShipPos;
+            Vector3 pos = gs.MonsterSpawnPoints.Any();
             PredatoryMonster m = new PredatoryMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster_small", pos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
@@ -128,7 +129,7 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " ShyMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.ShipPos;
+            Vector3 pos = gs.MonsterSpawnPoints.Any();
             ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);

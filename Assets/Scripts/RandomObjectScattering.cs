@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class RandomObjectScattering : MonoBehaviour
 {
 
     public int minDetails = 1;
     public int maxDetails = 4;
+    public int monsterSpawnPointAmount = 5;
 
 
 	Vector3[] verts;
@@ -12,6 +14,7 @@ public class RandomObjectScattering : MonoBehaviour
 	Vector3 ship_pos;
     int placedResources = 0;
     int maxResources;
+    GameState gameState;
 
     void Start()
     {
@@ -27,8 +30,10 @@ public class RandomObjectScattering : MonoBehaviour
 		var c = new IcoSphereFactory();
 		var ico = c.Create(subdivisions: 3);
 		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
+        gameState = GameObject.Find("GameState").GetComponent<GameState>();
         maxResources = GameObject.Find("GameState").GetComponent<GameState>().maxResources;
 		PlaceSpaceship ();
+        PlaceMonsterSpawnPoints();
 		PlaceObjects ();
 	}
 
@@ -47,12 +52,34 @@ public class RandomObjectScattering : MonoBehaviour
 		Camera.main.transform.LookAt (transform.position);
 	}
 
+    void PlaceMonsterSpawnPoints()
+    {
+        int i = 0;
+        while (i < monsterSpawnPointAmount)
+        {
+            int index = Random.Range(0, verts.Length);
+            var pos = verts[index].normalized * radius;
+            if (gameState.MonsterSpawnPoints.Contains(pos) || pos == ship_pos)
+                continue; //make sure each point is unique and we do not spawn on top of the ship
+
+            i++;
+            gameState.MonsterSpawnPoints.Add(pos);
+            GameObject spawn = Creator.Create("flyingrock", pos, string.Format("MonsterSpawnPoint_{0}", i));
+            Vector3 up = -(transform.position - pos).normalized;
+            spawn.transform.up = up;
+        }
+
+    }
+
     void PlaceObjects()
     {           
         foreach (var vertex in verts)
         {
             Vector3 pos = vertex.normalized * radius;
-			if(pos == ship_pos) break;
+			if(pos == ship_pos)
+                break;
+            if(gameState.MonsterSpawnPoints.Contains(pos))
+                break;
 
             float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
