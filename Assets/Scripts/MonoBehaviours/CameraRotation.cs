@@ -22,19 +22,19 @@ public class CameraRotation : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.A))
         {
-            rotationYAxis += 0.1f;
+            rotationYAxis += 5f * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            rotationYAxis -= 0.1f;
+            rotationYAxis -= 5f * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rotationXAxis += 0.1f;
+            rotationXAxis += 5f * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rotationXAxis -= 0.1f;
+            rotationXAxis -= 5f * Time.deltaTime;
         }
 
         Quaternion cameraRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);

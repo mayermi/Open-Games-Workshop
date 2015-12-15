@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public abstract class Monster : Creature {
 	
@@ -7,11 +9,13 @@ public abstract class Monster : Creature {
 	public MonsterState state;
 	public int AttackDamage { get; set; }
 	public bool AttackReady { get; set; }
+	public List<GameObject> alienTargets;
 
 	public Monster(int attack, int health, float speed, int range) : base(health, speed, range) {
 		AttackDamage = attack;
 		state = MonsterState.IDLE;
 		AttackReady = true;
+		alienTargets = new List<GameObject> ();
 	}
 
 	public void Attack(Creature c)
@@ -28,10 +32,10 @@ public abstract class Monster : Creature {
 		}
     }
 	
-	public void Chase(Creature c)
+	public void Chase()
     {
-		Debug.Log(this + "is chasing " + c + " to " + c.GameObject.transform.position);
-        MoveTo(c.GameObject.transform.position);
+		//Debug.Log(this + "is chasing ");
+        MoveTo(alienTargets.First().transform.position);
         state = MonsterState.CHASING;
     }
 

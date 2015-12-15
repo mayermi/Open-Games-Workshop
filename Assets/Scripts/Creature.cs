@@ -30,8 +30,9 @@ public abstract class Creature {
         if (CurrentHealth <= 0) Die();
 	}
 
-	public void Die() 
+	public virtual void Die() 
 	{
+		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
 		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
         MonoBehaviour.Destroy(GameObject);
 	}

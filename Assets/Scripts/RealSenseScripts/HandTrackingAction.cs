@@ -8,36 +8,22 @@ public class HandTrackingAction : VirtualWorldBoxAction
     #region Public Fields
 
     public GameObject planet;
-
-    /// <summary>
-    /// Position / Rotation constraints
-    /// </summary>
     public Transformation3D Constraints;
-
-    /// <summary>
-    /// Invert Positions / Rotations
-    /// </summary>
     public Transformation3D InvertTransform;
-
-    /// <summary>
-    /// SetDefaultsTo lets you switch in one click between 3 different tracking modes â€“ hands, face and object tracking
-    /// </summary>
-    [BaseAction.ShowAtFirst]
-    public Defaults SetDefaultsTo = Defaults.HandTracking;
 
     #endregion
 
     #region Private Fields
 
-    [SerializeField]
-    [HideInInspector]
-    private Defaults _lastDefaults = Defaults.HandTracking;
-
     private bool _actionTriggered = false;
-
-    private Vector3 rayHitCoordinates = new Vector3(0, 0, 0);
-    private Vector3 localHit = new Vector3(0, 0, 0);
     private float lastVecZ = 0;
+    private float lastVecY = 0;
+    private float lastVecX = 0;
+
+    //Smoothing parameters
+    private SmoothingUtility _translationSmoothingUtility = new SmoothingUtility();
+    private float SmoothingFactor = 10;
+    private SmoothingUtility.SmoothingTypes SmoothingType = SmoothingUtility.SmoothingTypes.Weighted;
 
     #endregion
 
@@ -53,16 +39,6 @@ public class HandTrackingAction : VirtualWorldBoxAction
 
     #region Public methods
 
-
-    /// <summary>
-    /// Sets the default trigger values (for the triggers set in SetDefaultTriggers() )
-    /// </summary>
-    /// <param name='index'>
-    /// Index of the trigger.
-    /// </param>
-    /// <param name='trigger'>
-    /// A pointer to the trigger for which you can set the default rules.
-    /// </param>
     public override void SetDefaultTriggerValues(int index, Trigger trigger)
     {
             switch (index)
@@ -81,27 +57,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
             }
     }
 
-    /// <summary>
-    /// Updates the inspector.
-    /// </summary>
-    public override void UpdateInspector()
-    {
-        if (_lastDefaults != SetDefaultsTo)
-        {
-            CleanSupportedTriggers();
-            SupportedTriggers = null;
-            InitializeSupportedTriggers();
-            _lastDefaults = SetDefaultsTo;
-        }
-    }
-
     #endregion
 
     #region Protected methods
 
-    /// <summary>
-    /// Sets the default triggers for that action.
-    /// </summary>
     override protected void SetDefaultTriggers()
     {
         SupportedTriggers = new Trigger[3]{
@@ -114,9 +73,6 @@ public class HandTrackingAction : VirtualWorldBoxAction
 
     #region Private Methods
 
-    /// <summary>
-    /// Update is called once per frame.
-    /// </summary>
     void Update()
     {
         updateVirtualWorldBoxCenter();
@@ -218,57 +174,34 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     vec.z = this.gameObject.transform.localPosition.z;
                 }
 
-                Vector3 handpos = this.gameObject.transform.position;
+                float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+                float distance = Vector3.Distance(planet.transform.position, transform.position);        
+
+                Vector3 currentVec = this.gameObject.transform.position;
                 Vector3 handpos_local = this.gameObject.transform.localPosition;
 
-                Ray ray = new Ray(new Vector3(handpos.x, handpos.y, handpos.z-50), (planet.transform.position - handpos).normalized);
-                RaycastHit hit;
-                // Casts the ray and get the first game object hit
-                Physics.Raycast(ray, out hit);
-                // we hit the planet -> set target
-                if (hit.transform && hit.transform.gameObject == planet)
+                if (distance > planetradius+3 || vec.z <= handpos_local.z)
                 {
-                    rayHitCoordinates = hit.point;
-                    localHit = transform.InverseTransformPoint(hit.point);
-                    //Debug.Log(localHit);
-                }
+    
+                    // smoothing:
+                    if (SmoothingFactor > 0)
+                    {
+                        vec = _translationSmoothingUtility.ProcessSmoothing(SmoothingType, SmoothingFactor, vec);
+                    }
 
-                Vector3 currentVec = this.gameObject.transform.localPosition;
-                //Debug.Log("handpos: " + handpos);
-            
-
-                //Debug.Log("vector:" + vec);
-                if (rayHitCoordinates.z >= handpos.z || vec.z <= handpos_local.z)
-                {
                     this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z);
+                    lastVecX = vec.x;
+                    lastVecY = vec.y;
                     lastVecZ = vec.z;
-                    //Debug.Log("vec: " + vec);
-                    //Debug.Log("handpos_local: " + handpos_local);
-                    //Debug.Log("ray hit:" + rayHitCoordinates);
+
                 }
                 else
                 {
-                    this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, lastVecZ);
-                    Vector3 vec3 = new Vector3(vec.x, vec.y, lastVecZ);
-                    //Debug.Log(currentVec);
+                    this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
             }
         }
     }
-
-
-    #endregion
-
-    #region Nested Types
-
-    /// <summary>
-    /// Default trackig modes that can be selected by SetDefaultsTo
-    /// </summary>
-    public enum Defaults
-    {
-        HandTracking
-    }
-
 
     #endregion
 

@@ -29,7 +29,6 @@ public class PathNavigator : MonoBehaviour
 	{      
         PathFinding = GameObject.FindWithTag("PathFinding");
         if(PathFinding) sphericalGrid = PathFinding.GetComponent<SphericalGrid>();
-        if (sphericalGrid != null) Debug.Log("Found Pathfinding");
         planetBody = GetComponent<PlanetBody>();
 		target = new GameObject ().transform;
 	}
@@ -54,7 +53,7 @@ public class PathNavigator : MonoBehaviour
 		{
 			Vector3 targetPos = Vector3.zero;
 			if(target != null) targetPos = target.position;
-			else targetPos = RandomTargetPos();
+			//else targetPos = RandomTargetPos();
 
 			// check the distance to its target position, if it's far away start navigating again
 			/*float dist = (transform.position - targetPos).sqrMagnitude;
@@ -101,7 +100,7 @@ public class PathNavigator : MonoBehaviour
 		{
 			float dist = (transform.position - currentWaypoint).sqrMagnitude;
 
-			if (dist<= 0.15f) 
+			if (dist <= 0.25f) 
 			{
 				targetIndex ++;
 				if (targetIndex >= path.Length) 

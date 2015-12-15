@@ -10,9 +10,11 @@ public class SkillController : MonoBehaviour {
 	GameObject fire;
 	bool fireBurning = false;
     Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool>();
+    GrabController gc;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+        gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
@@ -23,28 +25,48 @@ public class SkillController : MonoBehaviour {
     }
 
 	void FixedUpdate() {
+		if (Input.GetMouseButtonDown(1))
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			// Casts the ray and get the first game object hit
+			Physics.Raycast(ray, out hit);
+			// we hit the planet -> set target
+			if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
+			{
+				//GetComponent<PathNavigator>().SetTarget(hit.point);                            
+			}
+			
+		}
+
         UpdateFire();
 	}
 
     public void PerformActiveSkill()
     {
-        Skills active = (Skills) gs.ActiveSkill;
-        if (skillDisabled[active])
-            return;
-        switch(active)
+        if (!gc.getGrabbed())
         {
-            case Skills.Lightning:
-                Lightning();
-                break;
-            case Skills.Fire:
-                Fire();
-                break;
-            case Skills.Skill3:
-                Nummer3();
-                break;
-            default:
-                break;
-        }      
+            Skills active = (Skills)gs.ActiveSkill;
+            if (skillDisabled[active])
+                return;
+            switch (active)
+            {
+                case Skills.Lightning:
+                    Debug.Log("Lightning");
+                    Lightning();
+                    break;
+                case Skills.Fire:
+                    Debug.Log("Fire");
+                    Fire();
+                    break;
+                case Skills.Skill3:
+                    Debug.Log("Nummer3");
+                    Nummer3();
+                    break;
+                default:
+                    break;
+            }
+        }    
     }
 
     // Skill 1
@@ -53,7 +75,7 @@ public class SkillController : MonoBehaviour {
         skillDisabled[Skills.Fire] = true;
         // Start and end positions are placeholders at the moment
         Vector3 from = GameObject.Find("HandOfGod").transform.position + new Vector3(0, 1, 0);
-        Vector3 to = GameObject.Find("monster(Clone)").transform.position;
+        Vector3 to = GameObject.Find("ShyMonster").transform.position;
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
         lightning.StrikeLightning();
@@ -70,7 +92,6 @@ public class SkillController : MonoBehaviour {
 		//fire.transform.position = hand.transform.position;
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
-		//CauseDamage(hand.transform.position, 5f, 25);
 		StartCoroutine (StopFire(2f));
     }
 
@@ -103,9 +124,9 @@ public class SkillController : MonoBehaviour {
 
     public void CreatureInFire(GameObject c)
     {
-            Debug.Log(c);
+            Debug.Log("FIREEEEE");
             Creature creature = gs.creatures[c] as Creature;
-            creature.TakeDamage(1);
+            creature.TakeDamage(5);
     }
 
     IEnumerator StopFire(float sec)
