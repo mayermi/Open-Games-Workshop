@@ -77,9 +77,9 @@ public class RandomObjectScattering : MonoBehaviour
         {
             Vector3 pos = vertex.normalized * radius;
 			if(pos == ship_pos)
-                break;
+                continue;
             if(gameState.MonsterSpawnPoints.Contains(pos))
-                break;
+                continue;
 
             float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
