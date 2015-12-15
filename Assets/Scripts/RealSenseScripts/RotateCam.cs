@@ -85,11 +85,11 @@ public class RotateCam : VirtualWorldBoxAction
 
         ProcessAllTriggers();
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.X)) // forward
         {
             Camera.main.fieldOfView = Camera.main.fieldOfView - 5;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.Y)) // back
         {
             Camera.main.fieldOfView = Camera.main.fieldOfView + 5;
         }
@@ -145,8 +145,11 @@ public class RotateCam : VirtualWorldBoxAction
                 Quaternion cameraRotation = Quaternion.Euler(_lastX - deltaX, _lastY + deltaY, 0);
                 cam.transform.rotation = cameraRotation;
 
+                Vector3 camerapos = cam.transform.position;
+                Debug.Log(camerapos);
                 Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -185) + planet.transform.position;
                 cam.transform.position = cameraPosition;
+                Debug.Log("campos2: " +cameraPosition);
 
                 _lastY = _lastY + deltaY;
                 _lastX = _lastX + deltaX;

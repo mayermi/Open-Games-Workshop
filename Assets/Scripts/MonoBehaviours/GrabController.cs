@@ -56,7 +56,7 @@ public class GrabController : MonoBehaviour {
     void Grab()
     {
         timesGrabbed++;
-        Debug.Log("grab");
+        
         //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
             if ( !grabbing && objectToBeGrabbed != null)
@@ -72,7 +72,6 @@ public class GrabController : MonoBehaviour {
 
     void Release()
     {
-        Debug.Log("Release");
         if (grabbing)
         {
             Debug.Log("Release");
@@ -89,7 +88,7 @@ public class GrabController : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         // if a Monster is in range, set it as the GameObject that will be grabbed
-        if(gs.monsters[other.gameObject] != null)
+        if(gs.monsters[other.gameObject] != null || !grabbing)
             objectToBeGrabbed = other.gameObject;
     }
 
