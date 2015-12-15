@@ -79,6 +79,15 @@ public class CreatePlanetLandscape : MonoBehaviour {
             gs.monsters.Add(m.GameObject, m);
 			gs.creatures.Add (m.GameObject, m as Creature);
         }
+
+        for (int i = 0; i < 2*objCount; i++)
+        {
+            Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;
+            PredatoryMonster m = new PredatoryMonster(7, 50, 0.3f, 7);
+            m.GameObject = Creator.Create("monster_small", pos, "PredatoryMonster");
+            gs.monsters.Add(m.GameObject, m);
+            gs.creatures.Add(m.GameObject, m as Creature);
+        }
     }
 
     // returns a noise value for x,y,z

@@ -79,6 +79,7 @@ public class PathNavigator : MonoBehaviour
 	
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{
+        //Debug.Log("Called OnPathFound");
 		if (pathSuccessful && newPath.Length > 0)
 		{
 			path = newPath;
