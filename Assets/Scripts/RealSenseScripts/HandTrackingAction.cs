@@ -130,6 +130,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 vec.y = (vec.y * VirtualWorldBoxDimensions.y);
                 vec.z = (vec.z * VirtualWorldBoxDimensions.z);
 
+
                 //invert
                 if (InvertTransform.Position.X)
                 {

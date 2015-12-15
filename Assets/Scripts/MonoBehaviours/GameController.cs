@@ -5,14 +5,14 @@ public class GameController : MonoBehaviour {
 
     GameState gs;
     SkillController sc;
-    GameObject planet;   
+    GameObject planet;
 
     // Use this for initialization
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
         planet = GameObject.Find("Planet");
-		GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+        GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
         gs.ActiveSkill = 0;
         // Create planet landscape
 		planet.GetComponent<RandomObjectScattering> ().Setup ();
@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-	void SpawnAliens(int count) 
+void SpawnAliens(int count) 
 	{
 		for (int i = 0; i < count; i++) {
 			var rotation = Random.Range(0.03f, 0.06f);

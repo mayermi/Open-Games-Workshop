@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraRotation : MonoBehaviour {
 
-    public int camDistance = 140;
+    private int camDistance = 185;
     GameObject planet;
     Camera cam;
     float rotationYAxis = 0.0f;
@@ -37,6 +37,16 @@ public class CameraRotation : MonoBehaviour {
             rotationXAxis -= 5f * Time.deltaTime;
         }
 
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        {
+            Camera.main.fieldOfView = Camera.main.fieldOfView - 5;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        {
+            Camera.main.fieldOfView = Camera.main.fieldOfView + 5;
+        }
+      
+
         Quaternion cameraRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
         cam.transform.rotation = cameraRotation;
 
@@ -44,5 +54,10 @@ public class CameraRotation : MonoBehaviour {
         // let the camera circle around the planet in a distance of 185
         Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -camDistance) + planet.transform.position;
         cam.transform.position = cameraPosition;
+    }
+
+    public int getCamDistance()
+    {
+        return camDistance;
     }
 }

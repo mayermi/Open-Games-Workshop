@@ -85,6 +85,15 @@ public class RotateCam : VirtualWorldBoxAction
 
         ProcessAllTriggers();
 
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        {
+            Camera.main.fieldOfView = Camera.main.fieldOfView - 5;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        {
+            Camera.main.fieldOfView = Camera.main.fieldOfView + 5;
+        }
+
         TrackTrigger trgr = (TrackTrigger)SupportedTriggers[1];
         Vector3 handpos = trgr.Position;
  

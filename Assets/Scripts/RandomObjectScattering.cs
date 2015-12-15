@@ -43,7 +43,7 @@ public class RandomObjectScattering : MonoBehaviour
 		ship.transform.up = up;
 
         //Let Camera look directly at spaceship
-		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().camDistance;
+		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().getCamDistance();
 		Camera.main.transform.LookAt (transform.position);
 	}
 
