@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour {
 			Debug.Log(gs.ActiveSkill);
         }
 
+        // each second there is a chance for a monster spawn
         if (Time.time - spawnTimer > 1)
         {
             DecideMonsterSpawning();
@@ -80,7 +81,6 @@ public class GameController : MonoBehaviour {
     void DecideMonsterFamily()
     {
         var r = Random.Range(0.0f, 1.0f);
-        string monster = "nothing";
         if (r > 0.66f)
             SpawnShyMonsters();
         else if (r > 0.33f)
@@ -102,41 +102,42 @@ public class GameController : MonoBehaviour {
             gs.creatures.Add(m.GameObject, m as Creature);
 
             GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.up = -(planet.transform.position - pos).normalized;
+            effect.transform.forward = -(planet.transform.position - pos).normalized;
         }
     }
 
     void SpawnPredators()
     {
         int count = Random.Range(1,5);
-        Debug.Log("Spawning " + count + " ShyMonsters");
+        Vector3 pos = gs.MonsterSpawnPoints.Any();
+        Debug.Log("Spawning " + count + " Predators");
         for (int i = 0; i < count; i++)
-        {
-            Vector3 pos = gs.MonsterSpawnPoints.Any();
+        {        
+            Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             PredatoryMonster m = new PredatoryMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster_small", pos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
             GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.up = -(planet.transform.position -pos).normalized;
+            effect.transform.forward = -(planet.transform.position -pos).normalized;
         }
     }
 
     void SpawnEvilMonsters()
     {
         int count = Random.Range(1, 10);
-        Debug.Log("Spawning " + count + " ShyMonsters");
+        Debug.Log("Spawning " + count + " EvilMonsters");
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
+            EvilMonster m = new EvilMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
             GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.up = -(planet.transform.position - pos).normalized;
+            effect.transform.forward = -(planet.transform.position - pos).normalized;
         }
     }
 

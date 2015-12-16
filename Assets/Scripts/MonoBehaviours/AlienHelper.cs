@@ -13,7 +13,6 @@ public class AlienHelper : CreatureHelper {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
-
     }
 
 	public override void Update () {
