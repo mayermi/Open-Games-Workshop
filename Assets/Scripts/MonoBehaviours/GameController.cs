@@ -114,8 +114,9 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {        
             Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            spawnPos = CoordinateHelper.GroundPosition(spawnPos);
             PredatoryMonster m = new PredatoryMonster(15, 100, 0.2f, 10);
-            m.GameObject = Creator.Create("monster_small", pos, "PredatoryMonster");
+            m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
