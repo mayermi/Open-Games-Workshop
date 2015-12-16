@@ -20,7 +20,7 @@ public class MonsterHelper : CreatureHelper {
 		base.Update ();
 		if (m.alienTargets.Count == 0)
 			m.Idle ();
-		if (m.state == Monster.MonsterState.CHASING || m.state == Monster.MonsterState.ATTACKING)
+		else if (m.state == Monster.MonsterState.CHASING || m.state == Monster.MonsterState.ATTACKING)
 			CheckDistance ();			
 		
 	}
