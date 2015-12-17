@@ -66,7 +66,11 @@ public class GrabController : MonoBehaviour {
                 Monster m = gs.monsters[objectToBeGrabbed] as Monster;
                 m.GetGrabbed();
                 objectToBeGrabbed.transform.SetParent(transform);
+            
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
+                Vector3 pos = GameObject.Find("HandOfGod").transform.position;
+                objectToBeGrabbed.transform.position= pos;
+          
             }
     }
 
