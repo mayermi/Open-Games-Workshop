@@ -7,6 +7,7 @@ public class GrabController : MonoBehaviour {
     public float speed = 1f;
     bool grabbing = false;
     GameObject objectToBeGrabbed = null;
+    GameObject lastObjectToBeGrabbed = null;
     int timesGrabbed = 0;
 
 	// Use this for initialization
@@ -59,7 +60,7 @@ public class GrabController : MonoBehaviour {
         
         //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
-            if ( !grabbing && objectToBeGrabbed != null)
+            if ( !grabbing && objectToBeGrabbed != null && objectToBeGrabbed != lastObjectToBeGrabbed)
             {
                 Debug.Log("grab");
                 grabbing = true;
@@ -69,8 +70,9 @@ public class GrabController : MonoBehaviour {
             
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = GameObject.Find("HandOfGod").transform.position;
-                objectToBeGrabbed.transform.position= pos;
-          
+                objectToBeGrabbed.transform.position = pos;
+
+                lastObjectToBeGrabbed = objectToBeGrabbed;
             }
     }
 
