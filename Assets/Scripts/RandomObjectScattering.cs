@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class RandomObjectScattering : MonoBehaviour
 {
 
     public int minDetails = 1;
     public int maxDetails = 4;
+    public int monsterSpawnPointAmount = 5;
 
 
 	Vector3[] verts;
@@ -12,6 +14,7 @@ public class RandomObjectScattering : MonoBehaviour
 	Vector3 ship_pos;
     int placedResources = 0;
     int maxResources;
+    GameState gameState;
 
     void Start()
     {
@@ -27,8 +30,10 @@ public class RandomObjectScattering : MonoBehaviour
 		var c = new IcoSphereFactory();
 		var ico = c.Create(subdivisions: 3);
 		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
+        gameState = GameObject.Find("GameState").GetComponent<GameState>();
         maxResources = GameObject.Find("GameState").GetComponent<GameState>().maxResources;
 		PlaceSpaceship ();
+        PlaceMonsterSpawnPoints();
 		PlaceObjects ();
 	}
 
@@ -47,12 +52,34 @@ public class RandomObjectScattering : MonoBehaviour
 		Camera.main.transform.LookAt (transform.position);
 	}
 
+    void PlaceMonsterSpawnPoints()
+    {
+        int i = 0;
+        while (i < monsterSpawnPointAmount)
+        {
+            int index = Random.Range(0, verts.Length);
+            var pos = verts[index].normalized * radius;
+            if (gameState.MonsterSpawnPoints.Contains(pos) || pos == ship_pos)
+                continue; //make sure each point is unique and we do not spawn on top of the ship
+
+            i++;
+            gameState.MonsterSpawnPoints.Add(pos);
+            GameObject spawn = Creator.Create("flyingrock", pos, string.Format("MonsterSpawnPoint_{0}", i));
+            Vector3 up = -(transform.position - pos).normalized;
+            spawn.transform.up = up;
+        }
+
+    }
+
     void PlaceObjects()
     {           
         foreach (var vertex in verts)
         {
             Vector3 pos = vertex.normalized * radius;
-			if(pos == ship_pos) break;
+			if(pos == ship_pos)
+                continue;
+            if(gameState.MonsterSpawnPoints.Contains(pos))
+                continue;
 
             float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
@@ -67,26 +94,51 @@ public class RandomObjectScattering : MonoBehaviour
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
+
+                var detailCount = Random.Range(minDetails, maxDetails);
+                Vector3 helpVector = RandomVector();
+
+                //small objects around rocks
+                for (int j = 0; j < detailCount; j++)
+                {
+                    var rotation = Random.Range(0.03f, 0.06f);
+                    Vector3 sec_pos = Vector3.RotateTowards(pos, helpVector * pos.magnitude, rotation, pos.magnitude);
+                    float angle = j * 360.0f / detailCount;
+
+                    var detail_pos = Quaternion.AngleAxis(angle, pos) * sec_pos;
+
+                    var detailName = DecideDetailObject();
+                    GameObject detail = Creator.Create(detailName, detail_pos, detailName);
+                    detail.transform.up = -(transform.position - detail_pos).normalized;
+                    var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+                    detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
+                    detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
+                }
+            } else if(placedResources < maxResources){     // resources, where no rocks are so that aliens can reach them        
+                GameObject detail = Creator.Create("resource", pos, "resource");
+                detail.transform.up = -(transform.position - pos).normalized;
+                var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+                detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
+                detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
+                placedResources++;
             }
 
-            var detailCount = Random.Range(minDetails, maxDetails);
-            Vector3 helpVector = RandomVector();
-            
-            for (int j = 0; j < detailCount; j++)
+            // small objects anywhere
+            for (int j = 0; j < Random.Range(0,2); j++)
             {
                 var rotation = Random.Range(0.03f, 0.06f);
-                Vector3 sec_pos = Vector3.RotateTowards(pos, helpVector * pos.magnitude, rotation, pos.magnitude);
-                float angle = j * 360.0f/detailCount;
-                
-                var detail_pos = Quaternion.AngleAxis(angle, pos) * sec_pos;
+                Vector3 sec_pos = Vector3.RotateTowards(pos, RandomVector() * pos.magnitude, rotation, pos.magnitude);
+                float angle = j * 360.0f / 4;
 
+                var detail_pos = Quaternion.AngleAxis(angle, pos) * sec_pos;
                 var detailName = DecideDetailObject();
                 GameObject detail = Creator.Create(detailName, detail_pos, detailName);
                 detail.transform.up = -(transform.position - detail_pos).normalized;
-                var scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
-                detail.transform.localScale = new Vector3(scale, scale, scale);
+                var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+                detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
             }
+
         }
 
         // not enough Resources placed
@@ -100,11 +152,11 @@ public class RandomObjectScattering : MonoBehaviour
     {
         var r = Random.Range(0.0f, 1.0f);
         string mainObjectName = "nothing";
-        if (r > 0.9f)
+        if (r > 0.95f)
             mainObjectName = "rock_group_0";
-        else if (r > 0.8f)
+        else if (r > 0.9f)
             mainObjectName = "rock_group_1";
-        else if (r > 0.7f)
+        else if (r > 0.8f)
             mainObjectName = "rock_group_3";
 
         return mainObjectName;
@@ -116,13 +168,12 @@ public class RandomObjectScattering : MonoBehaviour
         string detailObjectName;
         if (detailDecision > 0.85f)
             detailObjectName = "flower_3";
-        else if (detailDecision > 0.2f || placedResources == maxResources)
-            detailObjectName = "flower_2";
-        else {
-            detailObjectName = "resource";
-            placedResources++;
-        }
-            
+        else if (detailDecision > 0.60f)
+            detailObjectName = "flower_1";
+        else if (detailDecision > 0.55f)
+            detailObjectName = "tree";
+        else
+            detailObjectName = "flower_2";            
 
         return detailObjectName;
     }

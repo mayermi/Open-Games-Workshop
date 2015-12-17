@@ -24,7 +24,7 @@ public class PredatoryMonster : Monster {
             float distance = Random.Range(10, 60);
             target = GameObject.transform.position + ((rndDir) * distance);
             target = CoordinateHelper.GroundPosition(target);
-            Debug.Log("Monster has new tagert: " + target);
+            Debug.Log("Monster has new target: " + target);
             MoveTo(target);
         }
     }

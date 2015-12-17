@@ -15,7 +15,8 @@ public static class Creator {
     public static GameObject Create(string resName, Vector3 pos, string newName)
     {
         GameObject g = Resources.Load(resName) as GameObject;
-        GameObject created = MonoBehaviour.Instantiate(g, pos, Quaternion.identity) as GameObject;
+        Quaternion rotation = Quaternion.identity;
+        GameObject created = MonoBehaviour.Instantiate(g, pos, rotation) as GameObject;
         created.name = newName;
         return created;
     }

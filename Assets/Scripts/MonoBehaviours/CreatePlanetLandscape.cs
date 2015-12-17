@@ -41,7 +41,7 @@ public class CreatePlanetLandscape : MonoBehaviour {
     {
         if(noObjects && Time.time - startTime > 1)
         {
-           placeObjects();
+           //placeObjects();
         }
     }
 
