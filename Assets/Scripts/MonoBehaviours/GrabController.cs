@@ -88,7 +88,7 @@ public class GrabController : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         // if a Monster is in range, set it as the GameObject that will be grabbed
-        if(gs.monsters[other.gameObject] != null || !grabbing)
+        if(gs.monsters[other.gameObject] != null && !grabbing)
             objectToBeGrabbed = other.gameObject;
     }
 
