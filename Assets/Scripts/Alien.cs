@@ -62,6 +62,8 @@ public class Alien : Creature {
 	public void Flee()
     {
         state = AlienState.FLEEING;
+		// drop resource
+		// return to ship
     }
 
     public void CarryResource(Vector3 ship_pos)
