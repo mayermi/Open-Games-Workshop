@@ -22,13 +22,13 @@ public class GrabController : MonoBehaviour {
         float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
        
         Vector3 v3 = Input.mousePosition;
-        if (distance > (planetradius + 3))
+        if (distance > (planetradius + 13))
         {
-            v3.z = 140.0f;
+            v3.z = 130.0f;
         }
         else
         {
-            v3.z = 140.0f + (distance - (planetradius + 3));
+            v3.z = 130.0f + (distance - (planetradius + 13));
         }
 
         v3 = Camera.main.ScreenToWorldPoint(v3);
