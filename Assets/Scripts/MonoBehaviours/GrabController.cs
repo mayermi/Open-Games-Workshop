@@ -8,7 +8,6 @@ public class GrabController : MonoBehaviour {
     bool grabbing = false;
     GameObject objectToBeGrabbed = null;
     GameObject lastObjectToBeGrabbed = null;
-    int timesGrabbed = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -17,8 +16,33 @@ public class GrabController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        GameObject planet = GameObject.Find("Planet");
+        float distance = Vector3.Distance(planet.transform.position, transform.position);
+        float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+       
+        Vector3 v3 = Input.mousePosition;
+        if (distance > (planetradius + 3))
+        {
+            v3.z = 140.0f;
+        }
+        else
+        {
+            v3.z = 140.0f + (distance - (planetradius + 3));
+        }
+
+        v3 = Camera.main.ScreenToWorldPoint(v3);
+
+        this.gameObject.transform.position = v3;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!grabbing) Grab();
+            else Release();
+        }
+
         // Y axis
-        if (Input.GetKey(KeyCode.UpArrow))
+        /*if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.position += new Vector3(0,0.1f * speed, 0);
         } else if (Input.GetKey(KeyCode.DownArrow))
@@ -34,7 +58,7 @@ public class GrabController : MonoBehaviour {
         {
             transform.position += new Vector3(-0.1f * speed, 0, 0);
         }
-
+        
         // Z Axis
         if (Input.GetKey(KeyCode.L))
         {
@@ -44,20 +68,20 @@ public class GrabController : MonoBehaviour {
         {
             transform.position += new Vector3(0, 0, 0.1f * speed);
         }
+        
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!grabbing) Grab();
+            else Release();
+        }*/
 
         transform.up = (transform.position - GameObject.Find("Planet").transform.position).normalized;
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!grabbing) Grab();
-            else Release(); 
-        }
     }
 
     void Grab()
     {
-        timesGrabbed++;
-        
+
         //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
             if ( !grabbing && objectToBeGrabbed != null && objectToBeGrabbed != lastObjectToBeGrabbed)
