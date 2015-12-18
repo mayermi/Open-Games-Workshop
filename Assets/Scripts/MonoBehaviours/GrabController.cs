@@ -7,10 +7,9 @@ public class GrabController : MonoBehaviour {
     public float speed = 1f;
     bool grabbing = false;
     GameObject objectToBeGrabbed = null;
-    GameObject lastObjectToBeGrabbed = null;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
     }
 	
@@ -84,7 +83,7 @@ public class GrabController : MonoBehaviour {
 
         //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
-            if ( !grabbing && objectToBeGrabbed != null && objectToBeGrabbed != lastObjectToBeGrabbed)
+            if ( !grabbing && objectToBeGrabbed != null)
             {
                 Debug.Log("grab");
                 grabbing = true;
@@ -95,8 +94,6 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = GameObject.Find("HandOfGod").transform.position;
                 objectToBeGrabbed.transform.position = pos;
-
-                lastObjectToBeGrabbed = objectToBeGrabbed;
             }
     }
 
@@ -117,13 +114,15 @@ public class GrabController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Enter");
         // if a Monster is in range, set it as the GameObject that will be grabbed
-        if(gs.monsters[other.gameObject] != null && !grabbing)
+        if (gs.monsters[other.gameObject] != null && !grabbing)
             objectToBeGrabbed = other.gameObject;
     }
 
-    void OnTriggerLeave(Collider other)
+    void OnTriggerExit(Collider other)
     {
+        Debug.Log("Leave");
         // if the selected Monster leaves the range, deselect it 
         if (objectToBeGrabbed == other.gameObject || gs.monsters[other.gameObject] == null)
             objectToBeGrabbed = null;
