@@ -18,7 +18,7 @@ public class AlienHelper : CreatureHelper {
 	public override void Update () {
 		base.Update ();
         if (alien.state == Alien.AlienState.SEARCHING && !movingToResource) alien.Search();
-        else if (alien.state == Alien.AlienState.CARRYING) alien.CarryResource(gs.ShipPos);
+        else if (alien.state == Alien.AlienState.CARRYING) alien.CarryResource(GameValues.ShipPos);
 
         if (movingToResource) CheckDistToResource();
         if (movingToShip) CheckDistToShip();
@@ -60,7 +60,7 @@ public class AlienHelper : CreatureHelper {
     }
     void CheckDistToShip()
     {
-        float dist = (gameObject.transform.position - gs.ShipPos).magnitude;
+        float dist = (gameObject.transform.position - GameValues.ShipPos).magnitude;
         if (dist <= 5f)
         {        
             gs.CollectedResources += 1;

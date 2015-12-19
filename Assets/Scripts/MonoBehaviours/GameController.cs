@@ -48,16 +48,16 @@ public class GameController : MonoBehaviour {
 	{
 		for (int i = 0; i < count; i++) {
 			var rotation = Random.Range(0.03f, 0.06f);
-			Vector3 sec_pos = Vector3.RotateTowards(gs.ShipPos, new Vector3(0,0,1) * gs.ShipPos.magnitude, rotation, gs.ShipPos.magnitude);
+			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,1) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
 			float angle = i * 360.0f/count;
 			
-			var detail_pos = Quaternion.AngleAxis(angle, gs.ShipPos) * sec_pos;
+			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
 
 			Alien a = new Alien (health: 100, speed: 0.15f, range: 7);
 			a.GameObject = Creator.Create ("Alien", detail_pos, "Alien");
 			gs.aliens.Add (a.GameObject, a);
 			gs.creatures.Add(a.GameObject, a as Creature);
-			a.GameObject.transform.up = -(transform.position - gs.ShipPos).normalized;
+			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;
 			a.Search();
 		}
 	}
@@ -76,9 +76,9 @@ public class GameController : MonoBehaviour {
     void DecideMonsterFamily()
     {
         var r = Random.Range(0.0f, 1.0f);
-        if (r > 0.66f)
+        if (r > 0.99f)
             SpawnShyMonsters();
-        else if (r > 0.33f)
+        else if (r > 0.99f)
             SpawnPredators();
         else
             SpawnEvilMonsters();
