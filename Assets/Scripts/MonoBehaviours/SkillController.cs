@@ -61,13 +61,19 @@ public class SkillController : MonoBehaviour {
     void Lightning()
     {
         skillDisabled[Skills.Fire] = true;
-        // Start and end positions are placeholders at the moment
-        Vector3 from = GameObject.Find("HandOfGod").transform.position + new Vector3(0, 1, 0);
-        Vector3 to = GameObject.Find("ShyMonster").transform.position;
+        // Lightning starts in Hand
+        Vector3 from = GameObject.Find("HandOfGod").transform.position;
+        
+        // target is either a nearby monster or the ground 
+        Vector3 to = CoordinateHelper.GroundPosition(from);
+        Monster m = GetNearestMonster(to, 10f);
+        if (m != null) to = m.GameObject.transform.position;
+
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
         lightning.StrikeLightning();
-        CauseDamage(to, 5f, 25);
+        if (m != null) m.TakeDamage(100);
+
         skillDisabled[Skills.Fire] = false;
     }
 
@@ -89,7 +95,7 @@ public class SkillController : MonoBehaviour {
         Debug.Log("Skill 3 triggered");
     }
 
-    void CauseDamage(Vector3 pos, float radius, int damage)
+    Monster GetNearestMonster(Vector3 pos, float radius)
     {
         foreach(DictionaryEntry d in gs.monsters)
         {
@@ -97,9 +103,10 @@ public class SkillController : MonoBehaviour {
             float dist = (pos - m.GameObject.transform.position).magnitude;
             if(dist < radius)
             {
-                m.TakeDamage(damage);
+                return m;
             }
         }
+        return null;
     }
 
     void UpdateFire()
