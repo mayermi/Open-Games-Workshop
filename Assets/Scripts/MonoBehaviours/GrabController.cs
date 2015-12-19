@@ -81,8 +81,6 @@ public class GrabController : MonoBehaviour {
 
     void Grab()
     {
-
-        //Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
             if ( !grabbing && objectToBeGrabbed != null && objectToBeGrabbed != lastObjectToBeGrabbed)
             {
@@ -129,7 +127,7 @@ public class GrabController : MonoBehaviour {
             objectToBeGrabbed = null;
     }
 
-    public bool getGrabbed()
+    public bool IsGrabbing()
     {
         return grabbing;
     }

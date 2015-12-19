@@ -28,12 +28,7 @@ public class GameController : MonoBehaviour {
 	}
 
     void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            sc.PerformActiveSkill();
-        }
-
+    {    
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             gs.ActiveSkill += 1;
@@ -41,8 +36,8 @@ public class GameController : MonoBehaviour {
 			Debug.Log(gs.ActiveSkill);
         }
 
-        // each second there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 1)
+        // every two seconds there is a chance for a monster spawn
+        if (Time.time - spawnTimer > 2)
         {
             DecideMonsterSpawning();
             spawnTimer = Time.time;

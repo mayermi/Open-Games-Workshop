@@ -25,48 +25,36 @@ public class SkillController : MonoBehaviour {
     }
 
 	void FixedUpdate() {
-		if (Input.GetMouseButtonDown(1))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			// Casts the ray and get the first game object hit
-			Physics.Raycast(ray, out hit);
-			// we hit the planet -> set target
-			if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
-			{
-				//GetComponent<PathNavigator>().SetTarget(hit.point);                            
-			}
-			
-		}
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        {
+            PerformActiveSkill();
+        }
 
         UpdateFire();
 	}
 
     public void PerformActiveSkill()
     {
-        if (!gc.getGrabbed())
+        Skills active = (Skills)gs.ActiveSkill;
+        if (skillDisabled[active])
+            return;
+        switch (active)
         {
-            Skills active = (Skills)gs.ActiveSkill;
-            if (skillDisabled[active])
-                return;
-            switch (active)
-            {
-                case Skills.Lightning:
-                    Debug.Log("Lightning");
-                    Lightning();
-                    break;
-                case Skills.Fire:
-                    Debug.Log("Fire");
-                    Fire();
-                    break;
-                case Skills.Skill3:
-                    Debug.Log("Nummer3");
-                    Nummer3();
-                    break;
-                default:
-                    break;
-            }
-        }    
+            case Skills.Lightning:
+                Debug.Log("Lightning");
+                Lightning();
+                break;
+            case Skills.Fire:
+                Debug.Log("Fire");
+                Fire();
+                break;
+            case Skills.Skill3:
+                Debug.Log("Nummer3");
+                Nummer3();
+                break;
+            default:
+                break;
+        }
     }
 
     // Skill 1
