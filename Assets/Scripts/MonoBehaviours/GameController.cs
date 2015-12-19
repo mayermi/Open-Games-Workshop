@@ -39,7 +39,7 @@ public class GameController : MonoBehaviour {
         // every two seconds there is a chance for a monster spawn
         if (Time.time - spawnTimer > 2)
         {
-            DecideMonsterSpawning();
+            //DecideMonsterSpawning();
             spawnTimer = Time.time;
         }
     }
@@ -65,7 +65,7 @@ public class GameController : MonoBehaviour {
     void DecideMonsterSpawning()
     {
         float rand = Random.Range(0f, 1f);
-        float value = Mathf.Pow(1.00116f, Time.time-lastSpawn)- 1;
+        float value = Mathf.Pow(1.0116f, Time.time-lastSpawn)- 1;
         if(rand < value)
         {
             DecideMonsterFamily();
@@ -76,9 +76,9 @@ public class GameController : MonoBehaviour {
     void DecideMonsterFamily()
     {
         var r = Random.Range(0.0f, 1.0f);
-        if (r > 0.99f)
+        if (r > 0.66f)
             SpawnShyMonsters();
-        else if (r > 0.99f)
+        else if (r > 0.33f)
             SpawnPredators();
         else
             SpawnEvilMonsters();

@@ -19,13 +19,18 @@ public abstract class Creature {
 
 	public void MoveTo(Vector3 target)
 	{
-		GameObject.GetComponent<PathNavigator> ().SetTarget (target);
-	}
+        GameObject.GetComponent<PathNavigator>().locked = false;
+        GameObject.GetComponent<PathNavigator> ().SetTarget (target);
+    }
 
-	public void TakeDamage(int d) 
+    public void StopMoving()
+    {
+        GameObject.GetComponent<PathNavigator>().StopMoving();
+    }
+
+    public void TakeDamage(int d) 
 	{
 		CurrentHealth = CurrentHealth - d;
-        Debug.Log(CurrentHealth);
         GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
         if (CurrentHealth <= 0) Die();
 	}

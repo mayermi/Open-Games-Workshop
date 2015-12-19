@@ -142,7 +142,7 @@ GameObject:
   - 4: {fileID: 459028}
   - 137: {fileID: 13721948}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +214,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 161712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.9000626, y: 206.813416, z: 23.2398701}
+  m_LocalPosition: {x: -17.424427, y: 234.654785, z: -335.007111}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 439620}

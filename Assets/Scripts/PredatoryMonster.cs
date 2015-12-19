@@ -5,11 +5,11 @@ public class PredatoryMonster : Monster {
 
     private Vector3 target;
 
-    public PredatoryMonster(int attack, int health, float speed, int range) : base(attack, health, speed, range)  {
-		
-	}
-	
-	public override void Idle() {
+    public PredatoryMonster(int attack, int health, float speed, int range) : base(attack, health, speed, range) {
+
+    }
+
+    public override void Idle() {
         state = MonsterState.IDLE;
 
         // for initialisation
@@ -24,9 +24,13 @@ public class PredatoryMonster : Monster {
             float distance = Random.Range(10, 60);
             target = GameObject.transform.position + ((rndDir) * distance);
             target = CoordinateHelper.GroundPosition(target);
-            Debug.Log("Monster has new target: " + target);
             MoveTo(target);
         }
     }
-	
+
+    public override void GetGrabbed() {
+        base.GetGrabbed();
+        target = Vector3.zero;
+    }
+
 }
