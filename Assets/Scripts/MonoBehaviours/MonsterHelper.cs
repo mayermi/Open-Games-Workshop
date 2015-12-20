@@ -19,15 +19,22 @@ public class MonsterHelper : CreatureHelper {
 	{
 		base.Update ();
 
-        if(m == null) m = gs.monsters[gameObject] as Monster;
-
-        if (m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED)
-			m.Idle ();
-		else if (   m.state == Monster.MonsterState.CHASING ||
-                    m.state == Monster.MonsterState.ATTACKING || 
-                    (m.state == Monster.MonsterState.IDLE && m.alienTargets.Count > 0)
-                )
+        if (m == null)
+        {
+            m = gs.monsters[gameObject] as Monster;
+        } else if (m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED)
+        {
+            m.Idle();
+        } else if ( m.state != Monster.MonsterState.GRABBED &&
+                    (   
+                        m.state == Monster.MonsterState.CHASING ||
+                        m.state == Monster.MonsterState.ATTACKING || 
+                        (m.state == Monster.MonsterState.IDLE && m.alienTargets.Count > 0)
+                    )
+                  )
+        {
             CheckDistance();
+        }         
 
     }
 

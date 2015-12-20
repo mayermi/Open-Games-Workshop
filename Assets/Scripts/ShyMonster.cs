@@ -18,6 +18,7 @@ public class ShyMonster : Monster {
     public override void GetGrabbed()
     {
         base.GetGrabbed();
+        StopMoving();
         ResetTarget();
     }
 

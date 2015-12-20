@@ -22,6 +22,7 @@ public class EvilMonster : Monster {
     public override void GetGrabbed()
     {
         base.GetGrabbed();
+        StopMoving();
         ResetTarget();
     }
 

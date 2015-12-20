@@ -42,7 +42,6 @@ public abstract class Monster : Creature {
     public virtual void GetGrabbed()
     {
         state = MonsterState.GRABBED;
-        StopMoving();
         Debug.Log(this + " is grabbed");
     }
 

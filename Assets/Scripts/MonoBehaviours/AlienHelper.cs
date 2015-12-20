@@ -18,10 +18,18 @@ public class AlienHelper : CreatureHelper {
 	public override void Update () {
         base.Update ();
 
-        if (alien == null) alien = gs.aliens[gameObject] as Alien;
-
-        if (alien.state == Alien.AlienState.SEARCHING && !movingToResource) alien.Search();
-        else if (alien.state == Alien.AlienState.CARRYING) alien.CarryResource(GameValues.ShipPos);
+        if (alien == null)
+        {
+            alien = gs.aliens[gameObject] as Alien;
+        }
+        else if (alien.state == Alien.AlienState.SEARCHING && !movingToResource)
+        {
+            alien.Search();
+        }
+        else if (alien.state == Alien.AlienState.CARRYING)
+        {
+            alien.CarryResource(GameValues.ShipPos);
+        }
 
         if (movingToResource) CheckDistToResource();
         if (movingToShip) CheckDistToShip();

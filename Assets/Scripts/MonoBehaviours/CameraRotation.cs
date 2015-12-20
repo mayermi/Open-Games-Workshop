@@ -34,24 +34,22 @@ public class CameraRotation : MonoBehaviour {
         {
             rotationYAxis -= camSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.W) && (camAngles.x < 30 || camAngles.x > 320))
+        if (Input.GetKey(KeyCode.W) /*&& (camAngles.x < 30 || camAngles.x > 320)*/)
         {
             rotationXAxis += camSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) && (camAngles.x < 40 || camAngles.x > 330))
+        if (Input.GetKey(KeyCode.S) /*&& (camAngles.x < 40 || camAngles.x > 330)*/)
         {
             rotationXAxis -= camSpeed * Time.deltaTime;
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
         {
-            //Camera.main.fieldOfView = Camera.main.fieldOfView - 5;
-            fov -= 5;
+            if(fov >= 10) fov -= 5;
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
         {
-            //Camera.main.fieldOfView = Camera.main.fieldOfView + 5;
-            fov += 5;
+            if (fov <= 120) fov += 5;
         }
 
 

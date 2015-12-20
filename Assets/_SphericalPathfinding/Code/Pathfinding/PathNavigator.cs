@@ -91,20 +91,20 @@ public class PathNavigator : MonoBehaviour
 	
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{
-        //Debug.Log("Called OnPathFound");
-		if (pathSuccessful && newPath.Length > 0)
-		{
-			path = newPath;
-			StopCoroutine("FollowPath");
-			StartCoroutine("FollowPath");
-		}
-		else
-		{
-            //Debug.Log("Path not found, choosing new Target.");
-            //SetTarget(RandomTargetPos());
-            gameObject.SendMessage("NoPathFound");
-            travelling = false;
-		}
+        if (gameObject.activeSelf)
+        {
+            if (pathSuccessful && newPath.Length > 0)
+            {
+                path = newPath;
+                StopCoroutine("FollowPath");
+                StartCoroutine("FollowPath");
+            }
+            else
+            {
+                gameObject.SendMessage("NoPathFound");
+                travelling = false;
+            }
+        }	
 	}
 	
 	IEnumerator FollowPath()
@@ -112,7 +112,7 @@ public class PathNavigator : MonoBehaviour
 		targetIndex = 0;
 		Vector3 currentWaypoint = path[targetIndex];
 		
-		while (true) 
+		while (true && !locked) 
 		{
 			float dist = (transform.position - currentWaypoint).sqrMagnitude;
 
