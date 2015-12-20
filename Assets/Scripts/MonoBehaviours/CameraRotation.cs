@@ -23,6 +23,8 @@ public class CameraRotation : MonoBehaviour {
     void LateUpdate()
     {
 
+        Vector3 camAngles = cam.transform.eulerAngles;
+
         if (Input.GetKey(KeyCode.A))
         {
             rotationYAxis += 5f * Time.deltaTime;
@@ -31,11 +33,11 @@ public class CameraRotation : MonoBehaviour {
         {
             rotationYAxis -= 5f * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && (camAngles.x < 30 || camAngles.x > 320))
         {
             rotationXAxis += 5f * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && (camAngles.x < 40 || camAngles.x > 330))
         {
             rotationXAxis -= 5f * Time.deltaTime;
         }
