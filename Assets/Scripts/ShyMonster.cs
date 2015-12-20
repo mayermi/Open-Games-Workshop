@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ShyMonster : Monster {
 
+    Vector3 target;
+
 	public ShyMonster(int attack, int health, float speed, int range) : base(attack, health, speed, range)  {
 		
 	}
@@ -11,6 +13,17 @@ public class ShyMonster : Monster {
     {
         // ShyMonster does not move when idle
 		state = MonsterState.IDLE;
+    }
+
+    public override void GetGrabbed()
+    {
+        base.GetGrabbed();
+        ResetTarget();
+    }
+
+    public override void ResetTarget()
+    {
+        target = Vector3.zero;
     }
 
 }

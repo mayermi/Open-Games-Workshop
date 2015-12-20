@@ -100,7 +100,10 @@ public class PathNavigator : MonoBehaviour
 		}
 		else
 		{
-			travelling = false;
+            //Debug.Log("Path not found, choosing new Target.");
+            //SetTarget(RandomTargetPos());
+            gameObject.SendMessage("NoPathFound");
+            travelling = false;
 		}
 	}
 	
@@ -147,7 +150,7 @@ public class PathNavigator : MonoBehaviour
 	Vector3 RandomTargetPos()
 	{
 		Vector3 rndDir = new Vector3(transform.forward.x * Random.Range(-1, 1), transform.forward.y * Random.Range(-1, 1), transform.forward.z * Random.Range(-1, 1));
-		float distance = Random.Range(1, 60);
+		float distance = Random.Range(10, 60);
 		Vector3 point = transform.position + ((rndDir) * distance);
 		
 		return planetBody.GroundPosition(point);

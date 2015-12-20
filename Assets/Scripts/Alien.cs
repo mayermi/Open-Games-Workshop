@@ -38,11 +38,10 @@ public class Alien : Creature {
 
 	public void Search()
 	{
-        //Debug.Log((GameObject.transform.position - target).magnitude);
         state = AlienState.SEARCHING;
 
         // for initialisation
-        if (target == Vector3.zero || (Time.time - searchTime) > 15f)
+        if (target == Vector3.zero /*|| (Time.time - searchTime) > 15f*/)
 			target = GameObject.transform.position;
 
 		if ((GameObject.transform.position - target).magnitude <= 8f)
@@ -78,5 +77,10 @@ public class Alien : Creature {
         // Alien is back at SpaceShip, reinit Search
         if ((GameObject.transform.position - target).magnitude <= 5f) target = Vector3.zero;      
         
+    }
+
+    public void ResetTarget()
+    {
+        target = Vector3.zero;
     }
 }

@@ -18,7 +18,10 @@ public class MonsterHelper : CreatureHelper {
 	public override void Update() 
 	{
 		base.Update ();
-		if (m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED)
+
+        if(m == null) m = gs.monsters[gameObject] as Monster;
+
+        if (m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED)
 			m.Idle ();
 		else if (   m.state == Monster.MonsterState.CHASING ||
                     m.state == Monster.MonsterState.ATTACKING || 
@@ -28,7 +31,13 @@ public class MonsterHelper : CreatureHelper {
 
     }
 
-	void OnTriggerEnter(Collider other){
+    public override void NoPathFound()
+    {
+        base.NoPathFound();
+        m.ResetTarget();
+    }
+
+    void OnTriggerEnter(Collider other){
 		if (other.gameObject.tag == "Alien" && !m.alienTargets.Contains(other.gameObject)) {
 			m.alienTargets.Add (other.gameObject);
 			if(m.state != Monster.MonsterState.GRABBED) m.Chase ();

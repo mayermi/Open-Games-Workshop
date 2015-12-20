@@ -45,6 +45,8 @@ public abstract class Monster : Creature {
         StopMoving();
         Debug.Log(this + " is grabbed");
     }
+
+    public abstract void ResetTarget();
 	
 	public abstract void Idle();
 

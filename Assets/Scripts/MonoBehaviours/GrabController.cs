@@ -75,7 +75,6 @@ public class GrabController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enter");
         // if a Monster is in range, set it as the GameObject that will be grabbed
         if(gs.monsters[other.gameObject] != null &&
            !grabbing &&
@@ -89,7 +88,6 @@ public class GrabController : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("Leave");
         // if the selected Monster leaves the range, deselect it 
         if (objectToBeGrabbed == other.gameObject)
         {

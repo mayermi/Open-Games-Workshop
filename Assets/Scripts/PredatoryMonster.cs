@@ -30,6 +30,11 @@ public class PredatoryMonster : Monster {
 
     public override void GetGrabbed() {
         base.GetGrabbed();
+        ResetTarget();
+    }
+
+    public override void ResetTarget()
+    {
         target = Vector3.zero;
     }
 

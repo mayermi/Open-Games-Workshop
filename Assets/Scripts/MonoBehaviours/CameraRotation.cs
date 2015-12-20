@@ -10,6 +10,7 @@ public class CameraRotation : MonoBehaviour {
     float rotationXAxis = 0.0f;
     float fov;
     public float fovSpeed = 8f;
+    public float camSpeed = 5f;
 
     void Start () {
         planet = GameObject.Find("Planet");
@@ -27,19 +28,19 @@ public class CameraRotation : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.A))
         {
-            rotationYAxis += 5f * Time.deltaTime;
+            rotationYAxis += camSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            rotationYAxis -= 5f * Time.deltaTime;
+            rotationYAxis -= camSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.W) && (camAngles.x < 30 || camAngles.x > 320))
         {
-            rotationXAxis += 5f * Time.deltaTime;
+            rotationXAxis += camSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S) && (camAngles.x < 40 || camAngles.x > 330))
         {
-            rotationXAxis -= 5f * Time.deltaTime;
+            rotationXAxis -= camSpeed * Time.deltaTime;
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
