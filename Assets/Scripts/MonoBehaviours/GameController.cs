@@ -28,12 +28,7 @@ public class GameController : MonoBehaviour {
 	}
 
     void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            sc.PerformActiveSkill();
-        }
-
+    {    
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             gs.ActiveSkill += 1;
@@ -41,10 +36,10 @@ public class GameController : MonoBehaviour {
 			Debug.Log(gs.ActiveSkill);
         }
 
-        // each second there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 1)
+        // every two seconds there is a chance for a monster spawn
+        if (Time.time - spawnTimer > 2)
         {
-            DecideMonsterSpawning();
+            //DecideMonsterSpawning();
             spawnTimer = Time.time;
         }
     }
@@ -53,16 +48,16 @@ public class GameController : MonoBehaviour {
 	{
 		for (int i = 0; i < count; i++) {
 			var rotation = Random.Range(0.03f, 0.06f);
-			Vector3 sec_pos = Vector3.RotateTowards(gs.ShipPos, new Vector3(0,0,1) * gs.ShipPos.magnitude, rotation, gs.ShipPos.magnitude);
+			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,1) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
 			float angle = i * 360.0f/count;
 			
-			var detail_pos = Quaternion.AngleAxis(angle, gs.ShipPos) * sec_pos;
+			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
 
 			Alien a = new Alien (health: 100, speed: 0.15f, range: 7);
 			a.GameObject = Creator.Create ("Alien", detail_pos, "Alien");
 			gs.aliens.Add (a.GameObject, a);
 			gs.creatures.Add(a.GameObject, a as Creature);
-			a.GameObject.transform.up = -(transform.position - gs.ShipPos).normalized;
+			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;
 			a.Search();
 		}
 	}
@@ -70,7 +65,7 @@ public class GameController : MonoBehaviour {
     void DecideMonsterSpawning()
     {
         float rand = Random.Range(0f, 1f);
-        float value = Mathf.Pow(1.00116f, Time.time-lastSpawn)- 1;
+        float value = Mathf.Pow(1.0116f, Time.time-lastSpawn)- 1;
         if(rand < value)
         {
             DecideMonsterFamily();

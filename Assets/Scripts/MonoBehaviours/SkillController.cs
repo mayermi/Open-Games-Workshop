@@ -25,61 +25,55 @@ public class SkillController : MonoBehaviour {
     }
 
 	void FixedUpdate() {
-		if (Input.GetMouseButtonDown(1))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			// Casts the ray and get the first game object hit
-			Physics.Raycast(ray, out hit);
-			// we hit the planet -> set target
-			if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
-			{
-				//GetComponent<PathNavigator>().SetTarget(hit.point);                            
-			}
-			
-		}
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        {
+            PerformActiveSkill();
+        }
 
         UpdateFire();
 	}
 
     public void PerformActiveSkill()
     {
-        if (!gc.getGrabbed())
+        Skills active = (Skills)gs.ActiveSkill;
+        if (skillDisabled[active])
+            return;
+        switch (active)
         {
-            Skills active = (Skills)gs.ActiveSkill;
-            if (skillDisabled[active])
-                return;
-            switch (active)
-            {
-                case Skills.Lightning:
-                    Debug.Log("Lightning");
-                    Lightning();
-                    break;
-                case Skills.Fire:
-                    Debug.Log("Fire");
-                    Fire();
-                    break;
-                case Skills.Skill3:
-                    Debug.Log("Nummer3");
-                    Nummer3();
-                    break;
-                default:
-                    break;
-            }
-        }    
+            case Skills.Lightning:
+                Debug.Log("Lightning");
+                Lightning();
+                break;
+            case Skills.Fire:
+                Debug.Log("Fire");
+                Fire();
+                break;
+            case Skills.Skill3:
+                Debug.Log("Nummer3");
+                Nummer3();
+                break;
+            default:
+                break;
+        }
     }
 
     // Skill 1
     void Lightning()
     {
         skillDisabled[Skills.Fire] = true;
-        // Start and end positions are placeholders at the moment
-        Vector3 from = GameObject.Find("HandOfGod").transform.position + new Vector3(0, 1, 0);
-        Vector3 to = GameObject.Find("ShyMonster").transform.position;
+        // Lightning starts in Hand
+        Vector3 from = GameObject.Find("HandOfGod").transform.position;
+        
+        // target is either a nearby monster or the ground 
+        Vector3 to = CoordinateHelper.GroundPosition(from);
+        Monster m = GetNearestMonster(to, 10f);
+        if (m != null) to = m.GameObject.transform.position;
+
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
         lightning.StrikeLightning();
-        CauseDamage(to, 5f, 25);
+        if (m != null) m.TakeDamage(100);
+
         skillDisabled[Skills.Fire] = false;
     }
 
@@ -101,7 +95,7 @@ public class SkillController : MonoBehaviour {
         Debug.Log("Skill 3 triggered");
     }
 
-    void CauseDamage(Vector3 pos, float radius, int damage)
+    Monster GetNearestMonster(Vector3 pos, float radius)
     {
         foreach(DictionaryEntry d in gs.monsters)
         {
@@ -109,9 +103,10 @@ public class SkillController : MonoBehaviour {
             float dist = (pos - m.GameObject.transform.position).magnitude;
             if(dist < radius)
             {
-                m.TakeDamage(damage);
+                return m;
             }
         }
+        return null;
     }
 
     void UpdateFire()

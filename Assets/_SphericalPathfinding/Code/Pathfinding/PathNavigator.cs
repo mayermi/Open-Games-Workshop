@@ -21,7 +21,7 @@ public class PathNavigator : MonoBehaviour
 
 	public bool drawPath;
 
-
+    public bool locked;
 
 	#region Unity
 
@@ -31,39 +31,44 @@ public class PathNavigator : MonoBehaviour
         if(PathFinding) sphericalGrid = PathFinding.GetComponent<SphericalGrid>();
         planetBody = GetComponent<PlanetBody>();
 		target = new GameObject ().transform;
+        target.name = "PathfindingTarget";
 	}
 
 	void Update()
 	{
-		// if the target position has moved
-		if(target != null)
-		{
-			float targetPosDiff = Vector3.Distance(prevTargetPos, target.position);
+        if (!locked)
+        {
+            // if the target position has moved
+            if (target != null)
+            {
+                float targetPosDiff = Vector3.Distance(prevTargetPos, target.position);
 
-			if(targetPosDiff > 0.01f)
-			{
-				travelling = true;
-				PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
-			}
+                if (targetPosDiff > 0.01f)
+                {
+                    travelling = true;
+                    PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                }
 
-			prevTargetPos = target.position;
-		}
+                prevTargetPos = target.position;
+            }
 
-		if(!travelling) // if the navigator has finished travelling
-		{
-			Vector3 targetPos = Vector3.zero;
-			if(target != null) targetPos = target.position;
-			//else targetPos = RandomTargetPos();
+            if (!travelling) // if the navigator has finished travelling
+            {
+                Vector3 targetPos = Vector3.zero;
+                if (target != null) targetPos = target.position;
+                //else targetPos = RandomTargetPos();
 
-			// check the distance to its target position, if it's far away start navigating again
-			/*float dist = (transform.position - targetPos).sqrMagnitude;
-			if(dist > 0.15f)
-			{
-				travelling = true;
-				PathRequestManager.RequestPath(transform.position, targetPos, OnPathFound);
-			}*/
-		}
-	}
+                // check the distance to its target position, if it's far away start navigating again
+                /*float dist = (transform.position - targetPos).sqrMagnitude;
+			    if(dist > 0.15f)
+			    {
+				    travelling = true;
+				    PathRequestManager.RequestPath(transform.position, targetPos, OnPathFound);
+			    }*/
+            }
+        }  
+        
+    }
 
 	#endregion
 
@@ -76,6 +81,13 @@ public class PathNavigator : MonoBehaviour
 	{ 
 		target.position = t;
 	}
+
+    public void StopMoving()
+    {
+        StopCoroutine("FollowPath");
+        locked = true;
+        travelling = false;
+    }
 	
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
 	{

@@ -71,16 +71,16 @@ public class CreatePlanetLandscape : MonoBehaviour {
     {
         noObjects = false;
         Vector3[] verts = gameObject.GetComponent<MeshFilter>().mesh.vertices; // diese Zeile ist das Problem
-        for (int i = 0; i < objCount; i++)
+        /*for (int i = 0; i < objCount; i++)
         {      
             Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;          
             ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
 			gs.creatures.Add (m.GameObject, m as Creature);
-        }
+        }*/
 
-        for (int i = 0; i < 2*objCount; i++)
+        for (int i = 0; i < objCount; i++)
         {
             Vector3 pos = verts[Random.Range(0, verts.Length)] * transform.localScale.x;
             PredatoryMonster m = new PredatoryMonster(7, 50, 0.3f, 7);
