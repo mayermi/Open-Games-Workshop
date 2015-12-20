@@ -15,9 +15,12 @@ public class RandomObjectScattering : MonoBehaviour
     int placedResources = 0;
     int maxResources;
     GameState gameState;
+    GameObject objects;
 
     void Start()
     {
+        objects = new GameObject();
+        objects.name = "EnvironmentObjects";
     }
 
     void Update()
@@ -95,6 +98,7 @@ public class RandomObjectScattering : MonoBehaviour
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
+                mainObject.transform.SetParent(objects.transform);
 
                 var detailCount = Random.Range(minDetails, maxDetails);
                 Vector3 helpVector = RandomVector();
@@ -114,6 +118,7 @@ public class RandomObjectScattering : MonoBehaviour
                     var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
                     detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
                     detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
+                    detail.transform.SetParent(objects.transform);
                 }
             } else if(placedResources < maxResources){     // resources, where no rocks are so that aliens can reach them        
                 GameObject detail = Creator.Create("resource", pos, "resource");
@@ -138,6 +143,7 @@ public class RandomObjectScattering : MonoBehaviour
                 var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
                 detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
+                detail.transform.SetParent(objects.transform);
             }
 
         }
