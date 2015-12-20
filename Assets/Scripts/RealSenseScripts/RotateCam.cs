@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using RSUnityToolkit;
 
 public class RotateCam : VirtualWorldBoxAction
@@ -9,6 +8,7 @@ public class RotateCam : VirtualWorldBoxAction
 
     public GameObject planet;
     public Camera cam;
+    public float camSpeed = 5f;
 
     [SerializeField]
     private float MaxPosX = 30;
@@ -87,11 +87,11 @@ public class RotateCam : VirtualWorldBoxAction
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.X)) // forward
         {
-            Camera.main.fieldOfView = Camera.main.fieldOfView - 5;
+            if (Camera.main.fieldOfView >= 10) Camera.main.fieldOfView -= 5;
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.Y)) // back
         {
-            Camera.main.fieldOfView = Camera.main.fieldOfView + 5;
+            if (Camera.main.fieldOfView <= 120) Camera.main.fieldOfView += 5;
         }
 
         TrackTrigger trgr = (TrackTrigger)SupportedTriggers[1];
@@ -113,12 +113,21 @@ public class RotateCam : VirtualWorldBoxAction
                     _lastY = eulerAngles_hand.y;
 
                 //fixed hand position
-                if (eulerAngles_hand.y < ThreshRightTurn)
+                if (deltaX == 0 && eulerAngles_hand.y < ThreshRightTurn)
+                {
                     //turn right
+                    Vector3 verticalaxis = cam.transform.TransformDirection(Vector3.up);
+                    cam.transform.RotateAround(planet.transform.position, verticalaxis, -camSpeed * Time.deltaTime);
                     deltaY = -0.2f;
-                else if (eulerAngles_hand.y > ThreshLeftTurn)
+                }
+                else if (deltaX == 0 && eulerAngles_hand.y > ThreshLeftTurn)
+                {
                     //turn left
+                    Vector3 verticalaxis = cam.transform.TransformDirection(Vector3.down);
+                    cam.transform.RotateAround(planet.transform.position, verticalaxis, -camSpeed * Time.deltaTime);
                     deltaY = 0.2f;
+                }
+
                 else
                     deltaY = 0;
 
@@ -126,30 +135,38 @@ public class RotateCam : VirtualWorldBoxAction
                 if (deltaY == 0 && (eulerAngles_hand.x > 310 && eulerAngles_hand.x < 340))
                 {
                     //rotate to the player
-                    if ((360 - (MaxPosX - camAngles_ini.x)+1 < (camAngles.x - 0.2f)) || camAngles.x <= camAngles_ini.x + MaxPosX)
+                    /*if ((360 - (MaxPosX - camAngles_ini.x) + 1 < (camAngles.x - 0.2f)) || camAngles.x <= camAngles_ini.x + MaxPosX)
+                    {*/
                         deltaX = -0.2f;
+                        Vector3 horizontalaxis = cam.transform.TransformDirection(Vector3.right);
+                        cam.transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
+                    /*}
                     else
-                        deltaX = 0;
+                        deltaX = 0;*/
                 }
                 else if (deltaY == 0 && (eulerAngles_hand.x > 20) && (eulerAngles_hand.x < 310)){
                     //rotate away from the player
-                    if ((360 - (MaxPosX - camAngles_ini.x) <= camAngles.x) || camAngles.x + 0.2f < camAngles_ini.x + MaxPosX-1)
+                    /*if ((360 - (MaxPosX - camAngles_ini.x) <= camAngles.x) || camAngles.x + 0.2f < camAngles_ini.x + MaxPosX - 1)
+                    {*/
                         deltaX = 0.2f;
+                        Vector3 horizontalaxis = cam.transform.TransformDirection(Vector3.left);
+                        cam.transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
+                    /*}
                     else
-                        deltaX = 0;
+                        deltaX = 0;*/
                 }else
                     deltaX = 0;
 
                 
                 //Rotation and positioning of camera
-                Quaternion cameraRotation = Quaternion.Euler(_lastX - deltaX, _lastY + deltaY, 0);
+                /*Quaternion cameraRotation = Quaternion.Euler(_lastX - deltaX, _lastY + deltaY, 0);
                 cam.transform.rotation = cameraRotation;
 
                 Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -185) + planet.transform.position;
                 cam.transform.position = cameraPosition;
 
                 _lastY = _lastY + deltaY;
-                _lastX = _lastX + deltaX;
+                _lastX = _lastX + deltaX;*/
             }
         }
    }
