@@ -4,21 +4,18 @@ using System.Collections;
 public class GrabController : MonoBehaviour {
 
     GameState gs;
-    public float speed = 1f;
     bool grabbing = false;
     GameObject objectToBeGrabbed = null;
 
-    // Use this for initialization
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
     }
 	
-	// Update is called once per frame
 	void Update () {
 
         GameObject planet = GameObject.Find("Planet");
         float distance = Vector3.Distance(planet.transform.position, transform.position);
-        float planetradius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+        float planetradius = GameValues.PlanetRadius;
        
         Vector3 v3 = Input.mousePosition;
         if (distance > (planetradius + 13))
