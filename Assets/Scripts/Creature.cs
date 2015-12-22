@@ -28,7 +28,7 @@ public abstract class Creature {
         GameObject.GetComponent<PathNavigator>().StopMoving();
     }
 
-    public void TakeDamage(int d) 
+    public virtual void TakeDamage(int d, object source=null) 
 	{
 		CurrentHealth = CurrentHealth - d;
         GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;

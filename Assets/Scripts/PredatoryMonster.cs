@@ -21,7 +21,7 @@ public class PredatoryMonster : Monster {
             Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
                                          GameObject.transform.forward.y * Random.Range(-1, 1),
                                          GameObject.transform.forward.z * Random.Range(-1, 1));
-            float distance = Random.Range(10, 60);
+            float distance = Random.Range(5, 40);
             target = GameObject.transform.position + ((rndDir) * distance);
             target = CoordinateHelper.GroundPosition(target);
             MoveTo(target);

@@ -5,8 +5,8 @@ public class AlienHelper : CreatureHelper {
 
 	Alien alien;
     GameState gs;
-    bool movingToResource = false;
-    bool movingToShip = false;
+    bool alien.movingToResource = false;
+    bool movingToShipWithResource = false;
 
 	public override void Start () {
 		base.Start ();
@@ -19,20 +19,24 @@ public class AlienHelper : CreatureHelper {
         base.Update ();
 
         if (alien == null)
-        {
-            alien = gs.aliens[gameObject] as Alien;
-        }
-        else if (alien.state == Alien.AlienState.SEARCHING && !movingToResource)
-        {
-            alien.Search();
-        }
-        else if (alien.state == Alien.AlienState.CARRYING)
-        {
-            alien.CarryResource(GameValues.ShipPos);
-        }
+		{
+			alien = gs.aliens [gameObject] as Alien;
+		} 
+		else if (alien.state == Alien.AlienState.SEARCHING && !alien.movingToResource)
+		{
+			alien.Search ();
+		} 
+		else if (alien.state == Alien.AlienState.CARRYING)
+		{
+			alien.CarryResource ();
+		} 
+		else if (alien.state == Alien.AlienState.FLEEING)
+		{
+			alien.Flee();
+		}
 
-        if (movingToResource) CheckDistToResource();
-        if (movingToShip) CheckDistToShip();
+        if (alien.movingToResource) CheckDistToResource();
+        if (movingToShipWithResource) CheckDistToShip();
     }
 
     public override void NoPathFound()
@@ -50,7 +54,7 @@ public class AlienHelper : CreatureHelper {
             {
                 Debug.Log("Detected Resource");
                 alien.MoveTo(other.gameObject.transform.position);
-                movingToResource = true;
+                alien.movingToResource = true;
                 alien.Resource = other.gameObject;
             }
             
@@ -71,10 +75,11 @@ public class AlienHelper : CreatureHelper {
         if (dist <= 5f)
         {
             alien.TakeResource();
-            movingToResource = false;
-            movingToShip = true;
+            alien.movingToResource = false;
+            movingToShipWithResource = true;
         }
     }
+
     void CheckDistToShip()
     {
         float dist = (gameObject.transform.position - GameValues.ShipPos).magnitude;
@@ -85,8 +90,8 @@ public class AlienHelper : CreatureHelper {
             // check if other Aliens were trying to reach this specific resource too
             RemoveResourceReferences(res);
             Destroy(res);
-            movingToShip = false;
-            Debug.Log("Deposit Resource. Collected REsources: " + gs.CollectedResources);
+            movingToShipWithResource = false;
+            Debug.Log("Deposit Resource. Collected Resources: " + gs.CollectedResources);
         }
     }
 

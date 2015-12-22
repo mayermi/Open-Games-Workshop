@@ -116,7 +116,7 @@ public class RandomObjectScattering : MonoBehaviour
                     GameObject detail = Creator.Create(detailName, detail_pos, detailName);
                     detail.transform.up = -(transform.position - detail_pos).normalized;
                     var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
-                    detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
+					detail.transform.localScale *= small_scale;
                     detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
                     detail.transform.SetParent(objects.transform);
                 }

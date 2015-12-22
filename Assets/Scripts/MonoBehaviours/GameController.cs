@@ -36,12 +36,13 @@ public class GameController : MonoBehaviour {
 			Debug.Log(gs.ActiveSkill);
         }
 
-        // every two seconds there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 2)
+        // every three seconds there is a chance for a monster spawn
+        if (Time.time - spawnTimer > 1)
         {
             DecideMonsterSpawning();
             spawnTimer = Time.time;
         }
+
     }
 
     void SpawnAliens(int count) 

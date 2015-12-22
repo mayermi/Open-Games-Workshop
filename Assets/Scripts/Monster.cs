@@ -10,6 +10,7 @@ public abstract class Monster : Creature {
 	public int AttackDamage { get; set; }
 	public bool AttackReady { get; set; }
 	public List<GameObject> alienTargets;
+	public const float COOLDOWN = 1f;
 
 	public Monster(int attack, int health, float speed, int range) : base(health, speed, range) {
 		AttackDamage = attack;
@@ -21,14 +22,14 @@ public abstract class Monster : Creature {
 	public void Attack(Creature c)
     {   
 		if (AttackReady) {
-			c.TakeDamage(AttackDamage);
+			c.TakeDamage(AttackDamage, this);
 			state = MonsterState.ATTACKING;
             MoveTo(c.GameObject.transform.position);
             Debug.Log(this + "is attacking " + c);
 
 			// Start cooldown of attack
 			AttackReady = false;
-			GameObject.GetComponent<MonsterHelper>().StartCoolDown(1, this);
+			GameObject.GetComponent<MonsterHelper>().StartCoolDown(COOLDOWN, this);
 		}
     }
 	

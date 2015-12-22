@@ -90,7 +90,6 @@ public class GrabController : MonoBehaviour {
     void OnTriggerExit(Collider other)
     {
         // if the selected Monster leaves the range, deselect it 
-        Debug.Log("enter");
         if (objectToBeGrabbed == other.gameObject)
         {
             objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(1, 1, 1);
