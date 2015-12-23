@@ -16,12 +16,17 @@ public class PathNavigator : MonoBehaviour
 	int targetIndex;
 
 	bool travelling = false;
+	bool travellingStraight = false;
 
 	PlanetBody planetBody;
 
 	public bool drawPath;
 
     public bool locked;
+
+	public LayerMask mask;
+
+	private float timer;
 
 	#region Unity
 
@@ -36,6 +41,11 @@ public class PathNavigator : MonoBehaviour
 
 	void Update()
 	{
+		if (travellingStraight)
+		{
+			MoveTowards(target.position);
+		}
+
         if (!locked)
         {
             // if the target position has moved
@@ -46,7 +56,10 @@ public class PathNavigator : MonoBehaviour
                 if (targetPosDiff > 0.01f)
                 {
                     travelling = true;
-                    PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+
+					DecideMethod(target.position);
+                    
+					timer = Time.time;
                 }
 
                 prevTargetPos = target.position;
@@ -77,6 +90,30 @@ public class PathNavigator : MonoBehaviour
 	//          NAVIGATE
 	// *************************
 
+	public void DecideMethod(Vector3 t) 
+	{
+		Quaternion q = planetBody.LookAtTarget (t);
+		GameObject trans = new GameObject();
+		trans.transform.rotation = q;
+		Vector3 direction = trans.transform.forward;
+		Destroy (trans);
+
+		RaycastHit hit;
+		Ray ray = new Ray (transform.position, direction);
+		Debug.DrawLine (transform.position, transform.position + 20*direction, Color.cyan, 5f);
+		if (Physics.Raycast (ray, out hit, 20, mask, QueryTriggerInteraction.Ignore))
+		{
+			if (hit.transform.tag == "NotWalkable")
+			{	
+				Debug.Log ("Requesting Pathfinding");
+				travellingStraight = false;
+				PathRequestManager.RequestPath(transform.position, t, OnPathFound);
+				return;
+			} 
+		} 
+		travellingStraight = true;
+	}
+
 	public void SetTarget(Vector3 t) 
 	{ 
 		target.position = t;
@@ -95,6 +132,7 @@ public class PathNavigator : MonoBehaviour
         {
             if (pathSuccessful && newPath.Length > 0)
             {
+				Debug.Log ("Path found in: " + (Time.time-timer));
                 path = newPath;
                 StopCoroutine("FollowPath");
                 StartCoroutine("FollowPath");
