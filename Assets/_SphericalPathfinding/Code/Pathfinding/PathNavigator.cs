@@ -40,48 +40,33 @@ public class PathNavigator : MonoBehaviour
 	}
 
 	void Update()
-	{
-		if (travellingStraight)
+	{	
+		if (!locked)
 		{
-			MoveTowards(target.position);
-		}
-
-        if (!locked)
-        {
-            // if the target position has moved
-            if (target != null)
-            {
-                float targetPosDiff = Vector3.Distance(prevTargetPos, target.position);
-
-                if (targetPosDiff > 0.01f)
-                {
-                    travelling = true;
-
-					DecideMethod(target.position);
-                    
+			if (target != null && !travelling)
+			{
+					travelling = true;
+					
+					if((transform.position-target.position).magnitude <= 20) {
+						DecideMethod(target.position);
+					} else {
+						travellingStraight = false;
+						PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+					}
+						
 					timer = Time.time;
-                }
 
-                prevTargetPos = target.position;
-            }
-
-            if (!travelling) // if the navigator has finished travelling
-            {
-                Vector3 targetPos = Vector3.zero;
-                if (target != null) targetPos = target.position;
-                //else targetPos = RandomTargetPos();
-
-                // check the distance to its target position, if it's far away start navigating again
-                /*float dist = (transform.position - targetPos).sqrMagnitude;
-			    if(dist > 0.15f)
-			    {
-				    travelling = true;
-				    PathRequestManager.RequestPath(transform.position, targetPos, OnPathFound);
-			    }*/
-            }
-        }  
-        
-    }
+			}
+			
+			if (!travelling && !travellingStraight) // if the navigator has finished travelling
+			{
+				Vector3 targetPos = Vector3.zero;
+				if (target != null) targetPos = target.position;
+				//else targetPos = RandomTargetPos();
+			}
+		}  
+		
+	}
 
 	#endregion
 
@@ -98,24 +83,34 @@ public class PathNavigator : MonoBehaviour
 		Vector3 direction = trans.transform.forward;
 		Destroy (trans);
 
+		Vector3 tempTo = transform.position + 20 * direction;
+		Vector3 castTo = tempTo.normalized * (GameValues.PlanetRadius*1.05f);
+		Vector3 castFrom = transform.position.normalized * (GameValues.PlanetRadius*1.05f);
+		direction = (castTo - castFrom).normalized;
+
 		RaycastHit hit;
-		Ray ray = new Ray (transform.position, direction);
-		Debug.DrawLine (transform.position, transform.position + 20*direction, Color.cyan, 5f);
-		if (Physics.Raycast (ray, out hit, 20, mask, QueryTriggerInteraction.Ignore))
-		{
-			if (hit.transform.tag == "NotWalkable")
-			{	
-				Debug.Log ("Requesting Pathfinding");
+		Ray ray = new Ray (castFrom, direction);
+		Debug.DrawLine (castFrom, castTo, Color.cyan, 2f);
+		if (Physics.Raycast (ray, out hit, 20)) {
+			if(hit.transform.tag == "NotWalkable") {
+				Debug.Log ("Hit obstacle. Requesting Pathfinding.");
 				travellingStraight = false;
-				PathRequestManager.RequestPath(transform.position, t, OnPathFound);
+				PathRequestManager.RequestPath (transform.position, t, OnPathFound);
 				return;
-			} 
+			}
 		} 
 		travellingStraight = true;
+		Debug.Log ("Way is clear.");
+		StopCoroutine("FollowPathStraight");
+		StopCoroutine("FollowPath");
+		path = new Vector3[0];
+		StartCoroutine ("FollowPathStraight");
 	}
 
 	public void SetTarget(Vector3 t) 
 	{ 
+		Debug.Log ("changed target");
+		travelling = false;
 		target.position = t;
 	}
 
@@ -133,16 +128,34 @@ public class PathNavigator : MonoBehaviour
             if (pathSuccessful && newPath.Length > 0)
             {
 				Debug.Log ("Path found in: " + (Time.time-timer));
-                path = newPath;
-                StopCoroutine("FollowPath");
-                StartCoroutine("FollowPath");
-            }
-            else
-            {
-                gameObject.SendMessage("NoPathFound");
-                travelling = false;
-            }
-        }	
+				path = newPath;
+				StopCoroutine("FollowPathStraight");
+				StopCoroutine("FollowPath");
+				StartCoroutine("FollowPath");
+			}
+			else
+			{
+				gameObject.SendMessage("NoPathFound");
+				travelling = false;
+			}
+		}	
+	}
+
+	IEnumerator FollowPathStraight()
+	{
+		while (true && !locked) 
+		{
+			float dist = (transform.position - target.position).sqrMagnitude;
+			
+			if (dist <= 0.25f) 
+			{
+				travelling = false;
+				travellingStraight = false;
+				yield break;
+			}
+			MoveTowards(target.position);
+			yield return null;		
+		}
 	}
 	
 	IEnumerator FollowPath()

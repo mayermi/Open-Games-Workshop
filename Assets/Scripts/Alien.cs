@@ -55,7 +55,7 @@ public class Alien : Creature {
         if (target == Vector3.zero)
 			target = GameObject.transform.position;
 
-		if ((GameObject.transform.position - target).magnitude <= 5f)
+		if ((GameObject.transform.position - target).sqrMagnitude <= 3f)
 		{
 			Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
 			                             GameObject.transform.forward.y * Random.Range(-1, 1),

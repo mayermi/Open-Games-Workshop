@@ -291,7 +291,7 @@ public class SphericalGrid : MonoBehaviour
 	public NodeType GroundTypeFromWorldPoint(Vector3 worldPos)
 	{
 		Vector3 dir = (planetCenter - worldPos).normalized;
-		Vector3 startRayPos = -dir * (planetRadius * 1.1f);
+		Vector3 startRayPos = -dir * (planetRadius * 1.25f);
 
 		Ray ray = new Ray();
 		ray.origin = startRayPos;
@@ -299,9 +299,6 @@ public class SphericalGrid : MonoBehaviour
 		
 		int nodeTypeLayer = 1<<10;
 		RaycastHit hit;
-
-		//Debug.DrawRay(startRayPos,  dir * radius);
-		//Debug.Break();
 
 		if(Physics.SphereCast(ray, nodeRadius, out hit, nodeTypeLayer))
 		{

@@ -99,6 +99,7 @@ public class RandomObjectScattering : MonoBehaviour
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
                 mainObject.transform.localScale = new Vector3(scale, scale, scale);
                 mainObject.transform.SetParent(objects.transform);
+				mainObject.layer = 10;
 
                 var detailCount = Random.Range(minDetails, maxDetails);
                 Vector3 helpVector = RandomVector();
@@ -164,7 +165,7 @@ public class RandomObjectScattering : MonoBehaviour
         else if (r > 0.9f)
             mainObjectName = "rock_group_1";
         else if (r > 0.8f)
-            mainObjectName = "rock_group_3";
+            mainObjectName = "rock_group_1";
 
         return mainObjectName;
     }

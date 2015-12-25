@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour {
         }
 
         // every three seconds there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 1)
+        if (Time.time - spawnTimer > 2)
         {
             DecideMonsterSpawning();
             spawnTimer = Time.time;
