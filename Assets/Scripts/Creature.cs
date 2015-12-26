@@ -35,6 +35,14 @@ public abstract class Creature {
         if (CurrentHealth <= 0) Die();
 	}
 
+	public virtual void GetHealed(int d, object source=null) 
+	{
+		CurrentHealth = CurrentHealth + d;
+		if (CurrentHealth > MaxHealth)
+			CurrentHealth = MaxHealth;
+		GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+	}
+
 	public virtual void Die() 
 	{
 		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
