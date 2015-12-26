@@ -97,7 +97,7 @@ public class RandomObjectScattering : MonoBehaviour
                 mainObject.transform.up = -(transform.position - pos).normalized;
                 mainObject.transform.Rotate(mainObject.transform.up, Random.Range(0f, 360f), Space.World);
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
-                mainObject.transform.localScale = new Vector3(scale, scale, scale);
+				mainObject.transform.localScale *= scale;
                 mainObject.transform.SetParent(objects.transform);
 
                 var detailCount = Random.Range(minDetails, maxDetails);
@@ -123,8 +123,8 @@ public class RandomObjectScattering : MonoBehaviour
             } else if(placedResources < maxResources){     // resources, where no rocks are so that aliens can reach them        
                 GameObject detail = Creator.Create("resource", pos, "resource");
                 detail.transform.up = -(transform.position - pos).normalized;
-                var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
-                detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
+				var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+				detail.transform.localScale *= small_scale;
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
                 placedResources++;
             }
@@ -140,8 +140,8 @@ public class RandomObjectScattering : MonoBehaviour
                 var detailName = DecideDetailObject();
                 GameObject detail = Creator.Create(detailName, detail_pos, detailName);
                 detail.transform.up = -(transform.position - detail_pos).normalized;
-                var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
-                detail.transform.localScale = new Vector3(small_scale, small_scale, small_scale);
+				var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+				detail.transform.localScale *= small_scale;
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
                 detail.transform.SetParent(objects.transform);
             }
@@ -163,8 +163,10 @@ public class RandomObjectScattering : MonoBehaviour
             mainObjectName = "rock_group_0";
         else if (r > 0.9f)
             mainObjectName = "rock_group_1";
-        else if (r > 0.8f)
-            mainObjectName = "rock_group_3";
+        else if (r > 0.85f)
+			mainObjectName = "rock_group_3";
+		else if (r > 0.82f)
+			mainObjectName = "brunnen";
 
         return mainObjectName;
     }
