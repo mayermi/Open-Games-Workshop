@@ -6,9 +6,16 @@ public class GrabController : MonoBehaviour {
     GameState gs;
     bool grabbing = false;
     public GameObject objectToBeGrabbed = null;
+	public AudioClip grabSound;
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }
 	
 	void Update () {
@@ -56,6 +63,8 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = GameObject.Find("HandOfGod").transform.position;
                 objectToBeGrabbed.transform.position = pos;
+				
+				source.PlayOneShot(grabSound,vol);
             }
     }
 
