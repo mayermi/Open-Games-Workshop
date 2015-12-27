@@ -5,6 +5,7 @@ public class Alien : Creature {
 
 	public enum AlienState { SEARCHING, FLEEING, CARRYING }
 	public GameObject Resource { get; set;}
+	public bool Infected { get; set;}
 	public AlienState state;
 	private Vector3 target;
 	public bool movingToResource = false;
@@ -13,6 +14,7 @@ public class Alien : Creature {
 
 	public Alien(int health, float speed, int range) : base(health, speed, range){
 		state = AlienState.SEARCHING;
+		Infected = false;
 	}
 
 	public override void TakeDamage(int d, object source=null)
@@ -22,6 +24,12 @@ public class Alien : Creature {
 		{
 			state = AlienState.FLEEING;
 		}
+	}
+
+	public override void GetHealed(int d, object source=null) 
+	{
+		if (Infected)
+			Infected = false;
 	}
 
 	public void TakeResource()

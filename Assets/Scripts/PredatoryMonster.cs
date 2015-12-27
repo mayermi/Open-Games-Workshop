@@ -5,7 +5,7 @@ public class PredatoryMonster : Monster {
 
     private Vector3 target;
 
-    public PredatoryMonster(int attack, int health, float speed, int range) : base(attack, health, speed, range) {
+	public PredatoryMonster(int attack, int health, float speed, int range, bool contagious) : base(attack, health, speed, range, contagious) {
 
     }
 

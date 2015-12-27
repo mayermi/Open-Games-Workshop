@@ -62,7 +62,7 @@ public class MonsterHelper : CreatureHelper {
 	void CheckDistance() {
 		float dist = (transform.position - m.alienTargets.First ().transform.position).magnitude;
 		if (dist <= 4f)
-			m.Attack (gs.creatures [m.alienTargets.First ()] as Creature);
+			m.Attack (gs.creatures [m.alienTargets.First ()] as Alien);
 		else if (dist > 4f)
 			m.Chase ();
 	}
