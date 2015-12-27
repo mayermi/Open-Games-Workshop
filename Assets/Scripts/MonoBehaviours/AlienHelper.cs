@@ -5,8 +5,8 @@ public class AlienHelper : CreatureHelper {
 
 	Alien alien;
     GameState gs;
-    bool alien.movingToResource = false;
     bool movingToShipWithResource = false;
+	bool infectionReady = true;
 
 	public override void Start () {
 		base.Start ();
@@ -37,6 +37,11 @@ public class AlienHelper : CreatureHelper {
 
         if (alien.movingToResource) CheckDistToResource();
         if (movingToShipWithResource) CheckDistToShip();
+		if (alien.Infected && infectionReady)
+		{
+			infectionReady = false;
+			StartCoroutine(InfectionDamage(3));
+		}
     }
 
     public override void NoPathFound()
@@ -120,4 +125,11 @@ public class AlienHelper : CreatureHelper {
             }
         }
     }
+
+	IEnumerator InfectionDamage(float sec)
+	{
+		alien.TakeDamage (2);
+		yield return new WaitForSeconds (sec);
+		infectionReady = true;
+	}
 }

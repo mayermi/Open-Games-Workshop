@@ -5,7 +5,7 @@ public class GrabController : MonoBehaviour {
 
     GameState gs;
     bool grabbing = false;
-    GameObject objectToBeGrabbed = null;
+    public GameObject objectToBeGrabbed = null;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -82,7 +82,8 @@ public class GrabController : MonoBehaviour {
            other.isTrigger == false)
         {
             objectToBeGrabbed = other.gameObject;
-            objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(0,1,0);
+            //objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(0,1,0);
+			objectToBeGrabbed.transform.Find("Highlight").gameObject.SetActive(true);
         }
             
     }
@@ -91,11 +92,12 @@ public class GrabController : MonoBehaviour {
     {
         // if the selected Monster leaves the range, deselect it 
         if (objectToBeGrabbed == other.gameObject)
-        {
-            objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(1, 1, 1);
+        {           
             objectToBeGrabbed = null;           
         }
-            
+		//objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(1, 1, 1);
+		if(other.transform.Find("Highlight"))
+			other.transform.Find("Highlight").gameObject.SetActive(false);  
     }
 
     public bool IsGrabbing()
