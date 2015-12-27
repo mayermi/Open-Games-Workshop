@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 
     GameState gs;
     SkillController sc;
+	GrabController gc;
     GameObject planet;
     float lastSpawn;
     float spawnTimer;
@@ -14,6 +15,7 @@ public class GameController : MonoBehaviour {
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
+		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
         gs.ActiveSkill = 0;
@@ -92,7 +94,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(15, 100, 0.2f, 10);
+            ShyMonster m = new ShyMonster(15, 100, 0.2f, 7, false);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
@@ -111,10 +113,14 @@ public class GameController : MonoBehaviour {
         {        
             Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             spawnPos = CoordinateHelper.GroundPosition(spawnPos);
-            PredatoryMonster m = new PredatoryMonster(15, 100, 0.2f, 10);
+			bool contagious = false;
+			if(Random.Range(0f,1f) < 0.1f) contagious = true;
+            PredatoryMonster m = new PredatoryMonster(15, 50, 0.2f, 10, contagious);
             m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
+			if(contagious)
+				m.GameObject.transform.Find ("Infection").GetComponent<ParticleSystem>().Play();
 
             GameObject effect = Creator.Create("Spawner", pos, "Spawner");
             effect.transform.forward = -(planet.transform.position -pos).normalized;
@@ -128,7 +134,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            EvilMonster m = new EvilMonster(15, 100, 0.2f, 10);
+            EvilMonster m = new EvilMonster(15, 100, 0.2f, 8, false);
             m.GameObject = Creator.Create("monster", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
@@ -140,11 +146,17 @@ public class GameController : MonoBehaviour {
 
     void RemoveReferences(Creature c) {
 		// If the creature is an alien, tell the chasing monster that the target is dead
-		foreach (DictionaryEntry d in gs.monsters) {
-			Monster m = d.Value as Monster;
-			if(m.alienTargets.Contains (c.GameObject)) {
-				m.alienTargets.Remove(c.GameObject);
+		if (c is Alien)
+		{
+			foreach (DictionaryEntry d in gs.monsters) {
+				Monster m = d.Value as Monster;
+				if (m.alienTargets.Contains (c.GameObject)) {
+					m.alienTargets.Remove (c.GameObject);
+				}
 			}
 		}
+
+		if (gc.objectToBeGrabbed == c.GameObject)
+			gc.objectToBeGrabbed = null;
 	}
 }

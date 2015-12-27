@@ -5,7 +5,7 @@ public class GrabController : MonoBehaviour {
 
     GameState gs;
     bool grabbing = false;
-    GameObject objectToBeGrabbed = null;
+    public GameObject objectToBeGrabbed = null;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
