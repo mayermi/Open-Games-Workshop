@@ -28,6 +28,7 @@ public class Alien : Creature {
 
 	public override void GetHealed(int d, object source=null) 
 	{
+		base.GetHealed (d);
 		if (Infected)
 			Infected = false;
 	}
