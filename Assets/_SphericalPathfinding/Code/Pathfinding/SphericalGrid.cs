@@ -41,14 +41,14 @@ public class SphericalGrid : MonoBehaviour
 {
 	// Icosahedron values
 	[Range(1, 56)]
-	public int subDivisions = 20;	
+	public int subDivisions = 24;	
 
 	// planet
 	public float planetRadius = 50f;
 	public Vector3 planetCenter = Vector3.zero;
 
 	// node
-	public float nodeRadius = 0.04f;
+	public float nodeRadius = 0.4f;
 
 	// icosahedron
 	public Mesh[] icosahedronMesh;
