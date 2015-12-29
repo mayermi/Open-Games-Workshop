@@ -18,31 +18,36 @@ public class MonsterHelper : CreatureHelper {
 	public override void Update() 
 	{
 		base.Update ();
-		if (m.alienTargets.Count == 0)
-			m.Idle ();
-		if (m.state == Monster.MonsterState.CHASING || m.state == Monster.MonsterState.ATTACKING)
-			CheckDistance ();			
-		
-	}
 
-    // Always looking if an Alien enters the AggroRange
-	/*void OnTriggerStay(Collider other)
-    {     
-        if(other.gameObject.tag == "Alien") // only interested in Aliens, not other monsters
+        if (m == null)
         {
-            if ((transform.position - other.transform.position).magnitude <= 3f && m.state != Monster.MonsterState.IDLE)
-            {
-                m.Attack(gs.aliens[other.gameObject] as Alien);
-            } else {
-                m.Chase(gs.aliens[other.gameObject] as Alien);
-            }             
-        }
-    }*/
+            m = gs.monsters[gameObject] as Monster;
+        } else if (m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED)
+        {
+            m.Idle();
+        } else if ( m.state != Monster.MonsterState.GRABBED &&
+                    (   
+                        m.state == Monster.MonsterState.CHASING ||
+                        m.state == Monster.MonsterState.ATTACKING || 
+                        (m.state == Monster.MonsterState.IDLE && m.alienTargets.Count > 0)
+                    )
+                  )
+        {
+            CheckDistance();
+        }         
 
-	void OnTriggerEnter(Collider other){
+    }
+
+    public override void NoPathFound()
+    {
+        base.NoPathFound();
+        m.ResetTarget();
+    }
+
+    void OnTriggerEnter(Collider other){
 		if (other.gameObject.tag == "Alien" && !m.alienTargets.Contains(other.gameObject)) {
 			m.alienTargets.Add (other.gameObject);
-			m.Chase ();
+			if(m.state != Monster.MonsterState.GRABBED) m.Chase ();
 		}
 	}
 
@@ -50,14 +55,14 @@ public class MonsterHelper : CreatureHelper {
     {
 		if (m.alienTargets.Contains(other.gameObject)) {
 			m.alienTargets.Remove(other.gameObject);
-			if(m.alienTargets.Count == 0) m.Idle();
+			if(m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED) m.Idle();
 		}
     }
 
 	void CheckDistance() {
 		float dist = (transform.position - m.alienTargets.First ().transform.position).magnitude;
 		if (dist <= 4f)
-			m.Attack (gs.creatures [m.alienTargets.First ()] as Creature);
+			m.Attack (gs.creatures [m.alienTargets.First ()] as Alien);
 		else if (dist > 4f)
 			m.Chase ();
 	}

@@ -22,7 +22,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
 
     //Smoothing parameters
     private SmoothingUtility _translationSmoothingUtility = new SmoothingUtility();
-    private float SmoothingFactor = 10;
+    private float SmoothingFactor = 20;
     private SmoothingUtility.SmoothingTypes SmoothingType = SmoothingUtility.SmoothingTypes.Weighted;
 
     #endregion
@@ -129,6 +129,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 vec.x = (vec.x * VirtualWorldBoxDimensions.x);
                 vec.y = (vec.y * VirtualWorldBoxDimensions.y);
                 vec.z = (vec.z * VirtualWorldBoxDimensions.z);
+
 
                 //invert
                 if (InvertTransform.Position.X)

@@ -13,4 +13,7 @@ public class CreatureHelper : MonoBehaviour {
         // make sure the health bar faces the camera
         c.transform.LookAt(Camera.main.transform.position);
     }
+
+    public virtual void NoPathFound() { }
+
 }

@@ -19,22 +19,36 @@ public abstract class Creature {
 
 	public void MoveTo(Vector3 target)
 	{
-		GameObject.GetComponent<PathNavigator> ().SetTarget (target);
-	}
+        GameObject.GetComponent<PathNavigator>().locked = false;
+        GameObject.GetComponent<PathNavigator> ().SetTarget (target);
+    }
 
-	public void TakeDamage(int d) 
+    public void StopMoving()
+    {
+        GameObject.GetComponent<PathNavigator>().StopMoving();
+    }
+
+    public virtual void TakeDamage(int d, object source=null) 
 	{
 		CurrentHealth = CurrentHealth - d;
-        Debug.Log(CurrentHealth);
         GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
         if (CurrentHealth <= 0) Die();
+	}
+
+	public virtual void GetHealed(int d, object source=null) 
+	{
+		CurrentHealth = CurrentHealth + d;
+		if (CurrentHealth > MaxHealth)
+			CurrentHealth = MaxHealth;
+		GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
 	}
 
 	public virtual void Die() 
 	{
 		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
 		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
-        MonoBehaviour.Destroy(GameObject);
+        GameObject.SetActive(false);
+        //MonoBehaviour.Destroy(GameObject);
 	}
 
 	public bool IsInRange(GameObject g)

@@ -5,12 +5,32 @@ public class Alien : Creature {
 
 	public enum AlienState { SEARCHING, FLEEING, CARRYING }
 	public GameObject Resource { get; set;}
+	public bool Infected { get; set;}
 	public AlienState state;
 	private Vector3 target;
-	private float searchTime;
+	public bool movingToResource = false;
+	private float waitTimer = -1f;
+	private const float WAITTIME = 10f;
 
 	public Alien(int health, float speed, int range) : base(health, speed, range){
 		state = AlienState.SEARCHING;
+		Infected = false;
+	}
+
+	public override void TakeDamage(int d, object source=null)
+	{
+		base.TakeDamage (d, source);
+		if (source != null && source is Monster) 
+		{
+			state = AlienState.FLEEING;
+		}
+	}
+
+	public override void GetHealed(int d, object source=null) 
+	{
+		base.GetHealed (d);
+		if (Infected)
+			Infected = false;
 	}
 
 	public void TakeResource()
@@ -38,14 +58,13 @@ public class Alien : Creature {
 
 	public void Search()
 	{
-        //Debug.Log((GameObject.transform.position - target).magnitude);
         state = AlienState.SEARCHING;
 
         // for initialisation
-        if (target == Vector3.zero || (Time.time - searchTime) > 15f)
+        if (target == Vector3.zero)
 			target = GameObject.transform.position;
 
-		if ((GameObject.transform.position - target).magnitude <= 8f)
+		if ((GameObject.transform.position - target).magnitude <= 5f)
 		{
 			Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
 			                             GameObject.transform.forward.y * Random.Range(-1, 1),
@@ -53,28 +72,54 @@ public class Alien : Creature {
 			float distance = Random.Range(10, 60);
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
-			//Debug.Log ("Last Search: " + (Time.time - searchTime));
-			searchTime = Time.time;
+			waitTimer = Time.time;
 			MoveTo (target);
 		}
 	}
 
 	public void Flee()
     {
+		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
+		if(Resource) DropResource ();
+		movingToResource = false;
+		ReturnToShip ();
+
+		// Alien is back at SpaceShip, waits for WAITTIME seconds
+		if ((GameObject.transform.position - target).magnitude <= 5f && waitTimer == -1f)
+			waitTimer = Time.time;
+
+		if (waitTimer != -1f && Time.time - waitTimer > WAITTIME) 
+		{
+			state = AlienState.SEARCHING;
+			waitTimer = -1f;
+		}
+			
     }
 
-    public void CarryResource(Vector3 ship_pos)
+    public void CarryResource()
     {
         state = AlienState.CARRYING;
 
-        if (target != ship_pos)
-        {
-            target = ship_pos;
-            MoveTo(target);
-        }
+		ReturnToShip ();
+
         // Alien is back at SpaceShip, reinit Search
-        if ((GameObject.transform.position - target).magnitude <= 5f) target = Vector3.zero;      
+		if ((GameObject.transform.position - target).magnitude <= 5f)
+			ResetTarget ();
         
     }
+
+    public void ResetTarget()
+    {
+        target = Vector3.zero;
+    }
+
+	private void ReturnToShip() 
+	{
+		if (target != GameValues.ShipPos)
+		{
+			target = GameValues.ShipPos;
+			MoveTo(target);
+		}
+	}
 }

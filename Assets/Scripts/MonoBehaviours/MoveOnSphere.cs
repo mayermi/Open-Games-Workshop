@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveOnSphere : MonoBehaviour {
 
-    public float runSpeed;
+	private Creature c;
 	public string animName;
 
     Animation anim;
@@ -11,30 +11,19 @@ public class MoveOnSphere : MonoBehaviour {
     void Start()
     {
         anim = GetComponent<Animation>();
+		c = GameObject.Find ("GameState").GetComponent<GameState> ().creatures [gameObject] as Creature;
     }
 
-	void Update ()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            // Casts the ray and get the first game object hit
-            Physics.Raycast(ray, out hit);
-            // we hit the planet -> set target
-            if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
-            {
-                //GetComponent<PathNavigator>().SetTarget(hit.point);                            
-            }
-
-        }
-        
-    }
+	void Update() 
+	{
+		if(c == null)
+			c = GameObject.Find ("GameState").GetComponent<GameState> ().creatures [gameObject] as Creature;
+	}
 
 	public void moveTowards(Vector3 targetPos) 
 	{
 			anim.Play(animName);
-			transform.position += runSpeed * Time.deltaTime * transform.forward;         
+			transform.position += c.Speed * Time.deltaTime * transform.forward;         
 	}
 
     

@@ -9,8 +9,21 @@ public class SkillController : MonoBehaviour {
     RecursiveLightning lightning;
 	GameObject fire;
 	bool fireBurning = false;
+	GameObject heal;
     Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool>();
     GrabController gc;
+	public AudioClip lightningSound;
+	public AudioClip fireSound;
+	public AudioClip healSound;
+
+	private const float HEALRADIUS = 10f;
+	private const int HEALPOINTS = 50;
+	private const float LIGHTNINGRADIUS = 10f;
+	private const int LIGHTNINGDAMAGE = 100;
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -18,68 +31,68 @@ public class SkillController : MonoBehaviour {
         lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
+		heal = GameObject.Find ("Heal");
         foreach (Skills s in Enum.GetValues(typeof(Skills)))
         {
             skillDisabled[s] = false;
         }
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }
 
 	void FixedUpdate() {
-		if (Input.GetMouseButtonDown(1))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			// Casts the ray and get the first game object hit
-			Physics.Raycast(ray, out hit);
-			// we hit the planet -> set target
-			if (hit.transform && hit.transform.gameObject == GameObject.Find("Planet"))
-			{
-				//GetComponent<PathNavigator>().SetTarget(hit.point);                            
-			}
-			
-		}
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        {
+            PerformActiveSkill();
+        }
 
         UpdateFire();
 	}
 
     public void PerformActiveSkill()
     {
-        if (!gc.getGrabbed())
+        Skills active = (Skills)gs.ActiveSkill;
+        if (skillDisabled[active])
+            return;
+        switch (active)
         {
-            Skills active = (Skills)gs.ActiveSkill;
-            if (skillDisabled[active])
-                return;
-            switch (active)
-            {
-                case Skills.Lightning:
-                    Debug.Log("Lightning");
-                    Lightning();
-                    break;
-                case Skills.Fire:
-                    Debug.Log("Fire");
-                    Fire();
-                    break;
-                case Skills.Skill3:
-                    Debug.Log("Nummer3");
-                    Nummer3();
-                    break;
-                default:
-                    break;
-            }
-        }    
+            case Skills.Lightning:
+                Debug.Log("Lightning");
+                Lightning();
+				source.PlayOneShot(lightningSound,vol);
+                break;
+            case Skills.Fire:
+                Debug.Log("Fire");
+                Fire();
+				source.PlayOneShot(fireSound,vol);
+                break;
+            case Skills.Heal:
+                Debug.Log("Heal");
+                Heal();
+				source.PlayOneShot(healSound,vol);
+                break;
+            default:
+                break;
+        }
     }
 
     // Skill 1
     void Lightning()
     {
         skillDisabled[Skills.Fire] = true;
-        // Start and end positions are placeholders at the moment
-        Vector3 from = GameObject.Find("HandOfGod").transform.position + new Vector3(0, 1, 0);
-        Vector3 to = GameObject.Find("ShyMonster").transform.position;
+        // Lightning starts in Hand
+        Vector3 from = GameObject.Find("HandOfGod").transform.position;
+        
+        // target is either a nearby monster or the ground 
+        Vector3 to = CoordinateHelper.GroundPosition(from);
+		Monster m = GetNearestMonster(to, LIGHTNINGRADIUS);
+        if (m != null) to = m.GameObject.transform.position;
+
         lightning.firstVertexPosition = from;
         lightning.lastVertexPosition = to;
         lightning.StrikeLightning();
-        CauseDamage(to, 5f, 25);
+        if (m != null) m.TakeDamage(LIGHTNINGDAMAGE);
+
         skillDisabled[Skills.Fire] = false;
     }
 
@@ -89,19 +102,33 @@ public class SkillController : MonoBehaviour {
         skillDisabled[Skills.Fire] = true;
 		GameObject hand = GameObject.Find ("HandOfGod");
 		fire.transform.SetParent(hand.transform);
-		//fire.transform.position = hand.transform.position;
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
 		StartCoroutine (StopFire(2f));
     }
 
     // Skill 3
-    void Nummer3()
+    void Heal()
     {
-        Debug.Log("Skill 3 triggered");
+		skillDisabled[Skills.Heal] = true;
+		Vector3 pos = GameObject.Find("HandOfGod").transform.position;
+		pos = CoordinateHelper.GroundPosition (pos);
+		heal.transform.position = pos;
+		heal.transform.forward = pos.normalized;
+		heal.GetComponent<ParticleSystem> ().Play ();
+		foreach(DictionaryEntry d in gs.aliens)
+		{
+			Alien a = d.Value as Alien;
+			float dist = (pos - a.GameObject.transform.position).magnitude;
+			if(dist < HEALRADIUS)
+			{
+				a.GetHealed(HEALPOINTS);
+			}
+		}
+		StartCoroutine (StopHeal(4f));
     }
 
-    void CauseDamage(Vector3 pos, float radius, int damage)
+    Monster GetNearestMonster(Vector3 pos, float radius)
     {
         foreach(DictionaryEntry d in gs.monsters)
         {
@@ -109,10 +136,18 @@ public class SkillController : MonoBehaviour {
             float dist = (pos - m.GameObject.transform.position).magnitude;
             if(dist < radius)
             {
-                m.TakeDamage(damage);
+                return m;
             }
         }
+        return null;
     }
+
+	Alien[] GetNearestAlien(Vector3 pos, float radius)
+	{
+
+
+		return null;
+	}
 
     void UpdateFire()
     {
@@ -137,5 +172,11 @@ public class SkillController : MonoBehaviour {
         skillDisabled[Skills.Fire] = false;
 	}
 
-    enum Skills { Lightning, Fire, Skill3 };
+	IEnumerator StopHeal(float sec)
+	{
+		yield return new WaitForSeconds(sec);
+		skillDisabled[Skills.Heal] = false;
+	}
+
+    enum Skills { Lightning, Fire, Heal };
 }

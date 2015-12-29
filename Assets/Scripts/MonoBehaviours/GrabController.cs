@@ -4,81 +4,78 @@ using System.Collections;
 public class GrabController : MonoBehaviour {
 
     GameState gs;
-    public float speed = 1f;
     bool grabbing = false;
-    GameObject objectToBeGrabbed = null;
-    int timesGrabbed = 0;
+    public GameObject objectToBeGrabbed = null;
+	public AudioClip grabSound;
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
 
-	// Use this for initialization
-	void Start () {
+    void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }
 	
-	// Update is called once per frame
 	void Update () {
-        // Y axis
-        if (Input.GetKey(KeyCode.UpArrow))
+
+        GameObject planet = GameObject.Find("Planet");
+        float distance = Vector3.Distance(planet.transform.position, transform.position);
+        float planetradius = GameValues.PlanetRadius;
+       
+        Vector3 v3 = Input.mousePosition;
+        if (distance > (planetradius + 13))
         {
-            transform.position += new Vector3(0,0.1f * speed, 0);
-        } else if (Input.GetKey(KeyCode.DownArrow))
+            v3.z = 130.0f;
+        }
+        else
         {
-            transform.position += new Vector3(0, -0.1f * speed, 0);
+            v3.z = 130.0f + (distance - (planetradius + 13));
         }
 
-        // X Axis
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.position += new Vector3(0.1f * speed, 0, 0);
-        } else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.position += new Vector3(-0.1f * speed, 0, 0);
-        }
+        v3 = Camera.main.ScreenToWorldPoint(v3);
 
-        // Z Axis
-        if (Input.GetKey(KeyCode.L))
+        gameObject.transform.position = v3;
+
+        if (Input.GetMouseButtonDown(1))
         {
-            transform.position += new Vector3(0, 0, -0.1f * speed);
-        }
-        else if (Input.GetKey(KeyCode.K))
-        {
-            transform.position += new Vector3(0, 0, 0.1f * speed);
+            if (!grabbing) Grab();
+            else Release();
         }
 
         transform.up = (transform.position - GameObject.Find("Planet").transform.position).normalized;
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!grabbing) Grab();
-            else Release(); 
-        }
     }
 
     void Grab()
     {
-        timesGrabbed++;
-        Debug.Log("grab");
-        //Debug.Log(objectToBeGrabbed);
+        Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
-            if ( !grabbing && objectToBeGrabbed != null)
+        if ( !grabbing && objectToBeGrabbed != null)
             {
                 Debug.Log("grab");
                 grabbing = true;
                 Monster m = gs.monsters[objectToBeGrabbed] as Monster;
                 m.GetGrabbed();
                 objectToBeGrabbed.transform.SetParent(transform);
+            
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
+                Vector3 pos = GameObject.Find("HandOfGod").transform.position;
+                objectToBeGrabbed.transform.position = pos;
+				
+				source.PlayOneShot(grabSound,vol);
             }
     }
 
     void Release()
     {
-        Debug.Log("Release");
         if (grabbing)
         {
             Debug.Log("Release");
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
-            objectToBeGrabbed.transform.position = transform.position;
+            //objectToBeGrabbed.transform.position = transform.position;
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
             m.Idle();
             grabbing = false;
@@ -89,18 +86,30 @@ public class GrabController : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         // if a Monster is in range, set it as the GameObject that will be grabbed
-        if(gs.monsters[other.gameObject] != null)
+        if(gs.monsters[other.gameObject] != null &&
+           !grabbing &&
+           other.isTrigger == false)
+        {
             objectToBeGrabbed = other.gameObject;
+            //objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(0,1,0);
+			objectToBeGrabbed.transform.Find("Highlight").gameObject.SetActive(true);
+        }
+            
     }
 
-    void OnTriggerLeave(Collider other)
+    void OnTriggerExit(Collider other)
     {
         // if the selected Monster leaves the range, deselect it 
-        if (objectToBeGrabbed == other.gameObject || gs.monsters[other.gameObject] == null)
-            objectToBeGrabbed = null;
+        if (objectToBeGrabbed == other.gameObject)
+        {           
+            objectToBeGrabbed = null;           
+        }
+		//objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(1, 1, 1);
+		if(other.transform.Find("Highlight"))
+			other.transform.Find("Highlight").gameObject.SetActive(false);  
     }
 
-    public bool getGrabbed()
+    public bool IsGrabbing()
     {
         return grabbing;
     }

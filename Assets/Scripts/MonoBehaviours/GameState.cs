@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameState : MonoBehaviour {
 
@@ -25,7 +26,8 @@ public class GameState : MonoBehaviour {
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
 
-	public Vector3 ShipPos { get; set; }
+    private List<Vector3> _monsterSpawnPoints = new List<Vector3>();
+    public List<Vector3> MonsterSpawnPoints { get { return _monsterSpawnPoints; } }
 
 	void RemoveCreature(Creature c) {
 		if (c is Monster) {

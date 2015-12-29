@@ -85,12 +85,12 @@ GameObject:
   - 4: {fileID: 471614}
   - 137: {fileID: 13701408}
   m_Layer: 8
-  m_Name: Plane
+  m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &120546
 GameObject:
   m_ObjectHideFlags: 1
@@ -269,6 +269,22 @@ GameObject:
   - 4: {fileID: 489426}
   m_Layer: 8
   m_Name: Bone_020
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &163666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 455292}
+  - 137: {fileID: 13798340}
+  m_Layer: 8
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -774,6 +790,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 420102}
   m_RootOrder: 0
+--- !u!4 &455292
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163666}
+  m_LocalRotation: {x: .645617068, y: 2.24212055e-11, z: -2.80265156e-12, w: .763661325}
+  m_LocalPosition: {x: .00104285288, y: .318239629, z: -1.36520088}
+  m_LocalScale: {x: 1.70000005, y: 1.70000005, z: 1.70000005}
+  m_Children: []
+  m_Father: {fileID: 478180}
+  m_RootOrder: 1
 --- !u!4 &455574
 Transform:
   m_ObjectHideFlags: 1
@@ -887,11 +915,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119722}
   m_LocalRotation: {x: .645617068, y: 2.24212055e-11, z: -2.80265156e-12, w: .763661325}
-  m_LocalPosition: {x: .00104285288, y: .318239629, z: -1.36520088}
-  m_LocalScale: {x: 1.69977105, y: 1.6997714, z: 1.69977081}
+  m_LocalPosition: {x: .00104300189, y: .318239629, z: -1.36520135}
+  m_LocalScale: {x: 1.70000005, y: 1.70000005, z: 1.70000005}
   m_Children: []
   m_Father: {fileID: 478180}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!4 &478180
 Transform:
   m_ObjectHideFlags: 1
@@ -899,12 +927,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 166168}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0592808723, y: 12.2526283, z: -25.1000004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -5.78886414, y: -1.63882208, z: -54.0299988}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 434566}
-  - {fileID: 471614}
+  - {fileID: 455292}
   - {fileID: 22428320}
+  - {fileID: 471614}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &487296
@@ -1008,10 +1037,9 @@ Animation:
   serializedVersion: 3
   m_Animation: {fileID: 7400002, guid: 43de7b06cda97b643bf2eccaf5f87178, type: 3}
   m_Animations:
-  - {fileID: 7400000, guid: 43de7b06cda97b643bf2eccaf5f87178, type: 3}
   - {fileID: 7400002, guid: 43de7b06cda97b643bf2eccaf5f87178, type: 3}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 1
 --- !u!114 &11446194
@@ -1165,6 +1193,7 @@ MonoBehaviour:
   target: {fileID: 0}
   lookSpeed: 10
   drawPath: 1
+  locked: 0
 --- !u!114 &11483160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1196,6 +1225,69 @@ SkinnedMeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119722}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 63e799bfad0db44ca91b7dc946342df6, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_Mesh: {fileID: 4300000, guid: 43de7b06cda97b643bf2eccaf5f87178, type: 3}
+  m_Bones:
+  - {fileID: 417384}
+  - {fileID: 417152}
+  - {fileID: 423598}
+  - {fileID: 495082}
+  - {fileID: 495374}
+  - {fileID: 409058}
+  - {fileID: 415400}
+  - {fileID: 468028}
+  - {fileID: 409098}
+  - {fileID: 407282}
+  - {fileID: 404870}
+  - {fileID: 452764}
+  - {fileID: 460080}
+  - {fileID: 428564}
+  - {fileID: 455574}
+  - {fileID: 450526}
+  - {fileID: 460758}
+  - {fileID: 487992}
+  - {fileID: 457506}
+  - {fileID: 437428}
+  - {fileID: 464578}
+  - {fileID: 487296}
+  - {fileID: 463160}
+  - {fileID: 408592}
+  - {fileID: 489426}
+  - {fileID: 400078}
+  - {fileID: 420102}
+  - {fileID: 454802}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 417384}
+  m_AABB:
+    m_Center: {x: -1.34630573, y: -.00343430042, z: -.314499676}
+    m_Extent: {x: 2.58989429, y: .540794253, z: 1.01813769}
+  m_DirtyAABB: 0
+--- !u!137 &13798340
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163666}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -1355,6 +1447,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: m_Animations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: animName
       value: Run
       objectReference: {fileID: 0}
@@ -1373,6 +1469,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Animations.Array.data[0]
+      value: 
+      objectReference: {fileID: 7400002, guid: 43de7b06cda97b643bf2eccaf5f87178, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Animations.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_PlayAutomatically
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

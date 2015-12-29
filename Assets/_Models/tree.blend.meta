@@ -1,48 +1,17 @@
 fileFormatVersion: 2
-guid: 36afbb4ef397a31479e5a92ee86da780
-timeCreated: 1446910603
+guid: ec5b8e8390265bf48a7a25f0fb4bfea8
+timeCreated: 1450282845
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: Circle
-    100002: Circle_001
-    100004: Circle_002
-    100006: Circle_003
-    100008: Circle_004
-    100010: Circle_005
-    100012: //RootNode
-    400000: Circle
-    400002: Circle_001
-    400004: Circle_002
-    400006: Circle_003
-    400008: Circle_004
-    400010: Circle_005
-    400012: //RootNode
-    2300000: Circle
-    2300002: Circle_001
-    2300004: Circle_002
-    2300006: Circle_003
-    2300008: Circle_004
-    2300010: Circle_005
-    2300012: //RootNode
-    3300000: Circle
-    3300002: Circle_001
-    3300004: Circle_002
-    3300006: Circle_003
-    3300008: Circle_004
-    3300010: Circle_005
-    3300012: //RootNode
-    4300000: Tree
-    4300002: Circle
-    4300004: Circle_001
-    4300006: Circle_002
-    4300008: Circle_003
-    4300010: Circle_004
-    4300012: Circle_005
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Circle
     7400000: Default Take
     9500000: //RootNode
-    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -86,7 +55,7 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     human: []
@@ -101,7 +70,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

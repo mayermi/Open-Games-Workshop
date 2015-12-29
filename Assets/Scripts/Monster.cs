@@ -10,25 +10,29 @@ public abstract class Monster : Creature {
 	public int AttackDamage { get; set; }
 	public bool AttackReady { get; set; }
 	public List<GameObject> alienTargets;
+	public const float COOLDOWN = 1f;
+	public bool isContagious;
 
-	public Monster(int attack, int health, float speed, int range) : base(health, speed, range) {
+	public Monster(int attack, int health, float speed, int range, bool contagious) : base(health, speed, range) {
 		AttackDamage = attack;
 		state = MonsterState.IDLE;
 		AttackReady = true;
 		alienTargets = new List<GameObject> ();
+		isContagious = contagious;
 	}
 
-	public void Attack(Creature c)
+	public void Attack(Alien a)
     {   
 		if (AttackReady) {
-			c.TakeDamage(AttackDamage);
 			state = MonsterState.ATTACKING;
-            MoveTo(c.GameObject.transform.position);
-            Debug.Log(this + "is attacking " + c);
+			a.TakeDamage(AttackDamage, this);
+			if(isContagious && !a.Infected) a.Infected = true;
+
+            MoveTo(a.GameObject.transform.position);
 
 			// Start cooldown of attack
 			AttackReady = false;
-			GameObject.GetComponent<MonsterHelper>().StartCoolDown(1, this);
+			GameObject.GetComponent<MonsterHelper>().StartCoolDown(COOLDOWN, this);
 		}
     }
 	
@@ -39,11 +43,13 @@ public abstract class Monster : Creature {
         state = MonsterState.CHASING;
     }
 
-    public void GetGrabbed()
+    public virtual void GetGrabbed()
     {
         state = MonsterState.GRABBED;
         Debug.Log(this + " is grabbed");
     }
+
+    public abstract void ResetTarget();
 	
 	public abstract void Idle();
 
