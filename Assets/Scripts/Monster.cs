@@ -26,7 +26,11 @@ public abstract class Monster : Creature {
 		if (AttackReady) {
 			state = MonsterState.ATTACKING;
 			a.TakeDamage(AttackDamage, this);
-			if(isContagious && !a.Infected) a.Infected = true;
+            if (isContagious && !a.Infected)
+            {
+                a.Infected = true;
+                a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
+            }
 
             MoveTo(a.GameObject.transform.position);
 

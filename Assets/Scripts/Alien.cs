@@ -31,7 +31,8 @@ public class Alien : Creature {
 		base.GetHealed (d);
 		if (Infected)
 			Infected = false;
-	}
+        GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Stop();
+    }
 
 	public void TakeResource()
     {
