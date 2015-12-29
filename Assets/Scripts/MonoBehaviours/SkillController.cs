@@ -41,7 +41,7 @@ public class SkillController : MonoBehaviour {
     }
 
 	void FixedUpdate() {
-        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing() && gs.gameReady)
         {
             PerformActiveSkill();
         }

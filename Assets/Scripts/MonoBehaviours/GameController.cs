@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Pantheon.Utils;
 
@@ -10,6 +11,9 @@ public class GameController : MonoBehaviour {
     GameObject planet;
     float lastSpawn;
     float spawnTimer;
+
+    bool readyToBakePathfinding = false;
+    bool bakingDone = false;
 
     // Use this for initialization
     void Start () {
@@ -23,27 +27,51 @@ public class GameController : MonoBehaviour {
         spawnTimer = Time.time;
         // Create planet landscape
 		planet.GetComponent<RandomObjectScattering> ().Setup ();
-        // Init pathfinding
-		if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
-
-		SpawnAliens (gs.maxAliens);
+        		
+        readyToBakePathfinding = true;
 	}
+
 
     void Update()
     {    
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if(readyToBakePathfinding && !bakingDone && Time.time - spawnTimer > 2f)
         {
-            gs.ActiveSkill += 1;
-            if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
-			Debug.Log(gs.ActiveSkill);
+            // Init pathfinding
+            Debug.Log("started baking");   
+            GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+            bakingDone = true;
+            Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+            text.text = "Press Enter to Start.";
         }
 
-        // every three seconds there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 1)
+        if(bakingDone && !gs.gameReady)
         {
-            DecideMonsterSpawning();
-            spawnTimer = Time.time;
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                GameObject.Find("StoryCanvas").SetActive(false);
+                gs.gameReady = true;
+                SpawnAliens(gs.maxAliens);
+            }
+                
         }
+         
+        if(gs.gameReady)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                gs.ActiveSkill += 1;
+                if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+                Debug.Log(gs.ActiveSkill);
+            }
+
+            // every two seconds there is a chance for a monster spawn
+            if (Time.time - spawnTimer > 2)
+            {
+                DecideMonsterSpawning();
+                spawnTimer = Time.time;
+            }
+        }  
+   
 
     }
 

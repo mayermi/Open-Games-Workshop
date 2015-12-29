@@ -17,6 +17,6 @@ public class MainMenu : MonoBehaviour {
 
     public void LoadScene()
     {
-        Application.LoadLevel("sphere_movement");
+        Application.LoadLevel("main_game");
     }
 }
