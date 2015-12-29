@@ -12,11 +12,18 @@ public class SkillController : MonoBehaviour {
 	GameObject heal;
     Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool>();
     GrabController gc;
+	public AudioClip lightningSound;
+	public AudioClip fireSound;
+	public AudioClip healSound;
 
 	private const float HEALRADIUS = 10f;
 	private const int HEALPOINTS = 50;
 	private const float LIGHTNINGRADIUS = 10f;
 	private const int LIGHTNINGDAMAGE = 100;
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -29,6 +36,8 @@ public class SkillController : MonoBehaviour {
         {
             skillDisabled[s] = false;
         }
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }
 
 	void FixedUpdate() {
@@ -50,14 +59,17 @@ public class SkillController : MonoBehaviour {
             case Skills.Lightning:
                 Debug.Log("Lightning");
                 Lightning();
+				source.PlayOneShot(lightningSound,vol);
                 break;
             case Skills.Fire:
                 Debug.Log("Fire");
                 Fire();
+				source.PlayOneShot(fireSound,vol);
                 break;
             case Skills.Heal:
                 Debug.Log("Heal");
                 Heal();
+				source.PlayOneShot(healSound,vol);
                 break;
             default:
                 break;
