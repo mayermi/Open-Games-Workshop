@@ -78,7 +78,7 @@ public static class CoordinateHelper {
     public static Vector3 GroundPosition(Vector3 currentPosition)
     {
         float planetRadius = GameValues.PlanetRadius;
-        Vector3 dir = (new Vector3(0, 0, 0) - currentPosition).normalized;  
+        Vector3 dir = -(new Vector3(0, 0, 0) - currentPosition).normalized;  
      
         return dir * planetRadius;
     }

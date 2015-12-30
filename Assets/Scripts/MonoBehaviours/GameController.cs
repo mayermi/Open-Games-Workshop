@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour {
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
-        planet.layer = 1 << 10;
+        planet.layer = 10;
         gs.ActiveSkill = 0;
         lastSpawn = Time.time;
         spawnTimer = Time.time;
