@@ -23,7 +23,6 @@ public class TextTyper : MonoBehaviour {
 	
 	IEnumerator TypeText () {
 		foreach (string letter in message) {
-			Debug.Log (letter);
 			textComp.text += letter;
 			yield return 0;
 			yield return new WaitForSeconds (letterPause);
