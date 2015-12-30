@@ -75,6 +75,7 @@ public class GrabController : MonoBehaviour {
             }
     }
 
+
     void Release()
     {
         if (grabbing)
