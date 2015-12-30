@@ -11,11 +11,16 @@ public class GrabController : MonoBehaviour {
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
+    private Vector3 moveDir;
+    private Vector3 prevPos;
+    private GameObject handOfGod;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
-		source = GetComponent<AudioSource>();
+        handOfGod = GameObject.Find("HandOfGod");
+        source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+        prevPos = handOfGod.transform.position;
     }
 	
 	void Update () {
@@ -44,8 +49,10 @@ public class GrabController : MonoBehaviour {
             else Release();
         }
 
-        transform.up = (transform.position - GameObject.Find("Planet").transform.position).normalized;
+        transform.up = (transform.position - planet.transform.position).normalized;
 
+        moveDir = -(prevPos - handOfGod.transform.position);
+        prevPos = handOfGod.transform.position;
     }
 
     void Grab()
@@ -61,7 +68,7 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.transform.SetParent(transform);
             
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
-                Vector3 pos = GameObject.Find("HandOfGod").transform.position;
+                Vector3 pos = handOfGod.transform.position;
                 objectToBeGrabbed.transform.position = pos;
 				
 				source.PlayOneShot(grabSound,vol);
@@ -75,8 +82,9 @@ public class GrabController : MonoBehaviour {
             Debug.Log("Release");
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
-            //objectToBeGrabbed.transform.position = transform.position;
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
+            Debug.Log(moveDir);
+            objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * 25f, ForceMode.Impulse);
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;
@@ -91,7 +99,6 @@ public class GrabController : MonoBehaviour {
            other.isTrigger == false)
         {
             objectToBeGrabbed = other.gameObject;
-            //objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(0,1,0);
 			objectToBeGrabbed.transform.Find("Highlight").gameObject.SetActive(true);
         }
             
@@ -104,7 +111,6 @@ public class GrabController : MonoBehaviour {
         {           
             objectToBeGrabbed = null;           
         }
-		//objectToBeGrabbed.transform.Find("Mesh").GetComponent<Renderer>().material.color = new Color(1, 1, 1);
 		if(other.transform.Find("Highlight"))
 			other.transform.Find("Highlight").gameObject.SetActive(false);  
     }

@@ -14,14 +14,15 @@ public class GameController : MonoBehaviour {
 
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
+    bool baking = false;
 
-    // Use this for initialization
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+        planet.layer = 1 << 10;
         gs.ActiveSkill = 0;
         lastSpawn = Time.time;
         spawnTimer = Time.time;
@@ -34,14 +35,12 @@ public class GameController : MonoBehaviour {
 
     void Update()
     {    
-        if(readyToBakePathfinding && !bakingDone && Time.time - spawnTimer > 2f)
+        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - spawnTimer > 2f)
         {
             // Init pathfinding
-            Debug.Log("started baking");   
-            GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
-            bakingDone = true;
-            Text text = GameObject.Find("LoadedText").GetComponent<Text>();
-            text.text = "Press Enter to Start.";
+            Debug.Log("started baking");
+            baking = true;
+            StartCoroutine(BakeNodes());         
         }
 
         if(bakingDone && !gs.gameReady)
@@ -73,6 +72,17 @@ public class GameController : MonoBehaviour {
         }  
    
 
+    }
+
+    IEnumerator BakeNodes()
+    {
+        bool finished = false;
+        finished = GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+        while (!finished)
+            yield return null;
+        bakingDone = true;
+        Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+        text.text = "Press Enter to Start.";
     }
 
     void SpawnAliens(int count) 
