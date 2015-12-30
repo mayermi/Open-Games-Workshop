@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
     bool baking = false;
+	bool isBlinking = true;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -28,14 +29,15 @@ public class GameController : MonoBehaviour {
         spawnTimer = Time.time;
         // Create planet landscape
 		planet.GetComponent<RandomObjectScattering> ().Setup ();
-        		
+		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+		text.text = "Spiel wird geladen...";
         readyToBakePathfinding = true;
 	}
 
 
     void Update()
     {    
-        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - spawnTimer > 2f)
+        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - spawnTimer > 3f)
         {
             // Init pathfinding
             Debug.Log("started baking");
@@ -81,9 +83,18 @@ public class GameController : MonoBehaviour {
         while (!finished)
             yield return null;
         bakingDone = true;
-        Text text = GameObject.Find("LoadedText").GetComponent<Text>();
-        text.text = "Press Enter to Start.";
+		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+		StartCoroutine(BlinkText(text));
     }
+
+	public IEnumerator BlinkText(Text text){
+		while(isBlinking){
+			text.text = "";
+			yield return new WaitForSeconds(.5f);
+			text.text = "Drücke Enter um zu Starten!";
+			yield return new WaitForSeconds(.5f); 
+		}
+	}
 
     void SpawnAliens(int count) 
 	{
