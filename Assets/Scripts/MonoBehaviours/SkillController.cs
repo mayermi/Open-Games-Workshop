@@ -80,7 +80,7 @@ public class SkillController : MonoBehaviour {
 	public void PerformActiveSkillWithRealsense()
 	{
 		skillPerformed++;
-		if (skillPerformed % 2 == 0)
+		if (skillPerformed % 2 != 0)
 			PerformActiveSkill ();
 	}
 

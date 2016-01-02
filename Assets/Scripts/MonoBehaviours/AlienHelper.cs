@@ -7,12 +7,18 @@ public class AlienHelper : CreatureHelper {
     GameState gs;
     bool movingToShipWithResource = false;
 	bool infectionReady = true;
+	private AudioClip attackSound;
+	private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
+		source = gameObject.AddComponent<AudioSource>();
+		attackSound = (AudioClip)Resources.Load ("monster-alarm");
+		source.clip = attackSound;
+		source.playOnAwake = false;
     }
 
 	public override void Update () {
@@ -32,6 +38,7 @@ public class AlienHelper : CreatureHelper {
 		} 
 		else if (alien.state == Alien.AlienState.FLEEING)
 		{
+			source.Play();
 			alien.Flee();
 		}
 
