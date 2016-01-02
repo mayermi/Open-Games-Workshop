@@ -80,15 +80,17 @@ public class GameController : MonoBehaviour {
             yield return null;
         bakingDone = true;
 		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+        text.text = "Drücke Enter, um zu starten.";
 		StartCoroutine(BlinkText(text));
     }
 
 	IEnumerator BlinkText(Text text){
-		while(isBlinking){
-			text.text = "";
-			yield return new WaitForSeconds(.5f);
-			text.text = "Drücke Enter um zu Starten!";
-            yield return new WaitForSeconds(.5f);
+        while(isBlinking)
+        {
+            yield return new WaitForSeconds(1.5f);
+            float alpha = 1f;
+            if (text.canvasRenderer.GetAlpha() == 1f) alpha = 0.1f;
+            text.CrossFadeAlpha(alpha, 1.5f, false);
         }
 	}
 
