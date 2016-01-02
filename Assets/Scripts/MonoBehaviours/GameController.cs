@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour {
 	GrabController gc;
     GameObject planet;
     float lastSpawn;
-    float spawnTimer;
+    float bakeTimer;
 
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
@@ -23,12 +23,14 @@ public class GameController : MonoBehaviour {
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
-        planet.layer = 10;
+
         gs.ActiveSkill = 0;
+        bakeTimer = Time.time;
         lastSpawn = Time.time;
-        spawnTimer = Time.time;
         // Create planet landscape
-		planet.GetComponent<RandomObjectScattering> ().Setup ();
+        planet.layer = 10;
+        planet.GetComponent<RandomObjectScattering> ().Setup ();
+
 		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
 		text.text = "Spiel wird geladen...";
         readyToBakePathfinding = true;
@@ -37,7 +39,7 @@ public class GameController : MonoBehaviour {
 
     void Update()
     {    
-        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - spawnTimer > 3f)
+        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - bakeTimer > 1f)
         {
             // Init pathfinding
             Debug.Log("started baking");
@@ -52,6 +54,7 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 gs.gameReady = true;
                 SpawnAliens(gs.maxAliens);
+                StartCoroutine(MonsterSpawning());
             }
                 
         }
@@ -63,13 +66,6 @@ public class GameController : MonoBehaviour {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
                 Debug.Log(gs.ActiveSkill);
-            }
-
-            // every two seconds there is a chance for a monster spawn
-            if (Time.time - spawnTimer > 2)
-            {
-                DecideMonsterSpawning();
-                spawnTimer = Time.time;
             }
         }  
    
@@ -87,14 +83,23 @@ public class GameController : MonoBehaviour {
 		StartCoroutine(BlinkText(text));
     }
 
-	public IEnumerator BlinkText(Text text){
+	IEnumerator BlinkText(Text text){
 		while(isBlinking){
 			text.text = "";
 			yield return new WaitForSeconds(.5f);
 			text.text = "Drücke Enter um zu Starten!";
-			yield return new WaitForSeconds(.5f); 
-		}
+            yield return new WaitForSeconds(.5f);
+        }
 	}
+
+    IEnumerator MonsterSpawning()
+    {
+        while(true)
+        {
+            DecideMonsterSpawning();
+            yield return new WaitForSeconds(GameValues.SPAWNTIME);
+        }
+    }
 
     void SpawnAliens(int count) 
 	{

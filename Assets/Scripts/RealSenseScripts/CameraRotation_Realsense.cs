@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using RSUnityToolkit;
 
-public class RotateCam : VirtualWorldBoxAction
+public class CameraRotation_Realsense : VirtualWorldBoxAction
 {
 
     #region Public Fields
@@ -84,15 +84,6 @@ public class RotateCam : VirtualWorldBoxAction
         updateVirtualWorldBoxCenter();
 
         ProcessAllTriggers();
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.X)) // forward
-        {
-            if (Camera.main.fieldOfView >= 10) Camera.main.fieldOfView -= 5;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.Y)) // back
-        {
-            if (Camera.main.fieldOfView <= 120) Camera.main.fieldOfView += 5;
-        }
 
         TrackTrigger trgr = (TrackTrigger)SupportedTriggers[1];
         Vector3 handpos = trgr.Position;
