@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c3810f67f5b4e4240aed5db38aee5465
-timeCreated: 1450183904
+guid: de5e9055d0801f548a41fb3f936df038
+timeCreated: 1451740946
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -23,8 +23,8 @@ ModelImporter:
     400014: //RootNode
     4300000: Circle
     7400000: Default Take
-    7400002: Run
-    7400004: Run0
+    7400002: Attack
+    7400004: Run
     9500000: //RootNode
     11100000: //RootNode
     13700000: Circle
@@ -47,91 +47,7 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Run0
-      takeName: Run
-      firstFrame: -1
-      lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Armature
-        weight: 1
-      - path: Armature/Bone
-        weight: 1
-      - path: Armature/Bone_001
-        weight: 1
-      - path: Armature/Bone_001/Bone_002
-        weight: 1
-      - path: Armature/Bone_003
-        weight: 1
-      - path: Armature/Bone_003/Bone_004
-        weight: 1
-      - path: Circle
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-    - serializedVersion: 16
-      name: Run
-      takeName: Run
-      firstFrame: -1
-      lastFrame: 30
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Armature
-        weight: 1
-      - path: Armature/Bone
-        weight: 1
-      - path: Armature/Bone_001
-        weight: 1
-      - path: Armature/Bone_001/Bone_002
-        weight: 1
-      - path: Armature/Bone_003
-        weight: 1
-      - path: Armature/Bone_003/Bone_004
-        weight: 1
-      - path: Circle
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
