@@ -88,7 +88,7 @@ public class SphericalGrid : MonoBehaviour
 	}
 
 	// Not used by the inspector
-	public void BakeNodeProcess()
+	public bool BakeNodeProcess()
 	{
 		Debug.Log ("Started baking process");
         float time = Time.time;
@@ -106,6 +106,7 @@ public class SphericalGrid : MonoBehaviour
 		AddNeighbourNodes();
 
 		Debug.Log ("Baking process complete! Time:" + (Time.time - time) + "s");
+        return true;
 	}
 
 

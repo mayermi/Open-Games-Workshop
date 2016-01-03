@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Pantheon.Utils;
 
@@ -9,42 +10,97 @@ public class GameController : MonoBehaviour {
 	GrabController gc;
     GameObject planet;
     float lastSpawn;
-    float spawnTimer;
+    float bakeTimer;
 
-    // Use this for initialization
+    bool readyToBakePathfinding = false;
+    bool bakingDone = false;
+    bool baking = false;
+	bool isBlinking = true;
+
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
-        gs.ActiveSkill = 0;
-        lastSpawn = Time.time;
-        spawnTimer = Time.time;
-        // Create planet landscape
-		planet.GetComponent<RandomObjectScattering> ().Setup ();
-        // Init pathfinding
-		if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
 
-		SpawnAliens (gs.maxAliens);
+        gs.ActiveSkill = 0;
+        bakeTimer = Time.time;
+        lastSpawn = Time.time;
+        // Create planet landscape
+        planet.layer = 10;
+        planet.GetComponent<RandomObjectScattering> ().Setup ();
+
+		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+		text.text = "Spiel wird geladen...";
+        readyToBakePathfinding = true;
 	}
+
 
     void Update()
     {    
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - bakeTimer > 1f)
         {
-            gs.ActiveSkill += 1;
-            if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
-			Debug.Log(gs.ActiveSkill);
+            // Init pathfinding
+            Debug.Log("started baking");
+            baking = true;
+            StartCoroutine(BakeNodes());         
         }
 
-        // every three seconds there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 1)
+        if(bakingDone && !gs.gameReady)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                GameObject.Find("StoryCanvas").SetActive(false);
+                gs.gameReady = true;
+                SpawnAliens(gs.maxAliens);
+                StartCoroutine(MonsterSpawning());
+            }
+                
+        }
+         
+        if(gs.gameReady)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                gs.ActiveSkill += 1;
+                if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+                Debug.Log(gs.ActiveSkill);
+            }
+        }  
+   
+
+    }
+
+    IEnumerator BakeNodes()
+    {
+        bool finished = false;
+        finished = GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+        while (!finished)
+            yield return null;
+        bakingDone = true;
+		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
+        text.text = "Drücke Enter, um zu starten.";
+		StartCoroutine(BlinkText(text));
+    }
+
+	IEnumerator BlinkText(Text text){
+        while(isBlinking)
+        {
+            yield return new WaitForSeconds(1.5f);
+            float alpha = 1f;
+            if (text.canvasRenderer.GetAlpha() == 1f) alpha = 0.1f;
+            text.CrossFadeAlpha(alpha, 1.5f, false);
+        }
+	}
+
+    IEnumerator MonsterSpawning()
+    {
+        while(true)
         {
             DecideMonsterSpawning();
-            spawnTimer = Time.time;
+            yield return new WaitForSeconds(GameValues.SPAWNTIME);
         }
-
     }
 
     void SpawnAliens(int count) 

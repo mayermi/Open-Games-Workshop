@@ -181,7 +181,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 Vector3 currentVec = this.gameObject.transform.position;
                 Vector3 handpos_local = this.gameObject.transform.localPosition;
 
-                if (distance > planetradius+3 || vec.z <= handpos_local.z)
+                if (distance > planetradius+3)
                 {
     
                     // smoothing:
@@ -190,7 +190,11 @@ public class HandTrackingAction : VirtualWorldBoxAction
                         vec = _translationSmoothingUtility.ProcessSmoothing(SmoothingType, SmoothingFactor, vec);
                     }
 
-                    this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z);
+					if(distance > (planetradius + 13)){
+                    	this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, 130.0f);
+					}else{
+						this.gameObject.transform.localPosition = new Vector3(vec.x, vec.y, 130.0f + (distance - (planetradius + 13)));
+					}
                     lastVecX = vec.x;
                     lastVecY = vec.y;
                     lastVecZ = vec.z;

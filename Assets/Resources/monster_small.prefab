@@ -276,7 +276,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 161712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.46992779, y: -20.214756, z: 10.2455187}
+  m_LocalPosition: {x: -31.1654606, y: 13.3795319, z: -44.0991058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 459028}
@@ -423,11 +423,13 @@ Animation:
   m_GameObject: {fileID: 161712}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400002, guid: c3810f67f5b4e4240aed5db38aee5465, type: 3}
+  m_Animation: {fileID: 7400004, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
   m_Animations:
-  - {fileID: 7400002, guid: c3810f67f5b4e4240aed5db38aee5465, type: 3}
+  - {fileID: 7400000, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
+  - {fileID: 7400002, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
+  - {fileID: 7400004, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
   m_WrapMode: 0
-  m_PlayAutomatically: 0
+  m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
 --- !u!114 &11404402
@@ -441,7 +443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad19653adce322b4eb9701b55d5b4595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 4
   animName: Run
 --- !u!114 &11434344
 MonoBehaviour:
@@ -634,7 +635,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: c3810f67f5b4e4240aed5db38aee5465, type: 3}
+  m_Mesh: {fileID: 4300000, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
   m_Bones:
   - {fileID: 471012}
   - {fileID: 445834}
@@ -674,7 +675,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: c3810f67f5b4e4240aed5db38aee5465, type: 3}
+  m_Mesh: {fileID: 4300000, guid: de5e9055d0801f548a41fb3f936df038, type: 3}
   m_Bones:
   - {fileID: 471012}
   - {fileID: 445834}

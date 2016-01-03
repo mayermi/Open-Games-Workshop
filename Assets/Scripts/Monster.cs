@@ -26,9 +26,16 @@ public abstract class Monster : Creature {
 		if (AttackReady) {
 			state = MonsterState.ATTACKING;
 			a.TakeDamage(AttackDamage, this);
-			if(isContagious && !a.Infected) a.Infected = true;
+            if (isContagious && !a.Infected)
+            {
+                a.Infected = true;
+                a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
+            }
 
-            MoveTo(a.GameObject.transform.position);
+            GameObject.GetComponent<Animation>().Play("Attack");
+
+            if((GameObject.transform.position - a.GameObject.transform.position).sqrMagnitude > 2f)
+                MoveTo(a.GameObject.transform.position);
 
 			// Start cooldown of attack
 			AttackReady = false;

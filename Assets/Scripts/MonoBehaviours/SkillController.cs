@@ -24,6 +24,7 @@ public class SkillController : MonoBehaviour {
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
+	private int skillPerformed = 0;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -41,7 +42,7 @@ public class SkillController : MonoBehaviour {
     }
 
 	void FixedUpdate() {
-        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing() && gs.gameReady)
         {
             PerformActiveSkill();
         }
@@ -75,6 +76,13 @@ public class SkillController : MonoBehaviour {
                 break;
         }
     }
+
+	public void PerformActiveSkillWithRealsense()
+	{
+		skillPerformed++;
+		if (skillPerformed % 2 != 0)
+			PerformActiveSkill ();
+	}
 
     // Skill 1
     void Lightning()
