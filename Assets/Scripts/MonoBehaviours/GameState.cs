@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,6 +15,9 @@ public class GameState : MonoBehaviour {
 	 * Monster c = gs.monsters [transform.gameObject] as Monster;
 	 * 
 	*/
+
+	public Slider alienSlider;
+	public Text countAliensText;
 
     public Hashtable creatures = new Hashtable();
 	public Hashtable monsters = new Hashtable();
@@ -35,8 +39,15 @@ public class GameState : MonoBehaviour {
 			monsters.Remove (c.GameObject);
 		} else {
 			aliens.Remove (c.GameObject);
+			SetAlienSlider();
 		}
         creatures.Remove(c.GameObject);
+	}
+
+	void SetAlienSlider() {
+		var aliensCount = aliens.Count;
+		countAliensText.text = "Aliens alive: " + aliensCount.ToString();
+		alienSlider.value = aliensCount;
 	}
 
 }

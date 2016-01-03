@@ -5,6 +5,10 @@ using Pantheon.Utils;
 
 public class GameController : MonoBehaviour {
 
+	public Toggle fireToggle;
+	public Toggle lightningToggle;
+	public Toggle healToggle;
+
     GameState gs;
     SkillController sc;
 	GrabController gc;
@@ -66,6 +70,7 @@ public class GameController : MonoBehaviour {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
                 Debug.Log(gs.ActiveSkill);
+				updateUI();
             }
         }  
    
@@ -214,5 +219,30 @@ public class GameController : MonoBehaviour {
 
 		if (gc.objectToBeGrabbed == c.GameObject)
 			gc.objectToBeGrabbed = null;
+	}
+
+	void updateUI() {
+		var active = gs.ActiveSkill;
+
+		switch (active)
+		{
+		case 0:
+			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
+			break;
+		case 1:
+			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
+			break;
+		case 2:
+			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
+			break;
+		default:
+			break;
+		}
 	}
 }
