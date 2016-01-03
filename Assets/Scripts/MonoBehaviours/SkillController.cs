@@ -66,25 +66,16 @@ public class SkillController : MonoBehaviour {
                 Debug.Log("Lightning");
                 Lightning();
 				source.PlayOneShot(lightningSound,vol);
-//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             case Skills.Fire:
                 Debug.Log("Fire");
                 Fire();
 				source.PlayOneShot(fireSound,vol);
-//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             case Skills.Heal:
                 Debug.Log("Heal");
                 Heal();
 				source.PlayOneShot(healSound,vol);
-//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             default:
                 break;
