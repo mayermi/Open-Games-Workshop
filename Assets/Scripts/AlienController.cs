@@ -49,20 +49,22 @@ public class AlienController : MonoBehaviour {
 
 	void ToggleSkillButton(Toggle toggle) {
 		if (toggle.isOn) {
-			Debug.Log("Toggle is on");
 			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
 			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
 			this.waterToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-//
-//			this.fireToggle.isOn = false;
-//			this.lightningToggle.isOn = false;
-//			this.waterToggle.isOn = false;
 
+			if(toggle != this.fireToggle) {
+				this.fireToggle.isOn = false;
+			}
+			if(toggle != this.lightningToggle) {
+				this.lightningToggle.isOn = false;
+			}
+			if(toggle != this.waterToggle) {
+				this.waterToggle.isOn = false;
+			}
 
 			toggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
-//			toggle.isOn = true;
 		} else {
-			Debug.Log("Toggle is off");
 			toggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
 		}
 	}

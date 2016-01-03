@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -16,6 +17,8 @@ public class SkillController : MonoBehaviour {
 	public AudioClip fireSound;
 	public AudioClip healSound;
 
+	public Toggle lightningToggle;
+
 	private const float HEALRADIUS = 10f;
 	private const int HEALPOINTS = 50;
 	private const float LIGHTNINGRADIUS = 10f;
@@ -29,7 +32,8 @@ public class SkillController : MonoBehaviour {
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
-        lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
+		lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
+		this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
 		heal = GameObject.Find ("Heal");
@@ -44,7 +48,7 @@ public class SkillController : MonoBehaviour {
 	void FixedUpdate() {
         if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing() && gs.gameReady)
         {
-            PerformActiveSkill();
+			PerformActiveSkill();
         }
 
         UpdateFire();
@@ -55,22 +59,32 @@ public class SkillController : MonoBehaviour {
         Skills active = (Skills)gs.ActiveSkill;
         if (skillDisabled[active])
             return;
+
         switch (active)
         {
             case Skills.Lightning:
                 Debug.Log("Lightning");
                 Lightning();
 				source.PlayOneShot(lightningSound,vol);
+//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             case Skills.Fire:
                 Debug.Log("Fire");
                 Fire();
 				source.PlayOneShot(fireSound,vol);
+//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             case Skills.Heal:
                 Debug.Log("Heal");
                 Heal();
 				source.PlayOneShot(healSound,vol);
+//				this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
+//				this.healToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
                 break;
             default:
                 break;

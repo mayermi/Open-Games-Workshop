@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class AlienHelper : CreatureHelper {
+
+	public Text countResourcesText;
+	public Slider resourceSlider;
 
 	Alien alien;
     GameState gs;
@@ -104,6 +108,7 @@ public class AlienHelper : CreatureHelper {
             Destroy(res);
             movingToShipWithResource = false;
             Debug.Log("Deposit Resource. Collected Resources: " + gs.CollectedResources);
+			SetResourceSlider();
         }
     }
 
@@ -132,6 +137,12 @@ public class AlienHelper : CreatureHelper {
             }
         }
     }
+
+	void SetResourceSlider() {
+		var resourcesCount = gs.CollectedResources;
+		countResourcesText.text = "Resources found: " + resourcesCount.ToString ();
+		resourceSlider.value = resourcesCount;
+	}
 
 	IEnumerator InfectionDamage(float sec)
 	{
