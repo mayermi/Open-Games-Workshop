@@ -33,7 +33,7 @@ public class AlienController : MonoBehaviour {
 	void Die() {
 		gameObject.SetActive(false);
 		if (gameObject.CompareTag ("Alien")) {
-			countAliens = countAliens - 1;
+			countAliens = countAliens - 100;
 			SetAlienSlider ();
 		}
 	}
@@ -72,7 +72,7 @@ public class AlienController : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.CompareTag("Resource")) {
 			other.gameObject.SetActive(false);
-			countResources = countResources + 1;
+			countResources = countResources + 100;
 			SetResourceSlider();
 		} else if (other.gameObject.CompareTag("Monster")) {
 			Die();

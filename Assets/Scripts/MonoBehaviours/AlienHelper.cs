@@ -4,9 +4,6 @@ using System.Collections;
 
 public class AlienHelper : CreatureHelper {
 
-	public Text countResourcesText;
-	public Slider resourceSlider;
-
 	Alien alien;
     GameState gs;
     bool movingToShipWithResource = false;
@@ -140,8 +137,8 @@ public class AlienHelper : CreatureHelper {
 
 	void SetResourceSlider() {
 		var resourcesCount = gs.CollectedResources;
-		countResourcesText.text = "Resources found: " + resourcesCount.ToString ();
-		resourceSlider.value = resourcesCount;
+		gs.countResourcesText.text = "Resources found: " + resourcesCount.ToString ();
+		gs.resourceSlider.value = resourcesCount;
 	}
 
 	IEnumerator InfectionDamage(float sec)
