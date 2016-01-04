@@ -18,6 +18,8 @@ public class GameState : MonoBehaviour {
 
 	public Slider alienSlider;
 	public Text countAliensText;
+	public Text countResourcesText;
+	public Slider resourceSlider;
 
     public Hashtable creatures = new Hashtable();
 	public Hashtable monsters = new Hashtable();
