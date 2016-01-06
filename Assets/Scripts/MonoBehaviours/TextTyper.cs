@@ -25,7 +25,7 @@ public class TextTyper : MonoBehaviour {
     public void LoadingDone()
     {
         textComp.text += textComp2;
-        loadText.text = "Drücke Enter, um das Spiel zu starten.";
+        loadText.text = "Drücke Enter, um zu starten.";
         StartCoroutine(BlinkText(loadText));
     }
 
