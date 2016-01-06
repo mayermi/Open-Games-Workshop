@@ -143,6 +143,7 @@ public class GameController : MonoBehaviour {
         {
             Vector3 camPos = gs.GetFirstMonster().transform.position;
             tc.ShowMonsters(camPos);
+            firstSpawn = false;
         }
     }
 

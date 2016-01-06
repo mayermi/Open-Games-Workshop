@@ -73,6 +73,17 @@ public class AlienHelper : CreatureHelper {
             }
             
         }
+
+        // for infecting other aliens
+        if(alien.Infected)
+        {
+            if (gs.aliens.Contains(other.gameObject))
+            {
+                Alien a = gs.aliens[other.gameObject] as Alien;
+                a.Infected = true;
+            }
+        }
+        
     }
 
     void OnTriggerLeave(Collider other)
