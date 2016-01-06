@@ -37,4 +37,13 @@ public class GameState : MonoBehaviour {
         creatures.Remove(c.GameObject);
 	}
 
+    public GameObject GetFirstMonster()
+    {
+        foreach (DictionaryEntry d in monsters)
+        {
+            Monster m = d.Value as Monster;
+            return m.GameObject;
+        }
+        return null;
+    }
 }

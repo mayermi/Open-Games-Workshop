@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Pantheon.Utils;
 
 public class GameController : MonoBehaviour {
@@ -13,11 +15,11 @@ public class GameController : MonoBehaviour {
 
     float lastSpawn;
     float bakeTimer;
-
+   
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
     bool baking = false;
-	bool isBlinking = true;
+    bool firstSpawn = true;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -136,6 +138,12 @@ public class GameController : MonoBehaviour {
             SpawnPredators();
         else
             SpawnEvilMonsters();
+
+        if (firstSpawn)
+        {
+            Vector3 camPos = gs.GetFirstMonster().transform.position;
+            tc.ShowMonsters(camPos);
+        }
     }
 
     void SpawnShyMonsters()
@@ -210,5 +218,7 @@ public class GameController : MonoBehaviour {
 		if (gc.objectToBeGrabbed == c.GameObject)
 			gc.objectToBeGrabbed = null;
 	}
+
+    
 
 }

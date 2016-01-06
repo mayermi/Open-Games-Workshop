@@ -62,23 +62,23 @@ public class CameraRotation : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(FocusOnSpaceship());
+            StartCoroutine(FocusOnPoint(GameValues.ShipPos, 35f));
         }
     }
 
-    IEnumerator FocusOnSpaceship()
+    public IEnumerator FocusOnPoint(Vector3 pos, float newFov)
     {
         float startTime = Time.time;
-        fov = 35f;
+        fov = newFov;
 
-        Vector3 cameraPosition = GameValues.ShipPos.normalized * camDistance;
+        Vector3 cameraPosition = pos.normalized * camDistance;
 
         Vector3 fromPos = cam.transform.position;
         Vector3 fromRot = -transform.position.normalized;
 
         while (Time.time < startTime + SLERPTIME)
         {
-            cam.transform.forward = Vector3.Slerp(fromRot, -GameValues.ShipPos.normalized, (Time.time - startTime) / SLERPTIME);
+            cam.transform.forward = Vector3.Slerp(fromRot, -pos.normalized, (Time.time - startTime) / SLERPTIME);
             cam.transform.position = Vector3.Slerp(fromPos, cameraPosition, (Time.time - startTime) / SLERPTIME);
             yield return null;
         }       

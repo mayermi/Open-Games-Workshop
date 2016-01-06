@@ -31,10 +31,10 @@ public class TutorialController : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    public void ShowMonsters()
+    public void ShowMonsters(Vector3 pos)
     {
-        monsters.SetActive(true);
-        Time.timeScale = 0;
+        StartCoroutine(Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 15));
+        StartCoroutine(WaitForCamera());
     }
 
     public void HideTutorials()
@@ -43,5 +43,12 @@ public class TutorialController : MonoBehaviour {
         skills.SetActive(false);
         monsters.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    IEnumerator WaitForCamera()
+    {
+        yield return new WaitForSeconds(1.25f);
+        monsters.SetActive(true);
+        Time.timeScale = 0;
     }
 }
