@@ -73,7 +73,7 @@ public class AlienHelper : CreatureHelper {
             }
             
         }
-
+		
         // for infecting other aliens
         if(alien.Infected)
         {
