@@ -7,8 +7,10 @@ public class GameController : MonoBehaviour {
     GameState gs;
     SkillController sc;
 	GrabController gc;
-    UIManager ui;
+    TutorialController tc;
+    UIManager ui;   
     GameObject planet;
+
     float lastSpawn;
     float bakeTimer;
 
@@ -21,6 +23,7 @@ public class GameController : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+        tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
@@ -53,6 +56,7 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 gs.gameReady = true;
                 SpawnAliens(gs.maxAliens);
+                tc.ShowNavigation();
                 StartCoroutine(MonsterSpawning());
             }
                 
