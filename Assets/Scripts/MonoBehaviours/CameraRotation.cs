@@ -68,17 +68,12 @@ public class CameraRotation : MonoBehaviour {
 
     IEnumerator FocusOnSpaceship()
     {
-
-        //Quaternion cameraRotation = Quaternion.Euler(cam.transform.localEulerAngles.x, cam.transform.localEulerAngles.y, 0);
-        //Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -camDistance) + planet.transform.position;
-
         float startTime = Time.time;
         fov = 35f;
 
         Vector3 cameraPosition = GameValues.ShipPos.normalized * camDistance;
 
         Vector3 fromPos = cam.transform.position;
-        // Vector3 fromRot = cam.transform.forward;
         Vector3 fromRot = -transform.position.normalized;
 
         while (Time.time < startTime + SLERPTIME)

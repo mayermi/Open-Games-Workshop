@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,18 +15,11 @@ public class GameState : MonoBehaviour {
 	 * 
 	*/
 
-	public Slider alienSlider;
-	public Text countAliensText;
-	public Text countResourcesText;
-	public Slider resourceSlider;
-
     public Hashtable creatures = new Hashtable();
 	public Hashtable monsters = new Hashtable();
 	public Hashtable aliens = new Hashtable();
 
-	[SerializeField]
 	public int maxAliens = 10;
-    [SerializeField]
     public int maxResources = 20;
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
@@ -41,15 +33,8 @@ public class GameState : MonoBehaviour {
 			monsters.Remove (c.GameObject);
 		} else {
 			aliens.Remove (c.GameObject);
-			SetAlienSlider();
 		}
         creatures.Remove(c.GameObject);
-	}
-
-	void SetAlienSlider() {
-		var aliensCount = aliens.Count;
-		countAliensText.text = "Aliens alive: " + aliensCount.ToString();
-		alienSlider.value = aliensCount;
 	}
 
 }

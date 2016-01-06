@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class AlienHelper : CreatureHelper {
 
 	Alien alien;
     GameState gs;
+    UIManager ui;
     bool movingToShipWithResource = false;
 	bool infectionReady = true;
 	private AudioClip attackSound;
@@ -14,6 +14,7 @@ public class AlienHelper : CreatureHelper {
 	public override void Start () {
 		base.Start ();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+        ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
 		source = gameObject.AddComponent<AudioSource>();
@@ -104,8 +105,8 @@ public class AlienHelper : CreatureHelper {
             RemoveResourceReferences(res);
             Destroy(res);
             movingToShipWithResource = false;
-            Debug.Log("Deposit Resource. Collected Resources: " + gs.CollectedResources);
-			SetResourceSlider();
+
+			ui.SetResourceSlider();
         }
     }
 
@@ -134,12 +135,6 @@ public class AlienHelper : CreatureHelper {
             }
         }
     }
-
-	void SetResourceSlider() {
-		var resourcesCount = gs.CollectedResources;
-		gs.countResourcesText.text = "Resources found: " + resourcesCount.ToString ();
-		gs.resourceSlider.value = resourcesCount;
-	}
 
 	IEnumerator InfectionDamage(float sec)
 	{

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -17,8 +16,6 @@ public class SkillController : MonoBehaviour {
 	public AudioClip fireSound;
 	public AudioClip healSound;
 
-	public Toggle lightningToggle;
-
 	private const float HEALRADIUS = 10f;
 	private const int HEALPOINTS = 50;
 	private const float LIGHTNINGRADIUS = 10f;
@@ -32,15 +29,17 @@ public class SkillController : MonoBehaviour {
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+
 		lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
-		this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
 		heal = GameObject.Find ("Heal");
+
         foreach (Skills s in Enum.GetValues(typeof(Skills)))
         {
             skillDisabled[s] = false;
         }
+
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }

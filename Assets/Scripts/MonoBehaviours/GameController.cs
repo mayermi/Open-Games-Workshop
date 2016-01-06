@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using Pantheon.Utils;
 
 public class GameController : MonoBehaviour {
 
-	public Toggle fireToggle;
-	public Toggle lightningToggle;
-	public Toggle healToggle;
-
     GameState gs;
     SkillController sc;
 	GrabController gc;
+    UIManager ui;
     GameObject planet;
     float lastSpawn;
     float bakeTimer;
@@ -25,6 +21,7 @@ public class GameController : MonoBehaviour {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+        ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
 
@@ -35,8 +32,6 @@ public class GameController : MonoBehaviour {
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
 
-		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
-		text.text = "Spiel wird geladen...";
         readyToBakePathfinding = true;
 	}
 
@@ -69,8 +64,7 @@ public class GameController : MonoBehaviour {
             {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
-                Debug.Log(gs.ActiveSkill);
-				updateUI();
+				ui.UpdateSkillToggle();
             }
         }  
    
@@ -84,20 +78,9 @@ public class GameController : MonoBehaviour {
         while (!finished)
             yield return null;
         bakingDone = true;
-		Text text = GameObject.Find("LoadedText").GetComponent<Text>();
-        text.text = "Drücke Enter, um zu starten.";
-		StartCoroutine(BlinkText(text));
-    }
 
-	IEnumerator BlinkText(Text text){
-        while(isBlinking)
-        {
-            yield return new WaitForSeconds(1.5f);
-            float alpha = 1f;
-            if (text.canvasRenderer.GetAlpha() == 1f) alpha = 0.1f;
-            text.CrossFadeAlpha(alpha, 1.5f, false);
-        }
-	}
+        GameObject.Find("StoryCanvas").SendMessage("LoadingDone");
+    }
 
     IEnumerator MonsterSpawning()
     {
@@ -124,6 +107,9 @@ public class GameController : MonoBehaviour {
 			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;
 			a.Search();
 		}
+
+        // Tell UI that aliens have been spawned
+        ui.SetAlienSlider();
 	}
 
     void DecideMonsterSpawning()
@@ -221,28 +207,4 @@ public class GameController : MonoBehaviour {
 			gc.objectToBeGrabbed = null;
 	}
 
-	void updateUI() {
-		var active = gs.ActiveSkill;
-
-		switch (active)
-		{
-		case 0:
-			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
-			break;
-		case 1:
-			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
-			break;
-		case 2:
-			this.lightningToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.fireToggle.image.rectTransform.sizeDelta = new Vector2 (15, 15);
-			this.healToggle.image.rectTransform.sizeDelta = new Vector2 (20, 20);
-			break;
-		default:
-			break;
-		}
-	}
 }
