@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour {
     {
         int resourcesCount = gs.CollectedResources;
        
-        countResourcesText.text = "Resources found: " + resourcesCount.ToString();
+        countResourcesText.text = "Resources found: " + resourcesCount.ToString() + "/" + gs.maxResources;
         resourceSlider.value = resourcesCount;
     }
 
