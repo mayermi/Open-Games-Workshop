@@ -31,11 +31,13 @@ public class GameController : MonoBehaviour {
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
 
         gs.ActiveSkill = 0;
+        gs.CollectedResources = 0;
         bakeTimer = Time.time;
         lastSpawn = Time.time;
         // Create planet landscape
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
+        
 
         readyToBakePathfinding = true;
 	}
@@ -56,6 +58,7 @@ public class GameController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 GameObject.Find("StoryCanvas").SetActive(false);
+                ui.SetResourceSlider();
                 gs.gameReady = true;
                 SpawnAliens(gs.maxAliens);
                 tc.ShowNavigation();

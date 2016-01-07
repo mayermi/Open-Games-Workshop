@@ -154,6 +154,7 @@ public class RandomObjectScattering : MonoBehaviour
         {
             Debug.Log("Only " + placedResources + " placed.");
         }
+
     }
 
     string DecideMainObject()

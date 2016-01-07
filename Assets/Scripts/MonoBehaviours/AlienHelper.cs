@@ -79,8 +79,10 @@ public class AlienHelper : CreatureHelper {
         {
             if (gs.aliens.Contains(other.gameObject))
             {
+                Debug.Log("Infected other alien");
                 Alien a = gs.aliens[other.gameObject] as Alien;
                 a.Infected = true;
+                a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
             }
         }
         
@@ -97,7 +99,7 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToResource()
     {
         float dist = (gameObject.transform.position - alien.Resource.transform.position).magnitude;
-        if (dist <= 2.5f)
+        if (dist <= 3.5f)
         {
             alien.TakeResource();
             alien.movingToResource = false;
@@ -108,7 +110,7 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToShip()
     {
         float dist = (gameObject.transform.position - GameValues.ShipPos).magnitude;
-        if (dist <= 3f)
+        if (dist <= 3.5f)
         {        
             gs.CollectedResources += 1;
             GameObject res = alien.Resource;
