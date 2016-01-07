@@ -47,7 +47,7 @@ public class RandomObjectScattering : MonoBehaviour
 		//GameObject.Find ("GameState").GetComponent<GameState> ().ShipPos = ship_pos;
         GameValues.ShipPos = ship_pos;
 
-        GameObject ship = Creator.Create("Spaceship_whole", ship_pos, "SpaceShip");
+        GameObject ship = Creator.Create("Spaceship_broken", ship_pos, "SpaceShip");
 		Vector3 up = -(transform.position - ship_pos).normalized;
 		ship.transform.up = up;
 
