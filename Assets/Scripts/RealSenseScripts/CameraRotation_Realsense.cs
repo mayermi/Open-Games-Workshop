@@ -9,11 +9,12 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
     public GameObject planet;
     public Camera cam;
     public float camSpeed = 5f;
+	float fov;
 
     [SerializeField]
     private float MaxPosX = 30;
     [SerializeField]
-    private float ThreshRightTurn = 20;
+    private float ThreshRightTurn = 22;
     [SerializeField]
     private float ThreshLeftTurn = 70;
 
@@ -28,15 +29,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
 
     #region Public methods
 
-    /// <summary>
-    /// Sets the default trigger values (for the triggers set in SetDefaultTriggers() )
-    /// </summary>
-    /// <param name='index'>
-    /// Index of the trigger.
-    /// </param>
-    /// <param name='trigger'>
-    /// A pointer to the trigger for which you can set the default rules.
-    /// </param>
     public override void SetDefaultTriggerValues(int index, Trigger trigger)
     {
        switch (index)
@@ -77,6 +69,7 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
     void start()
     {
         camAngles_ini = cam.transform.eulerAngles;
+		fov = cam.fieldOfView;
     }
 
     void Update()
@@ -104,14 +97,14 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
                     _lastY = eulerAngles_hand.y;
 
                 //fixed hand position
-                if (deltaX == 0 && eulerAngles_hand.y < ThreshRightTurn)
+				if (deltaX == 0 && (eulerAngles_hand.y < ThreshRightTurn || eulerAngles_hand.y >= 280))
                 {
                     //turn right
                     Vector3 verticalaxis = cam.transform.TransformDirection(Vector3.up);
                     cam.transform.RotateAround(planet.transform.position, verticalaxis, -camSpeed * Time.deltaTime);
                     deltaY = -0.2f;
                 }
-                else if (deltaX == 0 && eulerAngles_hand.y > ThreshLeftTurn)
+				else if (deltaX == 0 && (eulerAngles_hand.y > ThreshLeftTurn && eulerAngles_hand.y < 280))
                 {
                     //turn left
                     Vector3 verticalaxis = cam.transform.TransformDirection(Vector3.down);
@@ -125,39 +118,32 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
 
                 if (deltaY == 0 && (eulerAngles_hand.x > 310 && eulerAngles_hand.x < 340))
                 {
-                    //rotate to the player
-                    /*if ((360 - (MaxPosX - camAngles_ini.x) + 1 < (camAngles.x - 0.2f)) || camAngles.x <= camAngles_ini.x + MaxPosX)
-                    {*/
+                    //rotate to the player        
                         deltaX = -0.2f;
                         Vector3 horizontalaxis = cam.transform.TransformDirection(Vector3.right);
                         cam.transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
-                    /*}
-                    else
-                        deltaX = 0;*/
                 }
                 else if (deltaY == 0 && (eulerAngles_hand.x > 20) && (eulerAngles_hand.x < 310)){
                     //rotate away from the player
-                    /*if ((360 - (MaxPosX - camAngles_ini.x) <= camAngles.x) || camAngles.x + 0.2f < camAngles_ini.x + MaxPosX - 1)
-                    {*/
                         deltaX = 0.2f;
                         Vector3 horizontalaxis = cam.transform.TransformDirection(Vector3.left);
                         cam.transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
-                    /*}
-                    else
-                        deltaX = 0;*/
                 }else
                     deltaX = 0;
 
-                
-                //Rotation and positioning of camera
-                /*Quaternion cameraRotation = Quaternion.Euler(_lastX - deltaX, _lastY + deltaY, 0);
-                cam.transform.rotation = cameraRotation;
+				//Debug.Log (eulerAngles_hand.y);
+				//TODO test if zoom would work with hand precisely
+				/*if (eulerAngles_hand.z > 20) // forward
+				{
+					if (fov >= 10) fov -= 5;
+				}
+				if (eulerAngles_hand.z < 20) // back
+				{
+					if (fov <= 100) fov += 5;
+				}
+					
+				cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, Time.deltaTime * fovSpeed);*/
 
-                Vector3 cameraPosition = cameraRotation * new Vector3(0, 0, -185) + planet.transform.position;
-                cam.transform.position = cameraPosition;
-
-                _lastY = _lastY + deltaY;
-                _lastX = _lastX + deltaX;*/
             }
         }
    }
