@@ -24,26 +24,30 @@ public class SkillController : MonoBehaviour {
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
+	private int skillPerformed = 0;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
-        lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
+
+		lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
 		fire = GameObject.Find ("Fire");
         fire.GetComponent<ParticleSystem>().enableEmission = false;
 		heal = GameObject.Find ("Heal");
+
         foreach (Skills s in Enum.GetValues(typeof(Skills)))
         {
             skillDisabled[s] = false;
         }
+
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
     }
 
 	void FixedUpdate() {
-        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing())
+        if (Input.GetMouseButtonDown(0) && !gc.IsGrabbing() && gs.gameReady)
         {
-            PerformActiveSkill();
+			PerformActiveSkill();
         }
 
         UpdateFire();
@@ -54,6 +58,7 @@ public class SkillController : MonoBehaviour {
         Skills active = (Skills)gs.ActiveSkill;
         if (skillDisabled[active])
             return;
+
         switch (active)
         {
             case Skills.Lightning:
@@ -75,6 +80,13 @@ public class SkillController : MonoBehaviour {
                 break;
         }
     }
+
+	public void PerformActiveSkillWithRealsense()
+	{
+		skillPerformed++;
+		if (skillPerformed % 2 != 0)
+			PerformActiveSkill ();
+	}
 
     // Skill 1
     void Lightning()

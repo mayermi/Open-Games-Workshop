@@ -5,14 +5,22 @@ public class AlienHelper : CreatureHelper {
 
 	Alien alien;
     GameState gs;
+    UIManager ui;
     bool movingToShipWithResource = false;
 	bool infectionReady = true;
+	private AudioClip attackSound;
+	private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
+        ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
+		source = gameObject.AddComponent<AudioSource>();
+		attackSound = (AudioClip)Resources.Load ("monster-alarm");
+		source.clip = attackSound;
+		source.playOnAwake = false;
     }
 
 	public override void Update () {
@@ -32,6 +40,7 @@ public class AlienHelper : CreatureHelper {
 		} 
 		else if (alien.state == Alien.AlienState.FLEEING)
 		{
+			source.Play();
 			alien.Flee();
 		}
 
@@ -64,6 +73,17 @@ public class AlienHelper : CreatureHelper {
             }
             
         }
+
+        // for infecting other aliens
+        if(alien.Infected)
+        {
+            if (gs.aliens.Contains(other.gameObject))
+            {
+                Alien a = gs.aliens[other.gameObject] as Alien;
+                a.Infected = true;
+            }
+        }
+        
     }
 
     void OnTriggerLeave(Collider other)
@@ -96,7 +116,8 @@ public class AlienHelper : CreatureHelper {
             RemoveResourceReferences(res);
             Destroy(res);
             movingToShipWithResource = false;
-            Debug.Log("Deposit Resource. Collected Resources: " + gs.CollectedResources);
+
+			ui.SetResourceSlider();
         }
     }
 

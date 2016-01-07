@@ -19,12 +19,11 @@ public class GameState : MonoBehaviour {
 	public Hashtable monsters = new Hashtable();
 	public Hashtable aliens = new Hashtable();
 
-	[SerializeField]
 	public int maxAliens = 10;
-    [SerializeField]
     public int maxResources = 20;
 	public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
+    public bool gameReady = false;
 
     private List<Vector3> _monsterSpawnPoints = new List<Vector3>();
     public List<Vector3> MonsterSpawnPoints { get { return _monsterSpawnPoints; } }
@@ -38,4 +37,13 @@ public class GameState : MonoBehaviour {
         creatures.Remove(c.GameObject);
 	}
 
+    public GameObject GetFirstMonster()
+    {
+        foreach (DictionaryEntry d in monsters)
+        {
+            Monster m = d.Value as Monster;
+            return m.GameObject;
+        }
+        return null;
+    }
 }

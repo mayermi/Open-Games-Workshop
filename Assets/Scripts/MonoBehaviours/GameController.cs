@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Pantheon.Utils;
 
 public class GameController : MonoBehaviour {
@@ -7,44 +9,91 @@ public class GameController : MonoBehaviour {
     GameState gs;
     SkillController sc;
 	GrabController gc;
+    TutorialController tc;
+    UIManager ui;   
     GameObject planet;
-    float lastSpawn;
-    float spawnTimer;
 
-    // Use this for initialization
+    float lastSpawn;
+    float bakeTimer;
+   
+    bool readyToBakePathfinding = false;
+    bool bakingDone = false;
+    bool baking = false;
+    bool firstSpawn = true;
+
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+        tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
+        ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
-        gs.ActiveSkill = 0;
-        lastSpawn = Time.time;
-        spawnTimer = Time.time;
-        // Create planet landscape
-		planet.GetComponent<RandomObjectScattering> ().Setup ();
-        // Init pathfinding
-		if(GameObject.Find("PathFinding")) GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
 
-		SpawnAliens (gs.maxAliens);
+        gs.ActiveSkill = 0;
+        bakeTimer = Time.time;
+        lastSpawn = Time.time;
+        // Create planet landscape
+        planet.layer = 10;
+        planet.GetComponent<RandomObjectScattering> ().Setup ();
+
+        readyToBakePathfinding = true;
 	}
+
 
     void Update()
     {    
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if(readyToBakePathfinding && !bakingDone && !baking && Time.time - bakeTimer > 1f)
         {
-            gs.ActiveSkill += 1;
-            if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
-			Debug.Log(gs.ActiveSkill);
+            // Init pathfinding
+            Debug.Log("started baking");
+            baking = true;
+            StartCoroutine(BakeNodes());         
         }
 
-        // every three seconds there is a chance for a monster spawn
-        if (Time.time - spawnTimer > 2)
+        if(bakingDone && !gs.gameReady)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                GameObject.Find("StoryCanvas").SetActive(false);
+                gs.gameReady = true;
+                SpawnAliens(gs.maxAliens);
+                tc.ShowNavigation();
+                StartCoroutine(MonsterSpawning());
+            }             
+        }
+         
+        if(gs.gameReady)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                gs.ActiveSkill += 1;
+                if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+				ui.UpdateSkillToggle();
+            }
+        }  
+   
+
+    }
+
+    IEnumerator BakeNodes()
+    {
+        bool finished = false;
+        finished = GameObject.Find("PathFinding").GetComponent<SphericalGrid>().BakeNodeProcess();
+        while (!finished)
+            yield return null;
+        bakingDone = true;
+
+        GameObject.Find("StoryCanvas").SendMessage("LoadingDone");
+    }
+
+    IEnumerator MonsterSpawning()
+    {
+        while(true)
         {
             DecideMonsterSpawning();
-            spawnTimer = Time.time;
+            yield return new WaitForSeconds(GameValues.SPAWNTIME);
         }
-
     }
 
     void SpawnAliens(int count) 
@@ -63,6 +112,9 @@ public class GameController : MonoBehaviour {
 			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;
 			a.Search();
 		}
+
+        // Tell UI that aliens have been spawned
+        ui.SetAlienSlider();
 	}
 
     void DecideMonsterSpawning()
@@ -85,6 +137,13 @@ public class GameController : MonoBehaviour {
             SpawnPredators();
         else
             SpawnEvilMonsters();
+
+        if (firstSpawn)
+        {
+            Vector3 camPos = gs.GetFirstMonster().transform.position;
+            tc.ShowMonsters(camPos);
+            firstSpawn = false;
+        }
     }
 
     void SpawnShyMonsters()
@@ -159,4 +218,7 @@ public class GameController : MonoBehaviour {
 		if (gc.objectToBeGrabbed == c.GameObject)
 			gc.objectToBeGrabbed = null;
 	}
+
+    
+
 }

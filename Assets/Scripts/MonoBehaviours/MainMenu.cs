@@ -12,11 +12,11 @@ public class MainMenu : MonoBehaviour {
 
     void Update()
     {
-        planet.transform.RotateAround(planet.transform.forward, Time.deltaTime/-2f);
+        planet.transform.RotateAround(planet.transform.forward, Time.deltaTime/8f);
     }
 
     public void LoadScene()
     {
-        Application.LoadLevel("sphere_movement");
+        Application.LoadLevel("main_game");
     }
 }

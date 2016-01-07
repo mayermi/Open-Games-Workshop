@@ -166,8 +166,6 @@ public class RandomObjectScattering : MonoBehaviour
             mainObjectName = "rock_group_1";
         else if (r > 0.85f)
 			mainObjectName = "rock_group_3";
-		//else if (r > 0.82f)
-			//mainObjectName = "brunnen";
 
         return mainObjectName;
     }

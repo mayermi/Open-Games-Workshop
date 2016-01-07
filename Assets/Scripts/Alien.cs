@@ -31,7 +31,8 @@ public class Alien : Creature {
 		base.GetHealed (d);
 		if (Infected)
 			Infected = false;
-	}
+        GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Stop();
+    }
 
 	public void TakeResource()
     {
@@ -54,7 +55,9 @@ public class Alien : Creature {
 	{
 		base.Die ();
 		if(Resource) DropResource ();
-	} 
+
+        GameObject.Find("UI").GetComponent<UIManager>().SetAlienSlider();
+    } 
 
 	public void Search()
 	{

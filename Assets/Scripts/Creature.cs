@@ -48,7 +48,6 @@ public abstract class Creature {
 		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
 		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
         GameObject.SetActive(false);
-        //MonoBehaviour.Destroy(GameObject);
 	}
 
 	public bool IsInRange(GameObject g)
