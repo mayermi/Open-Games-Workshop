@@ -12,6 +12,7 @@ public class CameraRotation : MonoBehaviour {
     public float fovSpeed = 8f;
     public float camSpeed = 5f;
     public float SLERPTIME = 1f;
+	private int timesFingerPinch = 0;
 
     void Start () {
         planet = GameObject.Find("Planet");
@@ -85,6 +86,12 @@ public class CameraRotation : MonoBehaviour {
 
     }
 
+	//Needed for RealSense
+	public void FocusOnSpaceship(){
+		timesFingerPinch++;
+		if(timesFingerPinch % 2 != 0)
+		StartCoroutine(FocusOnPoint(GameValues.ShipPos, 35f));
+	}
 
     public int getCamDistance()
     {
