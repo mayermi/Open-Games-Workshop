@@ -62,11 +62,16 @@ public class CameraRotation : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(FocusOnPoint(GameValues.ShipPos, 35f));
+            StartCoroutine(Focus(GameValues.ShipPos, 35f));
         }
     }
 
-    public IEnumerator FocusOnPoint(Vector3 pos, float newFov)
+    public void FocusOnPoint(Vector3 pos, float newFov)
+    {
+        StartCoroutine(Focus(pos, newFov));
+    }
+
+    IEnumerator Focus(Vector3 pos, float newFov)
     {
         float startTime = Time.time;
         fov = newFov;

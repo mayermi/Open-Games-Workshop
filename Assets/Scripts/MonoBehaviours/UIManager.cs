@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour {
         resourceSlider.maxValue = gs.maxResources;
 
         UpdateSkillToggle();
+        GetComponent<CanvasGroup>().alpha = 0;
     }
 
     void Update()
@@ -28,6 +29,11 @@ public class UIManager : MonoBehaviour {
         if(gs == null) gs = GameObject.Find("GameState").GetComponent<GameState>();
     }
 	
+    public void ShowUI()
+    {
+        StartCoroutine(FadeUI());
+    }
+
     public void SetResourceSlider()
     {
         int resourcesCount = gs.CollectedResources;
@@ -41,7 +47,6 @@ public class UIManager : MonoBehaviour {
         int aliensCount = gs.aliens.Count;
         countAliensText.text = "Aliens alive: " + aliensCount.ToString();
         alienSlider.value = aliensCount;
-        Debug.Log(aliensCount);
     }
 
     public void UpdateSkillToggle()
@@ -68,5 +73,18 @@ public class UIManager : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    IEnumerator FadeUI()
+    {
+        float start = Time.time;
+        while(Time.time - start > 1f) 
+        {
+            GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, (Time.time - start));
+            yield return false;
+        }
+
+        GetComponent<CanvasGroup>().alpha = 1;
+
     }
 }
