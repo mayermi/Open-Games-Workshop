@@ -95,7 +95,7 @@ public class CameraRotation : MonoBehaviour {
 	public void FocusOnSpaceship(){
 		timesFingerPinch++;
 		if(timesFingerPinch % 2 != 0)
-		StartCoroutine(FocusOnPoint(GameValues.ShipPos, 35f));
+		StartCoroutine(Focus(GameValues.ShipPos, 35f));
 	}
 
     public int getCamDistance()
