@@ -82,7 +82,6 @@ public class TutorialController : MonoBehaviour {
         yield return new WaitForSeconds(1.1f);
         ActivateBlur();
         StartCoroutine(FadeTutorial(monsters, 0f, 1f));
-        Time.timeScale = 0;
     }
 
     IEnumerator FadeTutorial(GameObject tutorial, float from, float to)
@@ -95,5 +94,6 @@ public class TutorialController : MonoBehaviour {
             yield return true;
         }
         if(from == 0f) Time.timeScale = 0;
+        tutorial.GetComponent<CanvasGroup>().alpha = to;
     }
 }

@@ -62,16 +62,19 @@ public class GrabController : MonoBehaviour {
         if ( !grabbing && objectToBeGrabbed != null)
             {
                 Debug.Log("grab");
+                GameObject.Find("hand").GetComponent<Animation>().Play("Grab");
                 grabbing = true;
                 Monster m = gs.monsters[objectToBeGrabbed] as Monster;
                 m.GetGrabbed();
                 objectToBeGrabbed.transform.SetParent(transform);
-            
+
+
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = handOfGod.transform.position;
                 objectToBeGrabbed.transform.position = pos;
-				
-				source.PlayOneShot(grabSound,vol);
+                objectToBeGrabbed.transform.localPosition = new Vector3(-4f, -1.5f, 1f);
+
+                source.PlayOneShot(grabSound,vol);
             }
     }
 
@@ -81,6 +84,7 @@ public class GrabController : MonoBehaviour {
         if (grabbing)
         {
             Debug.Log("Release");
+            GameObject.Find("hand").GetComponent<Animation>().Play("Release");
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;

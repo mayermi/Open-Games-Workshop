@@ -6,6 +6,7 @@ using System;
 public class SkillController : MonoBehaviour {
 
     GameState gs;
+    GameObject hand;
     RecursiveLightning lightning;
 	GameObject fire;
 	bool fireBurning = false;
@@ -58,6 +59,8 @@ public class SkillController : MonoBehaviour {
         Skills active = (Skills)gs.ActiveSkill;
         if (skillDisabled[active])
             return;
+
+        GameObject.Find("hand").GetComponent<Animation>().Play("Skill");
 
         switch (active)
         {
