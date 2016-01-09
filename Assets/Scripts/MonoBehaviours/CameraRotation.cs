@@ -49,14 +49,25 @@ public class CameraRotation : MonoBehaviour {
             transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.X)) // forward
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 ) // forward
         {
             if (fov >= 10) fov -= 5;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.Y)) // back
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 ) // back
         {
             if (fov <= 100) fov += 5;
         }
+
+        if (Input.GetKey(KeyCode.Y)) // forward
+        {
+            if (fov >= 10) fov -= 0.75f;
+        }
+        if (Input.GetKey(KeyCode.X)) // back
+        {
+            if (fov <= 100) fov += 0.75f;
+        }
+
+
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, Time.deltaTime * fovSpeed);
 

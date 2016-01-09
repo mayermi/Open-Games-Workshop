@@ -107,7 +107,7 @@ public class GameController : MonoBehaviour {
         Vector3 up = pos.normalized;
         ship.transform.right = -up;
 
-        Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 25f);
+        Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 35f);
 
         yield return new WaitForSeconds(1f);
 
