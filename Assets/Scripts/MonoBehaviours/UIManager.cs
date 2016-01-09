@@ -78,13 +78,13 @@ public class UIManager : MonoBehaviour {
     IEnumerator FadeUI()
     {
         float start = Time.time;
-        while(Time.time - start > 1f) 
+        while(Time.time - start < 1f) 
         {
             GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0f, 1f, (Time.time - start));
             yield return false;
         }
 
-        GetComponent<CanvasGroup>().alpha = 1;
+        //GetComponent<CanvasGroup>().alpha = 1;
 
     }
 }

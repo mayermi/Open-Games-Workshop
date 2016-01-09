@@ -195,8 +195,8 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(attack: 20, health: 100, speed: 2f, range: 7, contagious: false);
-            m.GameObject = Creator.Create("monster", pos, "ShyMonster");
+            ShyMonster m = new ShyMonster(attack: 10, health: 25, speed: 3f, range: 7, contagious: false);
+            m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
