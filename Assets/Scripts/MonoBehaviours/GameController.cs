@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour {
 
         gs.ActiveSkill = 0;
         bakeTimer = Time.time;
-        lastSpawn = Time.time;
+      
         // Create planet landscape
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
@@ -57,9 +57,8 @@ public class GameController : MonoBehaviour {
             {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 gs.gameReady = true;
-                SpawnAliens(gs.maxAliens);
                 tc.ShowNavigation();
-                StartCoroutine(MonsterSpawning());
+                
             }
                 
         }
@@ -72,7 +71,9 @@ public class GameController : MonoBehaviour {
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
 				ui.UpdateSkillToggle();
             }
-        }  
+        }
+
+        if (Input.GetKeyDown(KeyCode.O)) StartCoroutine(CrashSpaceShip());
    
 
     }
@@ -97,11 +98,50 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    IEnumerator CrashSpaceShip()
+    {
+        
+        Vector3 pos = GameValues.ShipPos;
+        Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
+        GameObject ship = Creator.Create("Spaceship_whole", start_pos, "SpaceShip");
+        Vector3 up = pos.normalized;
+        ship.transform.right = -up;
+
+        Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 25f);
+
+        yield return new WaitForSeconds(1f);
+
+        float startTime = Time.time;
+
+        while(Time.time - startTime < 1.5f)
+        {
+            float frac = (Time.time - startTime) / 1.5f;
+            ship.transform.position = Vector3.Lerp(start_pos, pos, frac);
+            yield return false;
+        }
+
+        Destroy(ship);
+
+        GameObject explosion = Creator.Create("Explosion", pos, "Explosion");
+        explosion.transform.up = up;
+
+        GameObject new_ship = Creator.Create("Spaceship_broken", pos, "SpaceShip");
+        new_ship.transform.up = up;
+
+        SpawnAliens(gs.maxAliens);
+        lastSpawn = Time.time;
+        StartCoroutine(MonsterSpawning());
+
+        yield return new WaitForSeconds(3f);
+        tc.ShowStory();
+    }
+
+
     void SpawnAliens(int count) 
 	{
 		for (int i = 0; i < count; i++) {
-			var rotation = Random.Range(0.03f, 0.06f);
-			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,1) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
+			var rotation = Random.Range(0.03f, 0.1f);
+			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,5) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
 			float angle = i * 360.0f/count;
 			
 			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
@@ -116,7 +156,8 @@ public class GameController : MonoBehaviour {
 
         // Tell UI that aliens have been spawned
         ui.SetAlienSlider();
-	}
+        ui.SetResourceSlider();
+    }
 
     void DecideMonsterSpawning()
     {

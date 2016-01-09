@@ -5,6 +5,7 @@ using UnityStandardAssets.ImageEffects;
 public class TutorialController : MonoBehaviour {
 
     public GameObject navigation;
+    public GameObject story;
     public GameObject skills;
     public GameObject monsters;
     GameObject cam;
@@ -19,7 +20,20 @@ public class TutorialController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            HideTutorials();
+            if (story.activeSelf)
+            {
+                story.SetActive(false);
+                ShowSkills();
+            } else if(skills.activeSelf)
+            {
+                GameObject.Find("UI").GetComponent<UIManager>().ShowUI();
+                HideTutorials();
+            }
+            else
+            {
+                HideTutorials();
+            }
+                  
         }
     }
 
@@ -27,6 +41,13 @@ public class TutorialController : MonoBehaviour {
     {
         ActivateBlur();
         navigation.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void ShowStory()
+    {
+        ActivateBlur();
+        story.SetActive(true);
         Time.timeScale = 0;
     }
 
@@ -39,7 +60,7 @@ public class TutorialController : MonoBehaviour {
 
     public void ShowMonsters(Vector3 pos)
     {
-        StartCoroutine(Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 15));
+        Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 15);
         StartCoroutine(WaitForCamera());
     }
 

@@ -171,7 +171,6 @@ public class SkillController : MonoBehaviour {
 
     public void CreatureInFire(GameObject c)
     {
-            Debug.Log("FIREEEEE");
             Creature creature = gs.creatures[c] as Creature;
             creature.TakeDamage(5);
     }
