@@ -20,11 +20,11 @@ public class TutorialController : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (story.activeSelf)
+            if (story.GetComponent<CanvasGroup>().alpha > 0.95f)
             {
-                story.SetActive(false);
+                StartCoroutine(FadeTutorial(story, 1f, 0f));
                 ShowSkills();
-            } else if(skills.activeSelf)
+            } else if(skills.GetComponent<CanvasGroup>().alpha > 0.95f)
             {
                 GameObject.Find("UI").GetComponent<UIManager>().ShowUI();
                 HideTutorials();
@@ -40,22 +40,19 @@ public class TutorialController : MonoBehaviour {
     public void ShowNavigation()
     {
         ActivateBlur();
-        navigation.SetActive(true);
-        Time.timeScale = 0;
+        StartCoroutine(FadeTutorial(navigation, 0f, 1f));
     }
 
     public void ShowStory()
     {
         ActivateBlur();
-        story.SetActive(true);
-        Time.timeScale = 0;
+        StartCoroutine(FadeTutorial(story, 0f, 1f));
     }
 
     public void ShowSkills()
     {
         ActivateBlur();
-        skills.SetActive(true);
-        Time.timeScale = 0;
+        StartCoroutine(FadeTutorial(skills, 0f, 1f));
     }
 
     public void ShowMonsters(Vector3 pos)
@@ -66,9 +63,11 @@ public class TutorialController : MonoBehaviour {
 
     public void HideTutorials()
     {
-        navigation.SetActive(false);
-        skills.SetActive(false);
-        monsters.SetActive(false);
+        Debug.Log(navigation.GetComponent<CanvasGroup>().alpha);
+        if (navigation.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(navigation, 1f, 0f));
+        if (story.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(story, 1f, 0f));
+        if (skills.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(skills, 1f, 0f));
+        if (monsters.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(monsters, 1f, 0f));
         cam.GetComponent<BlurOptimized>().enabled = false;
         Time.timeScale = 1f;
     }
@@ -82,7 +81,19 @@ public class TutorialController : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.1f);
         ActivateBlur();
-        monsters.SetActive(true);
+        StartCoroutine(FadeTutorial(monsters, 0f, 1f));
         Time.timeScale = 0;
+    }
+
+    IEnumerator FadeTutorial(GameObject tutorial, float from, float to)
+    {   
+        float start = Time.time;
+        if(from == 1f) Time.timeScale = 1f;
+        while (Time.time - start < 0.3f)
+        {
+            tutorial.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(from, to, (Time.time - start)/0.3f);
+            yield return true;
+        }
+        if(from == 0f) Time.timeScale = 0;
     }
 }
