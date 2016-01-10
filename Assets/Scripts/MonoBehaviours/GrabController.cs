@@ -14,6 +14,7 @@ public class GrabController : MonoBehaviour {
     private Vector3 moveDir;
     private Vector3 prevPos;
     private GameObject handOfGod;
+	Quaternion pos;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -24,7 +25,7 @@ public class GrabController : MonoBehaviour {
     }
 	
 	void Update () {
-
+		handOfGod.transform.rotation = Quaternion.Euler(0, 0, 0);
         GameObject planet = GameObject.Find("Planet");
         float distance = Vector3.Distance(planet.transform.position, transform.position);
         float planetradius = GameValues.PlanetRadius;
