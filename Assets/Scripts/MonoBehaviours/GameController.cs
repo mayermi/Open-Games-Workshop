@@ -57,8 +57,7 @@ public class GameController : MonoBehaviour {
             {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 gs.gameReady = true;
-                tc.ShowNavigation();
-                
+                tc.ShowNavigation();               
             }
                 
         }
@@ -71,7 +70,15 @@ public class GameController : MonoBehaviour {
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
 				ui.UpdateSkillToggle();
             }
-        }
+
+            if(!firstSpawn && gs.aliens.Count == 0)
+            {
+                if (gs.aliensSaved > 0)
+                    ui.showWin();
+                else
+                    ui.showLose();
+            }
+        }       
 
         if (Input.GetKeyDown(KeyCode.O)) StartCoroutine(CrashSpaceShip());
    

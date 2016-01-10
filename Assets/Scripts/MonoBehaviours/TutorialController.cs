@@ -63,7 +63,6 @@ public class TutorialController : MonoBehaviour {
 
     public void HideTutorials()
     {
-        Debug.Log(navigation.GetComponent<CanvasGroup>().alpha);
         if (navigation.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(navigation, 1f, 0f));
         if (story.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(story, 1f, 0f));
         if (skills.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(skills, 1f, 0f));

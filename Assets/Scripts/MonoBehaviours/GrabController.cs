@@ -57,7 +57,6 @@ public class GrabController : MonoBehaviour {
 
     void Grab()
     {
-        Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
         if ( !grabbing && objectToBeGrabbed != null)
             {
@@ -88,8 +87,8 @@ public class GrabController : MonoBehaviour {
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
-            Debug.Log(moveDir);
             objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * 25f, ForceMode.Impulse);
+            m.TakeDamage( (int) Mathf.Ceil(moveDir.magnitude * 35f) );
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;

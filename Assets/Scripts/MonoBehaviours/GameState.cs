@@ -20,10 +20,14 @@ public class GameState : MonoBehaviour {
 	public Hashtable aliens = new Hashtable();
 
 	public int maxAliens = 10;
+    public int aliensSaved = 0;
     public int maxResources = 20;
-	public int CollectedResources { get; set; }
+    public int resourcesNeeded = 1;
+
+    public int CollectedResources { get; set; }
     public int ActiveSkill { get; set; }
     public bool gameReady = false;
+    
 
     private List<Vector3> _monsterSpawnPoints = new List<Vector3>();
     public List<Vector3> MonsterSpawnPoints { get { return _monsterSpawnPoints; } }
