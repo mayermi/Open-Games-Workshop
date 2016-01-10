@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
     TutorialController tc;
     UIManager ui;   
     GameObject planet;
+	public AudioClip crashSpaceship;
 
     float lastSpawn;
     float bakeTimer;
@@ -21,6 +22,11 @@ public class GameController : MonoBehaviour {
     bool baking = false;
     bool firstSpawn = true;
 
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
+
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         sc = GameObject.Find("SkillController").GetComponent<SkillController>();
@@ -29,6 +35,9 @@ public class GameController : MonoBehaviour {
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
+
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
 
         gs.ActiveSkill = 0;
         bakeTimer = Time.time;
@@ -80,8 +89,10 @@ public class GameController : MonoBehaviour {
             }
         }       
 
-        if (Input.GetKeyDown(KeyCode.O)) StartCoroutine(CrashSpaceShip());
-   
+        if (Input.GetKeyDown (KeyCode.O)) {
+			StartCoroutine (CrashSpaceShip ());
+			source.PlayOneShot(crashSpaceship,vol);
+		}
 
     }
 
