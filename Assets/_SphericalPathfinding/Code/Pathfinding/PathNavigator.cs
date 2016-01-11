@@ -60,8 +60,8 @@ public class PathNavigator : MonoBehaviour
 			
 			if (!travelling && !travellingStraight) // if the navigator has finished travelling
 			{
-				Vector3 targetPos = Vector3.zero;
-				if (target != null) targetPos = target.position;
+				//Vector3 targetPos = Vector3.zero;
+				//if (target != null) targetPos = target.position;
 				//else targetPos = RandomTargetPos();
 			}
 		}  
@@ -95,6 +95,7 @@ public class PathNavigator : MonoBehaviour
 			if(hit.transform.tag == "NotWalkable") {
 				Debug.Log ("Hit obstacle. Requesting Pathfinding.");
 				travellingStraight = false;
+                travelling = true;
 				PathRequestManager.RequestPath (transform.position, t, OnPathFound);
 				return;
 			}
@@ -143,10 +144,10 @@ public class PathNavigator : MonoBehaviour
 
 	IEnumerator FollowPathStraight()
 	{
-		while (true && !locked) 
+		while (!locked) 
 		{
-			float dist = (transform.position - target.position).sqrMagnitude;
-			
+			float dist = (transform.position - target.position).magnitude;
+            Debug.Log(dist);
 			if (dist <= 0.25f) 
 			{
 				travelling = false;

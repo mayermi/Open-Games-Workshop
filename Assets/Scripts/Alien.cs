@@ -70,12 +70,12 @@ public class Alien : Creature {
         if (target == Vector3.zero)
 			target = GameObject.transform.position;
 
-		if ((GameObject.transform.position - target).sqrMagnitude <= 3f)
+		if ((GameObject.transform.position - target).magnitude <= 3f)
 		{
 			Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
 			                             GameObject.transform.forward.y * Random.Range(-1, 1),
 			                             GameObject.transform.forward.z * Random.Range(-1, 1));
-			float distance = Random.Range(10, 60);
+			float distance = Random.Range(25, 60);
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
 			waitTimer = Time.time;
