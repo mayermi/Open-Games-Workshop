@@ -31,7 +31,8 @@ public abstract class Creature {
     public virtual void TakeDamage(int d, object source=null) 
 	{
 		CurrentHealth = CurrentHealth - d;
-        GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
         if (CurrentHealth <= 0) Die();
 	}
 
@@ -40,8 +41,9 @@ public abstract class Creature {
 		CurrentHealth = CurrentHealth + d;
 		if (CurrentHealth > MaxHealth)
 			CurrentHealth = MaxHealth;
-		GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
-	}
+        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
+    }
 
 	public virtual void Die() 
 	{
@@ -57,5 +59,6 @@ public abstract class Creature {
 			return true;
 		return false;
 	}
+
 
 }

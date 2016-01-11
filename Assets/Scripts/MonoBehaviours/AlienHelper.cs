@@ -4,7 +4,6 @@ using System.Collections;
 public class AlienHelper : CreatureHelper {
 
 	Alien alien;
-    GameState gs;
     UIManager ui;
     bool movingToShipWithResource = false;
     public bool movingToShipToLeave = false;
@@ -14,7 +13,6 @@ public class AlienHelper : CreatureHelper {
 
 	public override void Start () {
 		base.Start ();
-        gs = GameObject.Find("GameState").GetComponent<GameState>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
@@ -157,6 +155,11 @@ public class AlienHelper : CreatureHelper {
             }
         }
         return true;
+    }
+
+    public override void AdjustHealthBar()
+    {
+        base.AdjustHealthBar();
     }
 
     void RemoveResourceReferences(GameObject res)
