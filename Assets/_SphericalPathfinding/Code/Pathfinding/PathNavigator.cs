@@ -55,14 +55,6 @@ public class PathNavigator : MonoBehaviour
 					}
 						
 					timer = Time.time;
-
-			}
-			
-			if (!travelling && !travellingStraight) // if the navigator has finished travelling
-			{
-				//Vector3 targetPos = Vector3.zero;
-				//if (target != null) targetPos = target.position;
-				//else targetPos = RandomTargetPos();
 			}
 		}  
 		
@@ -147,8 +139,7 @@ public class PathNavigator : MonoBehaviour
 		while (!locked) 
 		{
 			float dist = (transform.position - target.position).magnitude;
-            Debug.Log(dist);
-			if (dist <= 0.25f) 
+			if (dist <= 0.5f) 
 			{
 				travelling = false;
 				travellingStraight = false;
