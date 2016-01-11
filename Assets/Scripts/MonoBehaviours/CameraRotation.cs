@@ -12,6 +12,7 @@ public class CameraRotation : MonoBehaviour {
     public float fovSpeed = 8f;
     public float camSpeed = 5f;
     public float SLERPTIME = 1f;
+	private int timesFingerPinch = 0;
 
     void Start () {
         planet = GameObject.Find("Planet");
@@ -48,25 +49,41 @@ public class CameraRotation : MonoBehaviour {
             transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.X)) // forward
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 ) // forward
         {
             if (fov >= 10) fov -= 5;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.Y)) // back
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 ) // back
         {
             if (fov <= 100) fov += 5;
         }
+
+        if (Input.GetKey(KeyCode.Y)) // forward
+        {
+            if (fov >= 10) fov -= 0.75f;
+        }
+        if (Input.GetKey(KeyCode.X)) // back
+        {
+            if (fov <= 100) fov += 0.75f;
+        }
+
+
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, Time.deltaTime * fovSpeed);
 
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(FocusOnPoint(GameValues.ShipPos, 35f));
+            StartCoroutine(Focus(GameValues.ShipPos, 35f));
         }
     }
 
-    public IEnumerator FocusOnPoint(Vector3 pos, float newFov)
+    public void FocusOnPoint(Vector3 pos, float newFov)
+    {
+        StartCoroutine(Focus(pos, newFov));
+    }
+
+    IEnumerator Focus(Vector3 pos, float newFov)
     {
         float startTime = Time.time;
         fov = newFov;
@@ -85,6 +102,12 @@ public class CameraRotation : MonoBehaviour {
 
     }
 
+	//Needed for RealSense
+	public void FocusOnSpaceship(){
+		timesFingerPinch++;
+		if(timesFingerPinch % 2 != 0)
+		StartCoroutine(Focus(GameValues.ShipPos, 35f));
+	}
 
     public int getCamDistance()
     {

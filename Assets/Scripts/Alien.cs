@@ -45,10 +45,13 @@ public class Alien : Creature {
 
 	public void DropResource()
     {
-		Resource.transform.SetParent (null);
-		Resource.transform.position -= new Vector3(0,1,0);
-		Resource.GetComponent<Collider> ().enabled = true;
-		Resource = null;
+        if (Resource)
+        {
+            Resource.transform.SetParent(null);
+            Resource.transform.position -= new Vector3(0, 1, 0);
+            Resource.GetComponent<Collider>().enabled = true;
+            Resource = null;
+        }
     }
 
 	public override void Die()
@@ -86,7 +89,7 @@ public class Alien : Creature {
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
 		movingToResource = false;
-		ReturnToShip ();
+		ReturnToShip (false);
 
 		// Alien is back at SpaceShip, waits for WAITTIME seconds
 		if ((GameObject.transform.position - target).magnitude <= 5f && waitTimer == -1f)
@@ -104,7 +107,7 @@ public class Alien : Creature {
     {
         state = AlienState.CARRYING;
 
-		ReturnToShip ();
+		ReturnToShip (false);
 
         // Alien is back at SpaceShip, reinit Search
 		if ((GameObject.transform.position - target).magnitude <= 5f)
@@ -117,8 +120,10 @@ public class Alien : Creature {
         target = Vector3.zero;
     }
 
-	private void ReturnToShip() 
+	public void ReturnToShip(bool final) 
 	{
+        if (final) GameObject.GetComponent<AlienHelper>().movingToShipToLeave = true;
+
 		if (target != GameValues.ShipPos)
 		{
 			target = GameValues.ShipPos;

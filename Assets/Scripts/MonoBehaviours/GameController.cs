@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
     TutorialController tc;
     UIManager ui;   
     GameObject planet;
+	public AudioClip crashSpaceship;
 
     float lastSpawn;
     float bakeTimer;
@@ -20,6 +21,11 @@ public class GameController : MonoBehaviour {
     bool bakingDone = false;
     bool baking = false;
     bool firstSpawn = true;
+
+	private AudioSource source;
+	private float volLowRange = .5f;
+	private float volHighRange = 1.0f;
+	private float vol;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -30,10 +36,13 @@ public class GameController : MonoBehaviour {
         planet = GameObject.Find("Planet");
         GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
 
+		source = GetComponent<AudioSource>();
+		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+
         gs.ActiveSkill = 0;
         gs.CollectedResources = 0;
         bakeTimer = Time.time;
-        lastSpawn = Time.time;
+      
         // Create planet landscape
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
@@ -60,10 +69,9 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 ui.SetResourceSlider();
                 gs.gameReady = true;
-                SpawnAliens(gs.maxAliens);
-                tc.ShowNavigation();
-                StartCoroutine(MonsterSpawning());
-            }             
+                tc.ShowNavigation();               
+            }
+                
         }
          
         if(gs.gameReady)
@@ -74,8 +82,20 @@ public class GameController : MonoBehaviour {
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
 				ui.UpdateSkillToggle();
             }
-        }  
-   
+
+            if(!firstSpawn && gs.aliens.Count == 0)
+            {
+                if (gs.aliensSaved > 0)
+                    ui.showWin();
+                else
+                    ui.showLose();
+            }
+        }       
+
+        if (Input.GetKeyDown (KeyCode.O)) {
+			StartCoroutine (CrashSpaceShip ());
+			source.PlayOneShot(crashSpaceship,vol);
+		}
 
     }
 
@@ -99,11 +119,50 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    IEnumerator CrashSpaceShip()
+    {
+        
+        Vector3 pos = GameValues.ShipPos;
+        Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
+        GameObject ship = Creator.Create("Spaceship_whole", start_pos, "SpaceShip");
+        Vector3 up = pos.normalized;
+        ship.transform.right = -up;
+
+        Camera.main.GetComponent<CameraRotation>().FocusOnPoint(pos, 35f);
+
+        yield return new WaitForSeconds(1f);
+
+        float startTime = Time.time;
+
+        while(Time.time - startTime < 1.5f)
+        {
+            float frac = (Time.time - startTime) / 1.5f;
+            ship.transform.position = Vector3.Lerp(start_pos, pos, frac);
+            yield return false;
+        }
+
+        Destroy(ship);
+
+        GameObject explosion = Creator.Create("Explosion", pos, "Explosion");
+        explosion.transform.up = up;
+
+        GameObject new_ship = Creator.Create("Spaceship_broken", pos, "SpaceShip");
+        new_ship.transform.up = up;
+
+        SpawnAliens(gs.maxAliens);
+        lastSpawn = Time.time;
+        StartCoroutine(MonsterSpawning());
+
+        yield return new WaitForSeconds(3f);
+        tc.ShowStory();
+    }
+
+
     void SpawnAliens(int count) 
 	{
 		for (int i = 0; i < count; i++) {
-			var rotation = Random.Range(0.03f, 0.06f);
-			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,1) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
+			var rotation = Random.Range(0.03f, 0.1f);
+			Vector3 sec_pos = Vector3.RotateTowards(GameValues.ShipPos, new Vector3(0,0,5) * GameValues.ShipPos.magnitude, rotation, GameValues.ShipPos.magnitude);
 			float angle = i * 360.0f/count;
 			
 			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
@@ -118,7 +177,8 @@ public class GameController : MonoBehaviour {
 
         // Tell UI that aliens have been spawned
         ui.SetAlienSlider();
-	}
+        ui.SetResourceSlider();
+    }
 
     void DecideMonsterSpawning()
     {
@@ -156,8 +216,8 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(attack: 20, health: 100, speed: 2f, range: 7, contagious: false);
-            m.GameObject = Creator.Create("monster", pos, "ShyMonster");
+            ShyMonster m = new ShyMonster(attack: 10, health: 25, speed: 3f, range: 7, contagious: false);
+            m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 

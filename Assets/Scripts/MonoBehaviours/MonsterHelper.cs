@@ -5,14 +5,12 @@ using System.Linq;
 
 public class MonsterHelper : CreatureHelper {
 
-    GameState gs;
     Monster m;
 	private AudioClip attackSound;
 	private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
-        gs = GameObject.Find("GameState").GetComponent<GameState>();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
 		source = gameObject.AddComponent<AudioSource>();

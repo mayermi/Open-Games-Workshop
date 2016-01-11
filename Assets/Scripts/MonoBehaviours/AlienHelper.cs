@@ -4,16 +4,15 @@ using System.Collections;
 public class AlienHelper : CreatureHelper {
 
 	Alien alien;
-    GameState gs;
     UIManager ui;
     bool movingToShipWithResource = false;
-	bool infectionReady = true;
+    public bool movingToShipToLeave = false;
+    bool infectionReady = true;
 	private AudioClip attackSound;
 	private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
-        gs = GameObject.Find("GameState").GetComponent<GameState>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
@@ -46,7 +45,8 @@ public class AlienHelper : CreatureHelper {
 
         if (alien.movingToResource) CheckDistToResource();
         if (movingToShipWithResource) CheckDistToShip();
-		if (alien.Infected && infectionReady)
+        if (movingToShipToLeave) CheckDistToShip();
+        if (alien.Infected && infectionReady)
 		{
 			infectionReady = false;
 			StartCoroutine(InfectionDamage(3));
@@ -110,8 +110,16 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToShip()
     {
         float dist = (gameObject.transform.position - GameValues.ShipPos).magnitude;
-        if (dist <= 3.5f)
-        {        
+        if (dist <= 5f)
+        {
+            if(movingToShipToLeave)
+            {
+                gs.aliensSaved += 1;
+                alien.Die();
+                movingToShipToLeave = false;
+                return;
+            }
+
             gs.CollectedResources += 1;
             GameObject res = alien.Resource;
             // check if other Aliens were trying to reach this specific resource too
@@ -120,8 +128,22 @@ public class AlienHelper : CreatureHelper {
             movingToShipWithResource = false;
 
 			ui.SetResourceSlider();
+
+            if (gs.CollectedResources == gs.resourcesNeeded) CallAliensToShip();
+            
         }
     }
+
+    void CallAliensToShip()
+    {
+        foreach (DictionaryEntry d in gs.aliens)
+        {
+            Alien a = d.Value as Alien;
+            a.ReturnToShip(true);
+        }
+    }
+
+
 
     bool DoesNotBelongToOtherAlien(GameObject res)
     {
@@ -134,6 +156,11 @@ public class AlienHelper : CreatureHelper {
             }
         }
         return true;
+    }
+
+    public override void AdjustHealthBar()
+    {
+        base.AdjustHealthBar();
     }
 
     void RemoveResourceReferences(GameObject res)

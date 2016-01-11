@@ -6,6 +6,7 @@ using System;
 public class SkillController : MonoBehaviour {
 
     GameState gs;
+    GameObject hand;
     RecursiveLightning lightning;
 	GameObject fire;
 	bool fireBurning = false;
@@ -58,6 +59,8 @@ public class SkillController : MonoBehaviour {
         Skills active = (Skills)gs.ActiveSkill;
         if (skillDisabled[active])
             return;
+
+        GameObject.Find("hand").GetComponent<Animation>().Play("Skill");
 
         switch (active)
         {
@@ -142,16 +145,17 @@ public class SkillController : MonoBehaviour {
 
     Monster GetNearestMonster(Vector3 pos, float radius)
     {
+        Monster m = null;
         foreach(DictionaryEntry d in gs.monsters)
         {
-            Monster m = d.Value as Monster;
+            m = d.Value as Monster;
             float dist = (pos - m.GameObject.transform.position).magnitude;
             if(dist < radius)
             {
-                return m;
+                break;
             }
         }
-        return null;
+        return m;
     }
 
 	Alien[] GetNearestAlien(Vector3 pos, float radius)
@@ -171,7 +175,6 @@ public class SkillController : MonoBehaviour {
 
     public void CreatureInFire(GameObject c)
     {
-            Debug.Log("FIREEEEE");
             Creature creature = gs.creatures[c] as Creature;
             creature.TakeDamage(5);
     }

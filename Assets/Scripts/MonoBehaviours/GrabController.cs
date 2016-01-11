@@ -14,6 +14,7 @@ public class GrabController : MonoBehaviour {
     private Vector3 moveDir;
     private Vector3 prevPos;
     private GameObject handOfGod;
+	Quaternion pos;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -24,7 +25,7 @@ public class GrabController : MonoBehaviour {
     }
 	
 	void Update () {
-
+		handOfGod.transform.rotation = Quaternion.Euler(0, 0, 0);
         GameObject planet = GameObject.Find("Planet");
         float distance = Vector3.Distance(planet.transform.position, transform.position);
         float planetradius = GameValues.PlanetRadius;
@@ -57,21 +58,23 @@ public class GrabController : MonoBehaviour {
 
     void Grab()
     {
-        Debug.Log(objectToBeGrabbed);
         // the selected Object gets bound to the Hand, physics do not affect it anymore     
         if ( !grabbing && objectToBeGrabbed != null)
             {
                 Debug.Log("grab");
+                GameObject.Find("hand").GetComponent<Animation>().Play("Grab");
                 grabbing = true;
                 Monster m = gs.monsters[objectToBeGrabbed] as Monster;
                 m.GetGrabbed();
                 objectToBeGrabbed.transform.SetParent(transform);
-            
+
+
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = handOfGod.transform.position;
                 objectToBeGrabbed.transform.position = pos;
-				
-				source.PlayOneShot(grabSound,vol);
+                objectToBeGrabbed.transform.localPosition = new Vector3(-4f, -1.5f, 1f);
+
+                source.PlayOneShot(grabSound,vol);
             }
     }
 
@@ -81,11 +84,12 @@ public class GrabController : MonoBehaviour {
         if (grabbing)
         {
             Debug.Log("Release");
+            GameObject.Find("hand").GetComponent<Animation>().Play("Release");
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
-            Debug.Log(moveDir);
             objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * 25f, ForceMode.Impulse);
+            m.TakeDamage( (int) Mathf.Ceil(moveDir.magnitude * 25f) );
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;
