@@ -145,16 +145,17 @@ public class SkillController : MonoBehaviour {
 
     Monster GetNearestMonster(Vector3 pos, float radius)
     {
+        Monster m = null;
         foreach(DictionaryEntry d in gs.monsters)
         {
-            Monster m = d.Value as Monster;
+            m = d.Value as Monster;
             float dist = (pos - m.GameObject.transform.position).magnitude;
             if(dist < radius)
             {
-                return m;
+                break;
             }
         }
-        return null;
+        return m;
     }
 
 	Alien[] GetNearestAlien(Vector3 pos, float radius)

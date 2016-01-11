@@ -30,7 +30,8 @@ public class CreatureHelper : MonoBehaviour {
             if (System.Int32.Parse(child.name) > percentage)
             {
                 child.gameObject.SetActive(false);
-            }
+            } else
+                child.gameObject.SetActive(true);
         }
     }
 
