@@ -89,7 +89,7 @@ public class GrabController : MonoBehaviour {
             objectToBeGrabbed.transform.SetParent(null);
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
             objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * 25f, ForceMode.Impulse);
-            m.TakeDamage( (int) Mathf.Ceil(moveDir.magnitude * 35f) );
+            m.TakeDamage( (int) Mathf.Ceil(moveDir.magnitude * 25f) );
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;

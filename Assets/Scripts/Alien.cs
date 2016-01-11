@@ -45,10 +45,13 @@ public class Alien : Creature {
 
 	public void DropResource()
     {
-		Resource.transform.SetParent (null);
-		Resource.transform.position -= new Vector3(0,1,0);
-		Resource.GetComponent<Collider> ().enabled = true;
-		Resource = null;
+        if (Resource)
+        {
+            Resource.transform.SetParent(null);
+            Resource.transform.position -= new Vector3(0, 1, 0);
+            Resource.GetComponent<Collider>().enabled = true;
+            Resource = null;
+        }
     }
 
 	public override void Die()
