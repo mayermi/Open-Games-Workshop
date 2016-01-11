@@ -135,6 +135,7 @@ public class AlienHelper : CreatureHelper {
 
     void CallAliensToShip()
     {
+        GameObject.Find("GameController").SendMessage("ReplaceShipModel");
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
