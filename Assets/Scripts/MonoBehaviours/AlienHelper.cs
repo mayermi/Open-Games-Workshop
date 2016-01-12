@@ -98,7 +98,7 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToResource()
     {
         float dist = (gameObject.transform.position - alien.Resource.transform.position).magnitude;
-        if (dist <= 4f)
+        if (dist <= 5f)
         {
             alien.TakeResource();
             alien.movingToResource = false;
@@ -135,6 +135,7 @@ public class AlienHelper : CreatureHelper {
 
     void CallAliensToShip()
     {
+        GameObject.Find("GameController").SendMessage("ReplaceShipModel");
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
