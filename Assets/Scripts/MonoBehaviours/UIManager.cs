@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour {
     public GameObject win;
 
     GameState gs;
+	bool gameEnded = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -35,6 +36,11 @@ public class UIManager : MonoBehaviour {
     void Update()
     {
         if(gs == null) gs = GameObject.Find("GameState").GetComponent<GameState>();
+
+		if(gameEnded)
+		{
+			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
+		}
     }
 	
     public void ShowUI()
@@ -86,6 +92,7 @@ public class UIManager : MonoBehaviour {
     public void showWin()
     {
         ActivateBlur();
+		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(win, 0f, 1f, 1f));
     }
@@ -93,6 +100,7 @@ public class UIManager : MonoBehaviour {
     public void showLose()
     {
         ActivateBlur();
+		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(failure, 0f, 1f, 3f));
     }
