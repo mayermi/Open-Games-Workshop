@@ -7,17 +7,22 @@ public class UIManager : MonoBehaviour {
 
     public Slider alienSlider;
     public Text countAliensText;
+	public Slider resourceSlider;
     public Text countResourcesText;
-    public Slider resourceSlider;
-
+    
     public Toggle fireToggle;
     public Toggle lightningToggle;
     public Toggle healToggle;
+
+	public Slider fireSlider;
+	public Slider lightningSlider;
+	public Slider healSlider;
 
     public GameObject failure;
     public GameObject win;
 
     GameState gs;
+	bool gameEnded = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -31,6 +36,11 @@ public class UIManager : MonoBehaviour {
     void Update()
     {
         if(gs == null) gs = GameObject.Find("GameState").GetComponent<GameState>();
+
+		if(gameEnded)
+		{
+			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
+		}
     }
 	
     public void ShowUI()
@@ -82,6 +92,7 @@ public class UIManager : MonoBehaviour {
     public void showWin()
     {
         ActivateBlur();
+		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(win, 0f, 1f, 1f));
     }
@@ -89,9 +100,36 @@ public class UIManager : MonoBehaviour {
     public void showLose()
     {
         ActivateBlur();
+		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(failure, 0f, 1f, 3f));
     }
+
+	public void UpdateTimeout(int skill, float timeFrac)
+	{
+		Slider s;
+		if (skill == 0)
+			s = lightningSlider;
+		else if (skill == 1)
+			s = fireSlider;
+		else
+			s = healSlider;
+
+		if (s.gameObject.activeSelf == false) 
+		{
+			s.gameObject.SetActive (true);
+			s.transform.parent.GetComponent<Image>().CrossFadeAlpha(0.25f, 0.25f, false);
+		}
+			
+		s.value = timeFrac;
+
+		if (s.value < 0.02f) 
+		{
+			s.gameObject.SetActive (false);
+			s.transform.parent.GetComponent<Image>().CrossFadeAlpha(1f, 0.25f, false);
+		}
+			
+	}
 
     void ActivateBlur()
     {

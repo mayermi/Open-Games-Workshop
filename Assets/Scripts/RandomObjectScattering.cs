@@ -82,15 +82,18 @@ public class RandomObjectScattering : MonoBehaviour
         foreach (var vertex in verts)
         {
             Vector3 pos = vertex.normalized * radius;
+
 			if(pos == ship_pos)
                 continue;
             if(gameState.MonsterSpawnPoints.Contains(pos))
                 continue;
 
+			float distToShip = (ship_pos-pos).magnitude;
+
             float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
             GameObject mainObject = null;
-            if (!mainObjectName.Equals("nothing"))
+            if (!mainObjectName.Equals("nothing") && distToShip > 10f)
             {
                 if (mainObjectName.Equals("rocks_0"))
                     scaleFactor = 0.3f;
@@ -124,10 +127,10 @@ public class RandomObjectScattering : MonoBehaviour
                     detail.transform.SetParent(objects.transform);
                 }
             } else if(placedResources < maxResources){     // resources, where no rocks are so that aliens can reach them        
-                GameObject detail = Creator.Create("resource", pos, "resource");
+                GameObject detail = Creator.Create("crystal", pos, "resource");
                 detail.transform.up = -(transform.position - pos).normalized;
-				var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
-				detail.transform.localScale *= small_scale;
+				//var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
+				//detail.transform.localScale *= small_scale;
                 detail.transform.Rotate(detail.transform.up, Random.Range(0f, 360f), Space.World);
                 placedResources++;
             }

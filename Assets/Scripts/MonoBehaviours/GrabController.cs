@@ -72,7 +72,7 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = true;
                 Vector3 pos = handOfGod.transform.position;
                 objectToBeGrabbed.transform.position = pos;
-                objectToBeGrabbed.transform.localPosition = new Vector3(-4f, -1.5f, 1f);
+                objectToBeGrabbed.transform.localPosition = new Vector3(-4f, 5f, 1f);
 
                 source.PlayOneShot(grabSound,vol);
             }

@@ -8,18 +8,18 @@ public class AlienHelper : CreatureHelper {
     bool movingToShipWithResource = false;
     public bool movingToShipToLeave = false;
     bool infectionReady = true;
-	private AudioClip attackSound;
-	private AudioSource source;
+	/*private AudioClip attackSound;
+	private AudioSource source;*/
 
 	public override void Start () {
 		base.Start ();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
-		source = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("monster-alarm");
+		/*source = gameObject.AddComponent<AudioSource>();
+		attackSound = (AudioClip)Resources.Load ("alarm2");
 		source.clip = attackSound;
-		source.playOnAwake = false;
+		source.playOnAwake = false;*/
     }
 
 	public override void Update () {
@@ -39,8 +39,8 @@ public class AlienHelper : CreatureHelper {
 		} 
 		else if (alien.state == Alien.AlienState.FLEEING)
 		{
-			source.Play();
 			alien.Flee();
+			//StartCoroutine(playAlarmSound());
 		}
 
         if (alien.movingToResource) CheckDistToResource();
@@ -52,6 +52,11 @@ public class AlienHelper : CreatureHelper {
 			StartCoroutine(InfectionDamage(3));
 		}
     }
+
+	/*public IEnumerator playAlarmSound(){
+		source.Play();
+		yield return new WaitForSeconds (3);
+	}*/
 
     public override void NoPathFound()
     {
@@ -136,6 +141,7 @@ public class AlienHelper : CreatureHelper {
 
     void CallAliensToShip()
     {
+        GameObject.Find("GameController").SendMessage("ReplaceShipModel");
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
@@ -182,4 +188,5 @@ public class AlienHelper : CreatureHelper {
 		yield return new WaitForSeconds (sec);
 		infectionReady = true;
 	}
+	
 }

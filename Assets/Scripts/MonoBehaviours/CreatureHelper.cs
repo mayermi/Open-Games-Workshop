@@ -37,4 +37,13 @@ public class CreatureHelper : MonoBehaviour {
 
     public virtual void NoPathFound() { }
 
+
+	void OnParticleCollision(GameObject other)
+	{
+		if (other.name == "Fire_Damaging") 
+		{
+			creature.TakeDamage(1, other);
+		}
+	}
+
 }
