@@ -26,6 +26,10 @@ public class GameController : MonoBehaviour {
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
+	private AudioClip attackSound;
+	private AudioSource source2;
+	private bool fleeing = false;
+	List<Alien> fleeingAliens = new List<Alien>();
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -38,6 +42,11 @@ public class GameController : MonoBehaviour {
 
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+
+		source2 = gameObject.AddComponent<AudioSource>();
+		attackSound = (AudioClip)Resources.Load ("alarm2");
+		source2.clip = attackSound;
+		source2.playOnAwake = false;
 
         gs.ActiveSkill = 0;
         bakeTimer = Time.time;
@@ -94,7 +103,29 @@ public class GameController : MonoBehaviour {
 			source.PlayOneShot(crashSpaceship,vol);
 		}
 
+		List<Alien> aliens = gs.getAliens ();
+
+		if (!fleeing) {
+			foreach (Alien alien in aliens) {
+				if (alien.state == Alien.AlienState.FLEEING && !fleeingAliens.Contains(alien)) {
+					fleeingAliens.Add (alien);
+					fleeing = true;
+					StartCoroutine (playAlarmSound ());
+					break;
+				}
+				if(fleeingAliens.Contains(alien)){
+					fleeingAliens.Remove(alien);
+				}
+			}
+		}
+
     }
+
+	IEnumerator playAlarmSound(){
+		source2.Play();
+		yield return new WaitForSeconds (10);
+		fleeing = false;
+	}
 
     IEnumerator BakeNodes()
     {
