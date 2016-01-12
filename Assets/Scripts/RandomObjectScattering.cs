@@ -123,7 +123,7 @@ public class RandomObjectScattering : MonoBehaviour
                     detail.transform.SetParent(objects.transform);
                 }
             } else if(placedResources < maxResources){     // resources, where no rocks are so that aliens can reach them        
-                GameObject detail = Creator.Create("resource", pos, "resource");
+                GameObject detail = Creator.Create("crystal", pos, "resource");
                 detail.transform.up = -(transform.position - pos).normalized;
 				var small_scale = 0.5f * ScaleFunction(Random.Range(1.0f, 2.0f));
 				detail.transform.localScale *= small_scale;
