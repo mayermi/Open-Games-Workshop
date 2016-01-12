@@ -6,30 +6,40 @@ using System;
 public class SkillController : MonoBehaviour {
 
     GameState gs;
+	GrabController gc;
+	UIManager ui;
     GameObject hand;
     RecursiveLightning lightning;
 	GameObject fire;
 	bool fireBurning = false;
 	GameObject heal;
-    Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool>();
-    GrabController gc;
-	public AudioClip lightningSound;
-	public AudioClip fireSound;
-	public AudioClip healSound;
+	Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool> (); 
+
+	private int skillPerformed = 0;
 
 	private const float HEALRADIUS = 10f;
 	private const int HEALPOINTS = 50;
+	private const float HEAL_TIMEOUT = 5f;
+
 	private const float LIGHTNINGRADIUS = 10f;
 	private const int LIGHTNINGDAMAGE = 100;
+	private const float LIGHTNING_TIMEOUT = 7f;
+
+	private const float FIRE_TIMEOUT = 3f;
+
+	public AudioClip lightningSound;
+	public AudioClip fireSound;
+	public AudioClip healSound;
 	private AudioSource source;
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
-	private int skillPerformed = 0;
+
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+		ui = GameObject.Find ("UI").GetComponent<UIManager> ();
 
 		lightning = GameObject.Find("Lightning").GetComponent<RecursiveLightning>();
 		fire = GameObject.Find ("Fire");
@@ -94,7 +104,7 @@ public class SkillController : MonoBehaviour {
     // Skill 1
     void Lightning()
     {
-        skillDisabled[Skills.Fire] = true;
+        skillDisabled[Skills.Lightning] = true;
         // Lightning starts in Hand
         Vector3 from = GameObject.Find("HandOfGod").transform.position;
         
@@ -108,7 +118,8 @@ public class SkillController : MonoBehaviour {
         lightning.StrikeLightning();
         if (m != null) m.TakeDamage(LIGHTNINGDAMAGE);
 
-        skillDisabled[Skills.Fire] = false;
+		StartCoroutine (SkillTimeout (Skills.Lightning, LIGHTNING_TIMEOUT));
+
     }
 
     // Skill 2
@@ -120,6 +131,7 @@ public class SkillController : MonoBehaviour {
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
 		StartCoroutine (StopFire(2f));
+		StartCoroutine (SkillTimeout (Skills.Fire, FIRE_TIMEOUT));
     }
 
     // Skill 3
@@ -140,7 +152,7 @@ public class SkillController : MonoBehaviour {
 				a.GetHealed(HEALPOINTS);
 			}
 		}
-		StartCoroutine (StopHeal(4f));
+		StartCoroutine (SkillTimeout(Skills.Heal, HEAL_TIMEOUT));
     }
 
     Monster GetNearestMonster(Vector3 pos, float radius)
@@ -157,13 +169,6 @@ public class SkillController : MonoBehaviour {
         }
         return m;
     }
-
-	Alien[] GetNearestAlien(Vector3 pos, float radius)
-	{
-
-
-		return null;
-	}
 
     void UpdateFire()
     {
@@ -184,14 +189,21 @@ public class SkillController : MonoBehaviour {
 		yield return new WaitForSeconds(sec);
 		fire.GetComponent<ParticleSystem> ().enableEmission = false;
 		fireBurning = false;
-        skillDisabled[Skills.Fire] = false;
 	}
 
-	IEnumerator StopHeal(float sec)
+	IEnumerator SkillTimeout(Skills s, float timeout) 
 	{
-		yield return new WaitForSeconds(sec);
-		skillDisabled[Skills.Heal] = false;
+		float start = Time.time;
+
+		while ((Time.time - start) < timeout)
+		{
+			ui.UpdateTimeout((int)s, (timeout - (Time.time - start)) / timeout );
+			yield return false;
+		}
+
+		skillDisabled [s] = false;
 	}
+	
 
     enum Skills { Lightning, Fire, Heal };
 }
