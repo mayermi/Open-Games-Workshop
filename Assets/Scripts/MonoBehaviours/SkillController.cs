@@ -130,7 +130,7 @@ public class SkillController : MonoBehaviour {
 		fire.transform.SetParent(hand.transform);
 		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
-		StartCoroutine (StopFire(2f));
+		StartCoroutine (StopFire(1.25f));
 		StartCoroutine (SkillTimeout (Skills.Fire, FIRE_TIMEOUT));
     }
 
