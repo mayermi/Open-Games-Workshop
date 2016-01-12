@@ -182,4 +182,5 @@ public class AlienHelper : CreatureHelper {
 		yield return new WaitForSeconds (sec);
 		infectionReady = true;
 	}
+	
 }
