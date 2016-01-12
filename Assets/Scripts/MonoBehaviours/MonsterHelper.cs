@@ -6,7 +6,7 @@ using System.Linq;
 public class MonsterHelper : CreatureHelper {
 
     Monster m;
-	private AudioClip attackSound;
+	//private AudioClip attackSound;
 	//private AudioSource source;
 
 	public override void Start () {

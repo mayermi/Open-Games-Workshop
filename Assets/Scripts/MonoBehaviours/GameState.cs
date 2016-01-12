@@ -50,4 +50,14 @@ public class GameState : MonoBehaviour {
         }
         return null;
     }
+
+	public List<Alien> getAliens(){
+		List<Alien> list = new List<Alien>();
+		foreach (DictionaryEntry d in aliens) {
+			Alien a = d.Value as Alien;
+			list.Add (a);
+		}
+		return list;
+	}
+
 }
