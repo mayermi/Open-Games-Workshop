@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour {
             if(!firstSpawn && gs.aliens.Count == 0)
             {
                 if (gs.aliensSaved > 0)
-                    ui.showWin();
+                    StartCoroutine(Win());
                 else
                     ui.showLose();
             }
@@ -152,6 +152,32 @@ public class GameController : MonoBehaviour {
 
         yield return new WaitForSeconds(3f);
         tc.ShowStory();
+    }
+
+    IEnumerator Win()
+    {
+        float start = Time.time;
+        GameObject ship = GameObject.Find("SpaceShip");
+        Vector3 start_pos = ship.transform.position;
+
+        while (Time.time - start < 1.5f)
+        {
+            float frac = (Time.time - start) / 1.5f;
+            ship.transform.position = Vector3.Lerp(start_pos, start_pos + (start_pos.normalized * 5f), frac);
+            yield return false;
+        }
+
+        start = Time.time;
+        start_pos = ship.transform.position;
+
+        while (Time.time - start < 2f)
+        {
+            float frac = (Time.time - start) / 2f;
+            ship.transform.position = Vector3.Lerp(start_pos, start_pos + ship.transform.right * 400f, frac);
+            yield return false;
+        }
+
+        ui.showWin();
     }
 
 
@@ -279,6 +305,15 @@ public class GameController : MonoBehaviour {
 			gc.objectToBeGrabbed = null;
 	}
 
-    
+    void ReplaceShipModel()
+    {
+        Destroy(GameObject.Find("SpaceShip"));
+        GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
+        new_ship.transform.up = GameValues.ShipPos.normalized;
+    }
+
+   
+
+
 
 }

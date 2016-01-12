@@ -27,7 +27,7 @@ public class CreatureHelper : MonoBehaviour {
         Transform healthbar = transform.Find("Canvas").Find("Health");
         foreach (Transform child in healthbar)
         {
-            if (System.Int32.Parse(child.name) > percentage)
+            if (System.Int32.Parse(child.name) > percentage+20)
             {
                 child.gameObject.SetActive(false);
             } else
