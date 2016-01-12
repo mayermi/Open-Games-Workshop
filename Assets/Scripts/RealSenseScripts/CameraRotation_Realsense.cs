@@ -8,7 +8,7 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
 
     public GameObject planet;
     public Camera cam;
-    public float camSpeed = 5f;
+    public float camSpeed = 10f;
 	float fov;
 
     [SerializeField]

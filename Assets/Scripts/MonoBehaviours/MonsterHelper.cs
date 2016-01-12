@@ -7,16 +7,16 @@ public class MonsterHelper : CreatureHelper {
 
     Monster m;
 	private AudioClip attackSound;
-	private AudioSource source;
+	//private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
-		source = gameObject.AddComponent<AudioSource>();
+		/*source = gameObject.AddComponent<AudioSource>();
 		attackSound = (AudioClip)Resources.Load ("monster-alarm");
 		source.clip = attackSound;
-		source.playOnAwake = false;
+		source.playOnAwake = false;*/
     }
 
 	public override void Update() 
@@ -37,7 +37,7 @@ public class MonsterHelper : CreatureHelper {
                     )
                   )
         {
-			source.Play();
+			//source.Play();
             CheckDistance();
         }         
 
