@@ -82,15 +82,18 @@ public class RandomObjectScattering : MonoBehaviour
         foreach (var vertex in verts)
         {
             Vector3 pos = vertex.normalized * radius;
+
 			if(pos == ship_pos)
                 continue;
             if(gameState.MonsterSpawnPoints.Contains(pos))
                 continue;
 
+			float distToShip = (ship_pos-pos).magnitude;
+
             float scaleFactor = 1f;
             string mainObjectName = DecideMainObject();
             GameObject mainObject = null;
-            if (!mainObjectName.Equals("nothing"))
+            if (!mainObjectName.Equals("nothing") && distToShip > 10f)
             {
                 if (mainObjectName.Equals("rocks_0"))
                     scaleFactor = 0.3f;

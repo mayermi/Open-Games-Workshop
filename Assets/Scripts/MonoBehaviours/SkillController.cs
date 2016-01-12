@@ -19,13 +19,13 @@ public class SkillController : MonoBehaviour {
 
 	private const float HEALRADIUS = 10f;
 	private const int HEALPOINTS = 50;
-	private const float HEAL_TIMEOUT = 5f;
+	private const float HEAL_TIMEOUT = 10f;
 
 	private const float LIGHTNINGRADIUS = 10f;
 	private const int LIGHTNINGDAMAGE = 100;
-	private const float LIGHTNING_TIMEOUT = 7f;
+	private const float LIGHTNING_TIMEOUT = 10f;
 
-	private const float FIRE_TIMEOUT = 3f;
+	private const float FIRE_TIMEOUT = 7f;
 
 	public AudioClip lightningSound;
 	public AudioClip fireSound;
