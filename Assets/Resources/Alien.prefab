@@ -183,7 +183,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 471738}
   - 111: {fileID: 11144130}
-  - 114: {fileID: 11449700}
   - 54: {fileID: 5439498}
   - 65: {fileID: 6501436}
   - 114: {fileID: 11412136}
@@ -567,7 +566,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147676}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31.8723526, y: -38.9857903, z: -20.3166599}
+  m_LocalPosition: {x: 5928.51172, y: 3986.09595, z: -2185.70068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 415862}
@@ -663,12 +662,13 @@ Animation:
   m_GameObject: {fileID: 147676}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400002, guid: 36b0e8eb7f2add3418c36856ceb58949, type: 3}
+  m_Animation: {fileID: 7400004, guid: 6f9d73280a8117d49bb5be289fb6c5dc, type: 3}
   m_Animations:
-  - {fileID: 7400000, guid: 36b0e8eb7f2add3418c36856ceb58949, type: 3}
-  - {fileID: 7400002, guid: 36b0e8eb7f2add3418c36856ceb58949, type: 3}
+  - {fileID: 7400000, guid: 6f9d73280a8117d49bb5be289fb6c5dc, type: 3}
+  - {fileID: 7400002, guid: 6f9d73280a8117d49bb5be289fb6c5dc, type: 3}
+  - {fileID: 7400004, guid: 6f9d73280a8117d49bb5be289fb6c5dc, type: 3}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 1
 --- !u!114 &11401928
@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80fddb10f173443cca65fe4df2275f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadName: Alien_Dead
   movingToShipToLeave: 0
 --- !u!114 &11433608
 MonoBehaviour:
@@ -853,17 +854,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11449700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c18e70dff856c74389827d2d47a6d64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11451850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1023,7 +1013,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: 36b0e8eb7f2add3418c36856ceb58949, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 6f9d73280a8117d49bb5be289fb6c5dc, type: 3}
   m_Bones:
   - {fileID: 474946}
   - {fileID: 455748}
@@ -3410,6 +3400,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deadName
+      value: Alien_Dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movingToShipToLeave
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

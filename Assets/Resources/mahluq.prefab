@@ -771,6 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4556fd3bfefea5444a2690653acc2005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadName: mahluq_dead
 --- !u!114 &11431968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1326,6 +1327,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deadName
+      value: mahluq_dead
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

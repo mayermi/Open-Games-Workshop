@@ -32,7 +32,7 @@ public abstract class Monster : Creature {
                 a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
             }
 
-            GameObject.GetComponent<Animation>().Play("Attack");
+            GameObject.GetComponent<Animation>().CrossFade("Attack", 0.1f, PlayMode.StopAll);
 
             if((GameObject.transform.position - a.GameObject.transform.position).sqrMagnitude > 2f)
                 MoveTo(a.GameObject.transform.position);
