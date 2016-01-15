@@ -62,6 +62,15 @@ public class Alien : Creature {
         GameObject.Find("UI").GetComponent<UIManager>().SetAlienSlider();
     } 
 
+    public void EnterSpaceShip()
+    {
+        if (Resource) DropResource();
+        GameObject.Find("GameController").SendMessage("RemoveReferences", this);
+        GameObject.Find("GameState").SendMessage("RemoveCreature", this);
+
+        GameObject.SetActive(false);
+    }
+
 	public void Search()
 	{
         state = AlienState.SEARCHING;
@@ -85,6 +94,7 @@ public class Alien : Creature {
 
 	public void Flee()
     {
+        GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Play();
 		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
@@ -97,6 +107,7 @@ public class Alien : Creature {
 
 		if (waitTimer != -1f && Time.time - waitTimer > WAITTIME) 
 		{
+            GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
 			state = AlienState.SEARCHING;
 			waitTimer = -1f;
 		}
