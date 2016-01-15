@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour {
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
 
 		source2 = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("alarm2");
+		attackSound = (AudioClip)Resources.Load ("alarm");
 		source2.clip = attackSound;
 		source2.playOnAwake = false;
 
