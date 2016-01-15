@@ -6,13 +6,28 @@ public class CreatureHelper : MonoBehaviour {
     private Canvas c;
     Creature creature;
     protected GameState gs;
+    private AudioSource source;
+    private AudioClip deadsound;
 
     public string deadName;
 
-    public virtual void Start () {
+    public virtual void Start() {
         c = gameObject.GetComponentInChildren<Canvas>();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         creature = gs.creatures[gameObject] as Creature;
+        source = gameObject.AddComponent<AudioSource>();
+
+        if (creature is PredatoryMonster)
+            deadsound = (AudioClip)Resources.Load("predatorydead");         
+        else if (creature is Alien)
+            deadsound = (AudioClip)Resources.Load("aliendead2");    
+        else if (creature is EvilMonster)
+            deadsound = (AudioClip)Resources.Load("evildead2");
+        else
+            deadsound = (AudioClip)Resources.Load("shydead");
+
+        source.clip = deadsound;
+        source.playOnAwake = false;
     }
 	
 	public virtual void Update () {
@@ -48,6 +63,7 @@ public class CreatureHelper : MonoBehaviour {
 
     public void StartDying()
     {
+        StartCoroutine(playDeathSound());
         transform.Find("Canvas").Find("Health").gameObject.SetActive(false);
 
         Animation anim = gameObject.GetComponent<Animation>();
@@ -65,8 +81,12 @@ public class CreatureHelper : MonoBehaviour {
 
         GameObject deadCreature = Creator.Create(deadName, pos, "Corpse");
         deadCreature.transform.rotation = rot;
- 
         gameObject.SetActive(false);
     }
 
+    IEnumerator playDeathSound()
+    {
+        yield return new WaitForSeconds(1);
+        source.Play();
+    }
 }
