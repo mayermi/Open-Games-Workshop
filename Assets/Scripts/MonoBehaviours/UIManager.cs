@@ -91,6 +91,7 @@ public class UIManager : MonoBehaviour {
 
     public void showWin()
     {
+        win.transform.Find("Message").GetComponent<Text>().text = "Du hast <color=#ff6699>" + gs.aliensSaved + "</color> Aliens gerettet.";
         ActivateBlur();
 		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
