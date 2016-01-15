@@ -118,7 +118,7 @@ public class AlienHelper : CreatureHelper {
             if(movingToShipToLeave)
             {
                 gs.aliensSaved += 1;
-                alien.Die();
+                alien.EnterSpaceShip();
                 movingToShipToLeave = false;
                 return;
             }
