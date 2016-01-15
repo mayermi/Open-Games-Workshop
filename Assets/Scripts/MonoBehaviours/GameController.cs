@@ -222,7 +222,7 @@ public class GameController : MonoBehaviour {
 			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
 
 			Alien a = new Alien (health: 100, speed: 2f, range: 7);
-			a.GameObject = Creator.Create ("Alien", detail_pos, "Alien");
+			a.GameObject = Creator.Create ("Alien_withDying", detail_pos, "Alien");
 			gs.aliens.Add (a.GameObject, a);
 			gs.creatures.Add(a.GameObject, a as Creature);
 			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;

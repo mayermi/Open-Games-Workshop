@@ -10,6 +10,8 @@ public abstract class Creature {
 	public int VisionRange { get; set;}
 	public GameObject GameObject { get; set;}
 
+    private bool dead;
+
 	public Creature(int health, float speed, int range) {
 		MaxHealth = health;
 		CurrentHealth = MaxHealth;
@@ -47,9 +49,15 @@ public abstract class Creature {
 
 	public virtual void Die() 
 	{
-		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
-		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
-        GameObject.SetActive(false);
+        if (!dead)
+        {
+            dead = true;
+            GameObject.tag = "Dead";
+            GameObject.Find("GameController").SendMessage("RemoveReferences", this);
+            GameObject.Find("GameState").SendMessage("RemoveCreature", this);
+            StopMoving();
+            GameObject.GetComponent<CreatureHelper>().StartDying();
+        }
 	}
 
 	public bool IsInRange(GameObject g)

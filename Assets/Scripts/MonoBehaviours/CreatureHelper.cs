@@ -7,6 +7,8 @@ public class CreatureHelper : MonoBehaviour {
     Creature creature;
     protected GameState gs;
 
+    public string deadName;
+
     public virtual void Start () {
         c = gameObject.GetComponentInChildren<Canvas>();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -22,8 +24,6 @@ public class CreatureHelper : MonoBehaviour {
     {
         float percentage = 100 * (float)creature.CurrentHealth / (float)creature.MaxHealth;
 
-
-        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
         Transform healthbar = transform.Find("Canvas").Find("Health");
         foreach (Transform child in healthbar)
         {
@@ -40,10 +40,33 @@ public class CreatureHelper : MonoBehaviour {
 
 	void OnParticleCollision(GameObject other)
 	{
-		if (other.name == "Fire_Damaging") 
-		{
+        if (gameObject.tag != "Dead" && other.name == "Fire_Damaging") 
+		{  
 			creature.TakeDamage(1, other);
 		}
 	}
+
+    public void StartDying()
+    {
+        transform.Find("Canvas").Find("Health").gameObject.SetActive(false);
+
+        Animation anim = gameObject.GetComponent<Animation>();
+
+        anim.CrossFade("Die", 0.1f, PlayMode.StopAll);
+
+        StartCoroutine(ReplaceModel());
+    }
+
+    IEnumerator ReplaceModel()
+    {
+        yield return new WaitForSeconds(2);
+        Quaternion rot = gameObject.transform.rotation;
+        Vector3 pos = gameObject.transform.position;
+
+        GameObject deadCreature = Creator.Create(deadName, pos, "Corpse");
+        deadCreature.transform.rotation = rot;
+ 
+        gameObject.SetActive(false);
+    }
 
 }

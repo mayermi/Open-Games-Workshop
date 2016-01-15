@@ -12,6 +12,7 @@ TagManager:
   - PathFinding
   - SpaceShip
   - NotWalkable
+  - Dead
   layers:
   - Default
   - TransparentFX
