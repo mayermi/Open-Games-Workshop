@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour {
 
     public void SetAlienSlider()
     {
-        int aliensCount = gs.aliens.Count;
+        int aliensCount = gs.aliens.Count + gs.aliensSaved;
         countAliensText.text = "Aliens alive: " + aliensCount.ToString();
         alienSlider.value = aliensCount;
     }
