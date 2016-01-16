@@ -276,7 +276,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(attack: 10, health: 25, speed: 3f, range: 7, contagious: false);
+            ShyMonster m = new ShyMonster(attack: 5, health: 25, speed: 2.5f, range: 7, contagious: false);
             m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
@@ -296,7 +296,7 @@ public class GameController : MonoBehaviour {
             Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             spawnPos = CoordinateHelper.GroundPosition(spawnPos);
 			bool contagious = false;
-			if(Random.Range(0f,1f) < 0.1f) contagious = true;
+			if(Random.Range(0f,1f) < 0.15f) contagious = true;
             PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
             m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
@@ -311,13 +311,14 @@ public class GameController : MonoBehaviour {
 
     void SpawnEvilMonsters()
     {
-        int count = Random.Range(1, 10);
+        int count = Random.Range(1, 3);
         Debug.Log("Spawning " + count + " EvilMonsters");
+        string name = (Random.Range(0f,1f) > 0.5f) ? "monster" : "evil_final";
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            EvilMonster m = new EvilMonster(attack: 10, health: 100, speed: 2.5f, range: 8, contagious: false);
-            m.GameObject = Creator.Create("monster", pos, "ShyMonster");
+            EvilMonster m = new EvilMonster(attack: 10, health: 100, speed: 3f, range: 8, contagious: false);
+            m.GameObject = Creator.Create(name, pos, "EvilMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
