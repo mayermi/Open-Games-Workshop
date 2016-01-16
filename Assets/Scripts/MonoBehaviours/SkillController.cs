@@ -11,7 +11,6 @@ public class SkillController : MonoBehaviour {
     GameObject hand;
     RecursiveLightning lightning;
 	GameObject fire;
-	bool fireBurning = false;
 	GameObject heal;
 	Dictionary<Skills,bool> skillDisabled = new Dictionary<Skills,bool> (); 
 
@@ -128,7 +127,6 @@ public class SkillController : MonoBehaviour {
         skillDisabled[Skills.Fire] = true;
 		GameObject hand = GameObject.Find ("HandOfGod");
 		fire.transform.SetParent(hand.transform);
-		fireBurning = true;
 		fire.GetComponent<ParticleSystem> ().enableEmission = true;
 		StartCoroutine (StopFire(1.25f));
 		StartCoroutine (SkillTimeout (Skills.Fire, FIRE_TIMEOUT));
@@ -187,8 +185,7 @@ public class SkillController : MonoBehaviour {
     IEnumerator StopFire(float sec)
 	{
 		yield return new WaitForSeconds(sec);
-		fire.GetComponent<ParticleSystem> ().enableEmission = false;
-		fireBurning = false;
+		fire.GetComponent<ParticleSystem> ().enableEmission = false;;
 	}
 
 	IEnumerator SkillTimeout(Skills s, float timeout) 

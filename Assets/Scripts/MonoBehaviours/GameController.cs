@@ -7,7 +7,6 @@ using Pantheon.Utils;
 public class GameController : MonoBehaviour {
 
     GameState gs;
-    SkillController sc;
 	GrabController gc;
     TutorialController tc;
     UIManager ui;   
@@ -28,12 +27,14 @@ public class GameController : MonoBehaviour {
 	private float vol;
 	private AudioClip attackSound;
 	private AudioSource source2;
-	private bool fleeing = false;
-	List<Alien> fleeingAliens = new List<Alien>();
+    private AudioClip jetstartSound;
+    private bool fleeing = false;
+    private AudioSource source3;
+
+    List<Alien> fleeingAliens = new List<Alien>();
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
-        sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
@@ -47,6 +48,11 @@ public class GameController : MonoBehaviour {
 		attackSound = (AudioClip)Resources.Load ("alarm");
 		source2.clip = attackSound;
 		source2.playOnAwake = false;
+
+        source3 = gameObject.AddComponent<AudioSource>();
+        jetstartSound = (AudioClip)Resources.Load("jetstart");
+        source3.clip = jetstartSound;
+        source3.playOnAwake = false;
 
         gs.ActiveSkill = 0;
         bakeTimer = Time.time;
@@ -341,6 +347,7 @@ public class GameController : MonoBehaviour {
         Destroy(GameObject.Find("SpaceShip"));
         GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
         new_ship.transform.up = GameValues.ShipPos.normalized;
+        source3.Play();
     }
 
    

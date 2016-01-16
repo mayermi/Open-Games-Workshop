@@ -62,6 +62,15 @@ public class Alien : Creature {
         GameObject.Find("UI").GetComponent<UIManager>().SetAlienSlider();
     } 
 
+    public void EnterSpaceShip()
+    {
+        if (Resource) DropResource();
+        GameObject.Find("GameController").SendMessage("RemoveReferences", this);
+        GameObject.Find("GameState").SendMessage("RemoveCreature", this);
+
+        GameObject.SetActive(false);
+    }
+
 	public void Search()
 	{
         state = AlienState.SEARCHING;

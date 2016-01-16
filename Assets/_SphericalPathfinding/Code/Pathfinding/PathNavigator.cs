@@ -52,20 +52,20 @@ public class PathNavigator : MonoBehaviour
                 prevTargetPos = target.position;
             }
 
-            if (!travelling) // if the navigator has finished travelling
+            /*if (!travelling) // if the navigator has finished travelling
             {
                 Vector3 targetPos = Vector3.zero;
                 if (target != null) targetPos = target.position;
                 //else targetPos = RandomTargetPos();
 
                 // check the distance to its target position, if it's far away start navigating again
-                /*float dist = (transform.position - targetPos).sqrMagnitude;
+                float dist = (transform.position - targetPos).sqrMagnitude;
 			    if(dist > 0.15f)
 			    {
 				    travelling = true;
 				    PathRequestManager.RequestPath(transform.position, targetPos, OnPathFound);
-			    }*/
-            }
+			    }
+            }*/
         }  
         
     }
@@ -132,13 +132,13 @@ public class PathNavigator : MonoBehaviour
 		}
 	}
 
-	public void MoveTowards(Vector3 targetPos)
+	public void MoveTowards(Vector3 tPos)
 	{
-		Quaternion newRot = planetBody.LookAtTarget(targetPos);
+		Quaternion newRot = planetBody.LookAtTarget(tPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, newRot, lookSpeed * Time.deltaTime);
 
 		//transform.position 	= planetBody.MoveForward(moveSpeed);
-		GetComponent<MoveOnSphere> ().moveTowards(targetPos);
+		GetComponent<MoveOnSphere> ().moveTowards(tPos);
 	}
 
 

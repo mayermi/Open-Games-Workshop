@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Pantheon.Utils;
 
 public class RandomObjectScattering : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class RandomObjectScattering : MonoBehaviour
     public int minDetails = 1;
     public int maxDetails = 4;
     public int monsterSpawnPointAmount = 5;
-
 
 	Vector3[] verts;
 	float radius;
@@ -17,10 +17,16 @@ public class RandomObjectScattering : MonoBehaviour
     GameState gameState;
     GameObject objects;
 
+    List<string> planetMats = new List<string>(); 
+
     void Start()
     {
         objects = new GameObject();
         objects.name = "EnvironmentObjects";
+
+        planetMats.Add("PlanetGround_1");
+        planetMats.Add("PlanetGround_2");
+        planetMats.Add("PlanetGround_3");
     }
 
     void Update()
@@ -35,16 +41,23 @@ public class RandomObjectScattering : MonoBehaviour
 		verts = ico.GetComponent<MeshFilter>().sharedMesh.vertices;
         gameState = GameObject.Find("GameState").GetComponent<GameState>();
         maxResources = GameObject.Find("GameState").GetComponent<GameState>().maxResources;
+        PaintPlanet();
 		PlaceSpaceship ();
         PlaceMonsterSpawnPoints();
 		PlaceObjects ();
 	}
 
+    void PaintPlanet()
+    {
+        string name = planetMats.Any();
+        Material mat = Resources.Load("Materials/" + name) as Material;
+        gameObject.GetComponent<Renderer>().material = mat;
+    }
+
 	void PlaceSpaceship() 
 	{
 		int index = Random.Range (0, verts.Length);
 		ship_pos = verts [index].normalized * radius;
-		//GameObject.Find ("GameState").GetComponent<GameState> ().ShipPos = ship_pos;
         GameValues.ShipPos = ship_pos;
 
         /*
@@ -184,10 +197,12 @@ public class RandomObjectScattering : MonoBehaviour
         string detailObjectName;
         if (detailDecision > 0.85f)
             detailObjectName = "flower_3";
-        else if (detailDecision > 0.60f)
+        else if (detailDecision > 0.7f)
             detailObjectName = "flower_1";
-        else if (detailDecision > 0.55f)
+        else if (detailDecision > 0.65f)
             detailObjectName = "tree";
+        else if (detailDecision > 0.55f)
+            detailObjectName = "mushroom";
         else
             detailObjectName = "flower_2";            
 

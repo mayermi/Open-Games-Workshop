@@ -4,7 +4,6 @@ using System.Collections;
 
 public class TextTyper : MonoBehaviour {
 	
-	private float letterPause = 2f;
 	Text textComp;
 	string textComp1;
 	string textComp2;

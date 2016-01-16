@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CreatureHelper : MonoBehaviour {
 
-    private Canvas c;
     Creature creature;
     protected GameState gs;
     private AudioSource source;
@@ -12,7 +11,6 @@ public class CreatureHelper : MonoBehaviour {
     public string deadName;
 
     public virtual void Start() {
-        c = gameObject.GetComponentInChildren<Canvas>();
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         creature = gs.creatures[gameObject] as Creature;
         source = gameObject.AddComponent<AudioSource>();
@@ -20,7 +18,7 @@ public class CreatureHelper : MonoBehaviour {
         if (creature is PredatoryMonster)
             deadsound = (AudioClip)Resources.Load("predatorydead");         
         else if (creature is Alien)
-            deadsound = (AudioClip)Resources.Load("aliendead2");    
+            deadsound = (AudioClip)Resources.Load("aliendead3");    
         else if (creature is EvilMonster)
             deadsound = (AudioClip)Resources.Load("evildead2");
         else
