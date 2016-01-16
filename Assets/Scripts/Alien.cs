@@ -23,7 +23,10 @@ public class Alien : Creature {
 		if (source != null && source is Monster) 
 		{
 			state = AlienState.FLEEING;
-		}
+            ParticleSystem p = GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>();
+            if(p.isStopped) p.Play();
+            GameObject.GetComponent<AlienHelper>().StopSignal();
+        }
 	}
 
 	public override void GetHealed(int d, object source=null) 
@@ -94,8 +97,6 @@ public class Alien : Creature {
 
 	public void Flee()
     {
-        GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Play();
-		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
 		movingToResource = false;

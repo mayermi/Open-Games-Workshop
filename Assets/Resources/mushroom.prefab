@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 466552}
   - 33: {fileID: 3380940}
   - 23: {fileID: 2338008}
-  - 65: {fileID: 6554634}
   m_Layer: 0
   m_Name: mushroom
   m_TagString: Walkable
@@ -61,18 +60,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149018}
   m_Mesh: {fileID: 4300000, guid: 4390748a96833c24dbc011cdde63ad4d, type: 3}
---- !u!65 &6554634
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149018}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.26910698, y: 2.11926436, z: 1.26910746}
-  m_Center: {x: -.206791505, y: 1.05963218, z: -.10920953}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

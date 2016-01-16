@@ -5,7 +5,7 @@ public class CreatureHelper : MonoBehaviour {
 
     Creature creature;
     protected GameState gs;
-    private AudioSource source;
+    protected AudioSource source;
     private AudioClip deadsound;
 
     public string deadName;
