@@ -9,7 +9,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
     public GameObject planet;
     public Camera cam;
     public float camSpeed = 10f;
-	float fov;
 
     [SerializeField]
     private float MaxPosX = 30;
@@ -23,7 +22,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
     private float deltaY = 0;
     private float deltaX = 0;
     Quaternion angles;
-    Vector3 camAngles_ini;
 
     #endregion
 
@@ -66,12 +64,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
 
     #region Private Methods
 
-    void start()
-    {
-        camAngles_ini = cam.transform.eulerAngles;
-		fov = cam.fieldOfView;
-    }
-
     void Update()
     {
         updateVirtualWorldBoxCenter();
@@ -88,7 +80,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
                 //current angles
                 Quaternion angles = trgr.RotationQuaternion;
                 Vector3 eulerAngles_hand = angles.eulerAngles;
-                Vector3 camAngles = cam.transform.eulerAngles;
 
                 if (_lastX == 0)
                     _lastX = eulerAngles_hand.x;
@@ -130,19 +121,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
                         cam.transform.RotateAround(planet.transform.position, horizontalaxis, -camSpeed * Time.deltaTime);
                 }else
                     deltaX = 0;
-
-				//Debug.Log (eulerAngles_hand.y);
-				//TODO test if zoom would work with hand precisely
-				/*if (eulerAngles_hand.z > 20) // forward
-				{
-					if (fov >= 10) fov -= 5;
-				}
-				if (eulerAngles_hand.z < 20) // back
-				{
-					if (fov <= 100) fov += 5;
-				}
-					
-				cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, Time.deltaTime * fovSpeed);*/
 
             }
         }

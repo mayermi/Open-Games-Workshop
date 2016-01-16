@@ -7,7 +7,6 @@ using Pantheon.Utils;
 public class GameController : MonoBehaviour {
 
     GameState gs;
-    SkillController sc;
 	GrabController gc;
     TutorialController tc;
     UIManager ui;   
@@ -36,7 +35,6 @@ public class GameController : MonoBehaviour {
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
-        sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
