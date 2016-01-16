@@ -22,7 +22,7 @@ public class MoveOnSphere : MonoBehaviour {
 
 	public void moveTowards(Vector3 targetPos) 
 	{
-			anim.Play(animName);
+			anim.CrossFade(animName);
 			transform.position += c.Speed * Time.deltaTime * transform.forward;         
 	}
 

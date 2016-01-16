@@ -60,6 +60,7 @@ public class PathNavigator : MonoBehaviour
 		
 	}
 
+
 	#endregion
 
 
@@ -175,13 +176,13 @@ public class PathNavigator : MonoBehaviour
 		}
 	}
 
-	public void MoveTowards(Vector3 targetPos)
+	public void MoveTowards(Vector3 tPos)
 	{
-		Quaternion newRot = planetBody.LookAtTarget(targetPos);
+		Quaternion newRot = planetBody.LookAtTarget(tPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, newRot, lookSpeed * Time.deltaTime);
 
 		//transform.position 	= planetBody.MoveForward(moveSpeed);
-		GetComponent<MoveOnSphere> ().moveTowards(targetPos);
+		GetComponent<MoveOnSphere> ().moveTowards(tPos);
 	}
 
 

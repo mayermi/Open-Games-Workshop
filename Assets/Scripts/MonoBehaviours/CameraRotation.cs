@@ -6,8 +6,6 @@ public class CameraRotation : MonoBehaviour {
     public int camDistance = 185;
     GameObject planet;
     Camera cam;
-    float rotationXAxis_local = 0.0f;
-    float rotationYAxis_local = 0.0f;
     float fov;
     public float fovSpeed = 8f;
     public float camSpeed = 5f;
@@ -18,10 +16,6 @@ public class CameraRotation : MonoBehaviour {
         planet = GameObject.Find("Planet");
         cam = Camera.main;
         fov = cam.fieldOfView;
-        Vector3 localAngles = cam.transform.localEulerAngles;
-        rotationXAxis_local = localAngles.x;
-        rotationYAxis_local = localAngles.y;
-
     }
 
     void LateUpdate()
@@ -66,8 +60,6 @@ public class CameraRotation : MonoBehaviour {
         {
             if (fov <= 100) fov += 0.75f;
         }
-
-
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, Time.deltaTime * fovSpeed);
 

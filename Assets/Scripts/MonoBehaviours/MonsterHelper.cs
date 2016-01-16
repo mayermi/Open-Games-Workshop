@@ -6,17 +6,11 @@ using System.Linq;
 public class MonsterHelper : CreatureHelper {
 
     Monster m;
-	private AudioClip attackSound;
-	private AudioSource source;
 
 	public override void Start () {
 		base.Start ();
         m = gs.monsters[gameObject] as Monster;
         gameObject.GetComponent<SphereCollider>().radius = m.VisionRange;
-		source = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("monster-alarm");
-		source.clip = attackSound;
-		source.playOnAwake = false;
     }
 
 	public override void Update() 
@@ -37,7 +31,6 @@ public class MonsterHelper : CreatureHelper {
                     )
                   )
         {
-			source.Play();
             CheckDistance();
         }         
 
@@ -58,7 +51,7 @@ public class MonsterHelper : CreatureHelper {
 
     void OnTriggerExit(Collider other)
     {
-		if (m.alienTargets.Contains(other.gameObject)) {
+		if (other.gameObject.tag == "Alien" && m.alienTargets.Contains(other.gameObject)) {
 			m.alienTargets.Remove(other.gameObject);
 			if(m.alienTargets.Count == 0 && m.state != Monster.MonsterState.GRABBED) m.Idle();
 		}

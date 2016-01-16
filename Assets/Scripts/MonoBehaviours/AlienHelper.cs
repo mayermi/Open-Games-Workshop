@@ -8,7 +8,7 @@ public class AlienHelper : CreatureHelper {
     bool movingToShipWithResource = false;
     public bool movingToShipToLeave = false;
     bool infectionReady = true;
-	private AudioClip attackSound;
+	private AudioClip resourceSound;
 	private AudioSource source;
 
 	public override void Start () {
@@ -17,8 +17,8 @@ public class AlienHelper : CreatureHelper {
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
 		source = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("monster-alarm");
-		source.clip = attackSound;
+        resourceSound = (AudioClip)Resources.Load ("resource");
+		source.clip = resourceSound;
 		source.playOnAwake = false;
     }
 
@@ -39,7 +39,6 @@ public class AlienHelper : CreatureHelper {
 		} 
 		else if (alien.state == Alien.AlienState.FLEEING)
 		{
-			source.Play();
 			alien.Flee();
 		}
 
@@ -52,6 +51,11 @@ public class AlienHelper : CreatureHelper {
 			StartCoroutine(InfectionDamage(3));
 		}
     }
+
+	/*public IEnumerator playAlarmSound(){
+		source.Play();
+		yield return new WaitForSeconds (3);
+	}*/
 
     public override void NoPathFound()
     {
@@ -115,12 +119,13 @@ public class AlienHelper : CreatureHelper {
             if(movingToShipToLeave)
             {
                 gs.aliensSaved += 1;
-                alien.Die();
+                alien.EnterSpaceShip();
                 movingToShipToLeave = false;
                 return;
             }
 
             gs.CollectedResources += 1;
+            source.Play();
             GameObject res = alien.Resource;
             // check if other Aliens were trying to reach this specific resource too
             RemoveResourceReferences(res);
@@ -136,10 +141,12 @@ public class AlienHelper : CreatureHelper {
 
     void CallAliensToShip()
     {
+        GameObject.Find("GameController").SendMessage("ReplaceShipModel");
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
             a.ReturnToShip(true);
+            if (a.Resource) a.DropResource();
         }
     }
 
@@ -182,4 +189,5 @@ public class AlienHelper : CreatureHelper {
 		yield return new WaitForSeconds (sec);
 		infectionReady = true;
 	}
+	
 }

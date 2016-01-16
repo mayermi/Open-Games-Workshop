@@ -7,7 +7,6 @@ using Pantheon.Utils;
 public class GameController : MonoBehaviour {
 
     GameState gs;
-    SkillController sc;
 	GrabController gc;
     TutorialController tc;
     UIManager ui;   
@@ -26,10 +25,16 @@ public class GameController : MonoBehaviour {
 	private float volLowRange = .5f;
 	private float volHighRange = 1.0f;
 	private float vol;
+	private AudioClip attackSound;
+	private AudioSource source2;
+    private AudioClip jetstartSound;
+    private bool fleeing = false;
+    private AudioSource source3;
+
+    List<Alien> fleeingAliens = new List<Alien>();
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
-        sc = GameObject.Find("SkillController").GetComponent<SkillController>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
@@ -38,6 +43,16 @@ public class GameController : MonoBehaviour {
 
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+
+		source2 = gameObject.AddComponent<AudioSource>();
+		attackSound = (AudioClip)Resources.Load ("alarm");
+		source2.clip = attackSound;
+		source2.playOnAwake = false;
+
+        source3 = gameObject.AddComponent<AudioSource>();
+        jetstartSound = (AudioClip)Resources.Load("jetstart");
+        source3.clip = jetstartSound;
+        source3.playOnAwake = false;
 
         gs.ActiveSkill = 0;
         gs.CollectedResources = 0;
@@ -86,7 +101,7 @@ public class GameController : MonoBehaviour {
             if(!firstSpawn && gs.aliens.Count == 0)
             {
                 if (gs.aliensSaved > 0)
-                    ui.showWin();
+                    StartCoroutine(Win());
                 else
                     ui.showLose();
             }
@@ -97,7 +112,29 @@ public class GameController : MonoBehaviour {
 			source.PlayOneShot(crashSpaceship,vol);
 		}
 
+		List<Alien> aliens = gs.getAliens ();
+
+		if (!fleeing) {
+			foreach (Alien alien in aliens) {
+				if (alien.state == Alien.AlienState.FLEEING && !fleeingAliens.Contains(alien)) {
+					fleeingAliens.Add (alien);
+					fleeing = true;
+					StartCoroutine (playAlarmSound ());
+					break;
+				}
+				if(fleeingAliens.Contains(alien)){
+					fleeingAliens.Remove(alien);
+				}
+			}
+		}
+
     }
+
+	IEnumerator playAlarmSound(){
+		source2.Play();
+		yield return new WaitForSeconds (10);
+		fleeing = false;
+	}
 
     IEnumerator BakeNodes()
     {
@@ -157,6 +194,32 @@ public class GameController : MonoBehaviour {
         tc.ShowStory();
     }
 
+    IEnumerator Win()
+    {
+        float start = Time.time;
+        GameObject ship = GameObject.Find("SpaceShip");
+        Vector3 start_pos = ship.transform.position;
+
+        while (Time.time - start < 1.5f)
+        {
+            float frac = (Time.time - start) / 1.5f;
+            ship.transform.position = Vector3.Lerp(start_pos, start_pos + (start_pos.normalized * 5f), frac);
+            yield return false;
+        }
+
+        start = Time.time;
+        start_pos = ship.transform.position;
+
+        while (Time.time - start < 2f)
+        {
+            float frac = (Time.time - start) / 2f;
+            ship.transform.position = Vector3.Lerp(start_pos, start_pos + ship.transform.right * 400f, frac);
+            yield return false;
+        }
+
+        ui.showWin();
+    }
+
 
     void SpawnAliens(int count) 
 	{
@@ -168,7 +231,7 @@ public class GameController : MonoBehaviour {
 			var detail_pos = Quaternion.AngleAxis(angle, GameValues.ShipPos) * sec_pos;
 
 			Alien a = new Alien (health: 100, speed: 2f, range: 7);
-			a.GameObject = Creator.Create ("Alien", detail_pos, "Alien");
+			a.GameObject = Creator.Create ("Alien_withDying", detail_pos, "Alien");
 			gs.aliens.Add (a.GameObject, a);
 			gs.creatures.Add(a.GameObject, a as Creature);
 			a.GameObject.transform.up = -(transform.position - GameValues.ShipPos).normalized;
@@ -282,6 +345,16 @@ public class GameController : MonoBehaviour {
 			gc.objectToBeGrabbed = null;
 	}
 
-    
+    void ReplaceShipModel()
+    {
+        Destroy(GameObject.Find("SpaceShip"));
+        GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
+        new_ship.transform.up = GameValues.ShipPos.normalized;
+        source3.Play();
+    }
+
+   
+
+
 
 }
