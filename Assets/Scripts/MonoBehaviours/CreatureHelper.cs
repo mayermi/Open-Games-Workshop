@@ -20,7 +20,7 @@ public class CreatureHelper : MonoBehaviour {
         if (creature is PredatoryMonster)
             deadsound = (AudioClip)Resources.Load("predatorydead");         
         else if (creature is Alien)
-            deadsound = (AudioClip)Resources.Load("aliendead2");    
+            deadsound = (AudioClip)Resources.Load("aliendead3");    
         else if (creature is EvilMonster)
             deadsound = (AudioClip)Resources.Load("evildead2");
         else
