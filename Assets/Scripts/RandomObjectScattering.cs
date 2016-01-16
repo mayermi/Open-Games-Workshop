@@ -197,10 +197,12 @@ public class RandomObjectScattering : MonoBehaviour
         string detailObjectName;
         if (detailDecision > 0.85f)
             detailObjectName = "flower_3";
-        else if (detailDecision > 0.60f)
+        else if (detailDecision > 0.7f)
             detailObjectName = "flower_1";
-        else if (detailDecision > 0.55f)
+        else if (detailDecision > 0.65f)
             detailObjectName = "tree";
+        else if (detailDecision > 0.55f)
+            detailObjectName = "mushroom";
         else
             detailObjectName = "flower_2";            
 

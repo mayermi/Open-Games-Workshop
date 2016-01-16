@@ -145,6 +145,7 @@ public class AlienHelper : CreatureHelper {
         {
             Alien a = d.Value as Alien;
             a.ReturnToShip(true);
+            if (a.Resource) a.DropResource();
         }
     }
 
