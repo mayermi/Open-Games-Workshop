@@ -10,7 +10,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
     public GameObject planet;
     public Transformation3D Constraints;
     public Transformation3D InvertTransform;
-
+    GrabController grab;
     #endregion
 
     #region Private Fields
@@ -32,11 +32,10 @@ public class HandTrackingAction : VirtualWorldBoxAction
     public HandTrackingAction() : base()
     {
         Constraints = new Transformation3D();
-        InvertTransform = new Transformation3D();
+        InvertTransform = new Transformation3D();    
     }
 
     #endregion
-
     #region Public methods
 
     public override void SetDefaultTriggerValues(int index, Trigger trigger)
@@ -78,6 +77,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
         updateVirtualWorldBoxCenter();
 
         ProcessAllTriggers();
+       
 
         //Start Event
         if (!_actionTriggered && SupportedTriggers[0].Success)
@@ -204,6 +204,9 @@ public class HandTrackingAction : VirtualWorldBoxAction
                 {
                     this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
+
+                grab = GameObject.Find("HandOfGod").GetComponent<GrabController>();
+                grab.moveVis(gameObject);
             }
         }
     }

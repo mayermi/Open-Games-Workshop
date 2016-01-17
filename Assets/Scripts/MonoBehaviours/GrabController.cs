@@ -50,19 +50,7 @@ public class GrabController : MonoBehaviour {
 
         gameObject.transform.position = v3;
 
-        if(!objectToBeGrabbed)
-        {
-            if (pBig.activeSelf == false) pBig.SetActive(true);
-            if (pSmall.activeSelf == true) pSmall.SetActive(false);
-            vis.transform.position = gameObject.transform.position.normalized * GameValues.PlanetRadius * 1.01f;
-            vis.transform.right = vis.transform.position.normalized;
-        } else
-        {
-            if (pSmall.activeSelf == false) pSmall.SetActive(true);
-            if (pBig.activeSelf == true) pBig.SetActive(false);
-            vis.transform.position = objectToBeGrabbed.transform.position;
-            vis.transform.right = vis.transform.position.normalized;
-        }
+        moveVis(gameObject);
             
 
         if (Input.GetMouseButtonDown(1))
@@ -75,6 +63,24 @@ public class GrabController : MonoBehaviour {
 
         moveDir = -(prevPos - handOfGod.transform.position);
         prevPos = handOfGod.transform.position;
+    }
+
+    public void moveVis(GameObject gameObject)
+    {
+        if (!objectToBeGrabbed)
+        {
+            if (pBig.activeSelf == false) pBig.SetActive(true);
+            if (pSmall.activeSelf == true) pSmall.SetActive(false);
+            vis.transform.position = gameObject.transform.position.normalized * GameValues.PlanetRadius * 1.01f;
+            vis.transform.right = vis.transform.position.normalized;
+        }
+        else
+        {
+            if (pSmall.activeSelf == false) pSmall.SetActive(true);
+            if (pBig.activeSelf == true) pBig.SetActive(false);
+            vis.transform.position = objectToBeGrabbed.transform.position;
+            vis.transform.right = vis.transform.position.normalized;
+        }
     }
 
     void Grab()
