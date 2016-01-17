@@ -148,7 +148,7 @@ MonoBehaviour:
   effectAngle: 20
   effectWidth: 2
   effectDistance: 32
-  force: 140
+  force: 25
 --- !u!135 &13529958
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -2300,7 +2300,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: force
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175974}
