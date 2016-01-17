@@ -61,15 +61,13 @@ public class CreatureHelper : MonoBehaviour {
 
     public void StartDying()
     {
-        //StartCoroutine(playDeathSound());
+        StartCoroutine(playDeathSound());
         
         transform.Find("Canvas").Find("Health").gameObject.SetActive(false);
 
         Animation anim = gameObject.GetComponent<Animation>();
 
         anim.CrossFade("Die", 0.1f, PlayMode.StopAll);
-
-        source.Play();
 
         StartCoroutine(ReplaceModel());
     }
@@ -87,7 +85,7 @@ public class CreatureHelper : MonoBehaviour {
 
     IEnumerator playDeathSound()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         source.Play();
     }
 }

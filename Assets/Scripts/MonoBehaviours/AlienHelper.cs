@@ -52,11 +52,6 @@ public class AlienHelper : CreatureHelper {
 		}
     }
 
-	/*public IEnumerator playAlarmSound(){
-		source.Play();
-		yield return new WaitForSeconds (3);
-	}*/
-
     public override void NoPathFound()
     {
         base.NoPathFound();
