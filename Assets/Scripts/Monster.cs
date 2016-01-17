@@ -23,7 +23,7 @@ public abstract class Monster : Creature {
 
 	public void Attack(Alien a)
     {   
-		if (AttackReady) {
+		if (AttackReady && GameObject.tag != "Dead") {
 			state = MonsterState.ATTACKING;
 			a.TakeDamage(AttackDamage, this);
             if (isContagious && !a.Infected)
