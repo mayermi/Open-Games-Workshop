@@ -39,7 +39,6 @@ public class GameController : MonoBehaviour {
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
-        GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
 
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);

@@ -24,6 +24,8 @@ public class RandomObjectScattering : MonoBehaviour
 
     void Start()
     {
+		GameValues.PlanetRadius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
+
         objects = new GameObject();
         objects.name = "EnvironmentObjects";
 
@@ -76,8 +78,12 @@ public class RandomObjectScattering : MonoBehaviour
         */
 
         //Let Camera look directly at spaceship
-		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().getCamDistance();
-		Camera.main.transform.LookAt (transform.position);
+		if (Camera.main.GetComponent<CameraRotation> ())
+		{
+			Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().getCamDistance();
+			Camera.main.transform.LookAt (transform.position);
+		}
+
 	}
 
     void PlaceMonsterSpawnPoints()
@@ -109,7 +115,7 @@ public class RandomObjectScattering : MonoBehaviour
 
 			if(pos == ship_pos)
                 continue;
-            if(gameState.MonsterSpawnPoints.Contains(pos))
+            if(gameState.MonsterSpawnPoints.Count > 0 && gameState.MonsterSpawnPoints.Contains(pos))
                 continue;
 
 			float distToShip = (ship_pos-pos).magnitude;
