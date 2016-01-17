@@ -95,6 +95,8 @@ public class RandomObjectScattering : MonoBehaviour
             GameObject spawn = Creator.Create("flyingrock", pos, string.Format("MonsterSpawnPoint_{0}", i));
             Vector3 up = -(transform.position - pos).normalized;
             spawn.transform.up = up;
+            foreach (var renderer in spawn.GetComponentsInChildren<Renderer>())
+                renderer.material = rockMaterial;
         }
 
     }
