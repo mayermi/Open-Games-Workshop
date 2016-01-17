@@ -94,7 +94,7 @@ public class Alien : Creature {
 
 	public void Flee()
     {
-        GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Play();
+        GameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = true;
 		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
@@ -107,7 +107,7 @@ public class Alien : Creature {
 
 		if (waitTimer != -1f && Time.time - waitTimer > WAITTIME) 
 		{
-            GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
+            GameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
 			state = AlienState.SEARCHING;
 			waitTimer = -1f;
 		}

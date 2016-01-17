@@ -16,6 +16,7 @@ public class AlienHelper : CreatureHelper {
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
+        gameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
 		source = gameObject.AddComponent<AudioSource>();
         resourceSound = (AudioClip)Resources.Load ("resource");
 		source.clip = resourceSound;
