@@ -15,10 +15,12 @@ public class GrabController : MonoBehaviour {
     private Vector3 prevPos;
     private GameObject handOfGod;
 	Quaternion pos;
+    GameObject vis;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         handOfGod = GameObject.Find("HandOfGod");
+        vis = GameObject.Find("Vis");
         source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
         prevPos = handOfGod.transform.position;
@@ -43,6 +45,9 @@ public class GrabController : MonoBehaviour {
         v3 = Camera.main.ScreenToWorldPoint(v3);
 
         gameObject.transform.position = v3;
+
+        vis.transform.position = gameObject.transform.position.normalized * GameValues.PlanetRadius * 1.01f;
+        vis.transform.right = vis.transform.position.normalized;
 
         if (Input.GetMouseButtonDown(1))
         {

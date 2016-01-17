@@ -755,7 +755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sphericalGrid: {fileID: 0}
   target: {fileID: 0}
-  lookSpeed: 14
+  lookSpeed: 6
   drawPath: 1
   locked: 0
 --- !u!114 &11481214
@@ -3276,7 +3276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: lookSpeed
-      value: 14
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: locked
