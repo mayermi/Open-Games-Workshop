@@ -17,7 +17,10 @@ public class RandomObjectScattering : MonoBehaviour
     GameState gameState;
     GameObject objects;
 
-    List<string> planetMats = new List<string>(); 
+    Material rockMaterial;
+
+    List<string> planetMats = new List<string>();
+    List<string> rockMats = new List<string>();
 
     void Start()
     {
@@ -27,6 +30,9 @@ public class RandomObjectScattering : MonoBehaviour
         planetMats.Add("PlanetGround_1");
         planetMats.Add("PlanetGround_2");
         planetMats.Add("PlanetGround_3");
+        rockMats.Add("Rocks_1");
+        rockMats.Add("Rocks_2");
+        rockMats.Add("Rocks_3");
     }
 
     void Update()
@@ -49,9 +55,12 @@ public class RandomObjectScattering : MonoBehaviour
 
     void PaintPlanet()
     {
-        string name = planetMats.Any();
+        int i = UnityEngine.Random.Range(0, planetMats.Count);
+        string name = planetMats[i];
         Material mat = Resources.Load("Materials/" + name) as Material;
         gameObject.GetComponent<Renderer>().material = mat;
+
+        rockMaterial = Resources.Load("Materials/" + rockMats[i]) as Material;
     }
 
 	void PlaceSpaceship() 
@@ -117,6 +126,7 @@ public class RandomObjectScattering : MonoBehaviour
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
 				mainObject.transform.localScale *= scale;
                 mainObject.transform.SetParent(objects.transform);
+                mainObject.GetComponentInChildren<Renderer>().material = rockMaterial;
 
                 var detailCount = Random.Range(minDetails, maxDetails);
                 Vector3 helpVector = RandomVector();
