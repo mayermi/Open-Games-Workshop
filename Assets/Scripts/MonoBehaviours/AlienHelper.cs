@@ -50,11 +50,6 @@ public class AlienHelper : CreatureHelper {
 		}
     }
 
-	/*public IEnumerator playAlarmSound(){
-		source.Play();
-		yield return new WaitForSeconds (3);
-	}*/
-
     public override void NoPathFound()
     {
         base.NoPathFound();
@@ -63,7 +58,7 @@ public class AlienHelper : CreatureHelper {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "resource" && alien.state == Alien.AlienState.SEARCHING)
+        if(other.gameObject.name == "resource" && alien.state == Alien.AlienState.SEARCHING && !movingToShipToLeave)
         {
             // check if resource is free to pick up
             if(DoesNotBelongToOtherAlien(other.gameObject))

@@ -122,7 +122,8 @@ public class GameController : MonoBehaviour {
 					StartCoroutine (playAlarmSound ());
 					break;
 				}
-				if(fleeingAliens.Contains(alien)){
+				if(fleeingAliens.Contains(alien) && alien.state != Alien.AlienState.FLEEING)
+                {
 					fleeingAliens.Remove(alien);
 				}
 			}
@@ -257,12 +258,14 @@ public class GameController : MonoBehaviour {
     void DecideMonsterFamily()
     {
         var r = Random.Range(0.0f, 1.0f);
-        if (r > 0.66f)
+        if (r > 0.75f)
             SpawnShyMonsters();
-        else if (r > 0.33f)
+        else if (r > 0.50f)
             SpawnPredators();
-        else
+        else if (r > 0.25f)
             SpawnEvilMonsters();
+        else
+            SpawnReallyEvilMonsters();
 
         if (firstSpawn)
         {
@@ -279,7 +282,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            ShyMonster m = new ShyMonster(attack: 10, health: 25, speed: 3f, range: 7, contagious: false);
+            ShyMonster m = new ShyMonster(attack: 5, health: 25, speed: 2.5f, range: 7, contagious: false);
             m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
@@ -299,7 +302,7 @@ public class GameController : MonoBehaviour {
             Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             spawnPos = CoordinateHelper.GroundPosition(spawnPos);
 			bool contagious = false;
-			if(Random.Range(0f,1f) < 0.1f) contagious = true;
+			if(Random.Range(0f,1f) < 0.15f) contagious = true;
             PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
             m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
@@ -314,19 +317,32 @@ public class GameController : MonoBehaviour {
 
     void SpawnEvilMonsters()
     {
-        int count = Random.Range(1, 10);
+        int count = Random.Range(1, 3);
         Debug.Log("Spawning " + count + " EvilMonsters");
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any();
-            EvilMonster m = new EvilMonster(attack: 10, health: 100, speed: 2.5f, range: 8, contagious: false);
-            m.GameObject = Creator.Create("monster", pos, "ShyMonster");
+            EvilMonster m = new EvilMonster(attack: 10, health: 125, speed: 3.25f, range: 8, contagious: false);
+            m.GameObject = Creator.Create("monster", pos, "EvilMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
 
             GameObject effect = Creator.Create("Spawner", pos, "Spawner");
             effect.transform.forward = -(planet.transform.position - pos).normalized;
         }
+    }
+
+    void SpawnReallyEvilMonsters()
+    {
+        Debug.Log("Spawning 1 ReallyEvilMonster");
+        Vector3 pos = gs.MonsterSpawnPoints.Any();
+        EvilMonster m = new EvilMonster(attack: 20, health: 200, speed: 2.75f, range: 6, contagious: false);
+        m.GameObject = Creator.Create("evil_final", pos, "EvilMonster");
+        gs.monsters.Add(m.GameObject, m);
+        gs.creatures.Add(m.GameObject, m as Creature);
+
+        GameObject effect = Creator.Create("Spawner", pos, "Spawner");
+        effect.transform.forward = -(planet.transform.position - pos).normalized;
     }
 
     void RemoveReferences(Creature c) {

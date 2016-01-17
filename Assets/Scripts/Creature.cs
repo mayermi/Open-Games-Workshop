@@ -21,12 +21,18 @@ public abstract class Creature {
 
 	public void MoveTo(Vector3 target)
 	{
-        GameObject.GetComponent<PathNavigator>().locked = false;
-        GameObject.GetComponent<PathNavigator> ().SetTarget (target);
+        if (GameObject.tag != "Dead")
+        {
+            GameObject.GetComponent<PathNavigator>().locked = false;
+            GameObject.GetComponent<PathNavigator>().SetTarget(target);
+        }
     }
 
     public void StopMoving()
     {
+        Animation anim = GameObject.GetComponent<Animation>();
+        if (anim["Run"]) anim.Stop("Run");
+        if (anim["Walk"]) anim.Stop("Walk");
         GameObject.GetComponent<PathNavigator>().StopMoving();
     }
 
