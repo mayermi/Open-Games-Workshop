@@ -205,6 +205,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
 
+                //move projection:
                 grab = GameObject.Find("HandOfGod").GetComponent<GrabController>();
                 grab.moveVis(gameObject);
             }
