@@ -87,7 +87,12 @@ public class GameController : MonoBehaviour {
          
         if(gs.gameReady)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				ui.TogglePause();
+			}
+			
+			if (Input.GetKeyDown(KeyCode.Tab))
             {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
@@ -99,7 +104,7 @@ public class GameController : MonoBehaviour {
                 if (gs.aliensSaved > 0)
                     StartCoroutine(Win());
                 else
-                    ui.showLose();
+                    ui.ShowLose();
             }
         }       
 
@@ -214,7 +219,7 @@ public class GameController : MonoBehaviour {
             yield return false;
         }
 
-        ui.showWin();
+        ui.ShowWin();
     }
 
 
