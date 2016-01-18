@@ -13,13 +13,17 @@ public class GameController : MonoBehaviour {
     GameObject planet;
 	public AudioClip crashSpaceship;
 
+    public const float CRASH_SPACESHIP_AFTER_SECONDS = 60f;
+
     float lastSpawn;
     float bakeTimer;
+    float gsReady = 0.0f;
    
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
     bool baking = false;
     bool firstSpawn = true;
+    bool spaceshipCrashed = false;
 
 	private AudioSource source;
 	private float volLowRange = .5f;
@@ -108,6 +112,7 @@ public class GameController : MonoBehaviour {
          
         if(gs.gameReady)
         {
+            gsReady = gsReady > 0.0f ? gsReady : Time.time;
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				ui.TogglePause();
@@ -127,9 +132,11 @@ public class GameController : MonoBehaviour {
                 else
                     ui.ShowLose();
             }
-        }       
+        }
 
-        if (Input.GetKeyDown (KeyCode.O)) {
+        var timeSinceReady = Time.time - gsReady;
+
+        if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
 			StartCoroutine (CrashSpaceShip ());
 			source.PlayOneShot(crashSpaceship,vol);
 		}
@@ -195,7 +202,10 @@ public class GameController : MonoBehaviour {
 
     IEnumerator CrashSpaceShip()
     {
-        
+        if (spaceshipCrashed)
+            yield break;
+        spaceshipCrashed = true;
+
         Vector3 pos = GameValues.ShipPos;
         Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
         GameObject ship = Creator.Create("Spaceship_whole", start_pos, "SpaceShip");
