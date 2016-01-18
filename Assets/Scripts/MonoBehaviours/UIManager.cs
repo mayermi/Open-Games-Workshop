@@ -95,16 +95,17 @@ public class UIManager : MonoBehaviour {
 	{
 		if (!paused) {
 			paused = true;
-			Time.timeScale = 0f;
 			ActivateBlur (true);
-			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 1f, 0f, 1f));
-			StartCoroutine (FadeUI (pause, 0f, 1f, 1f));
+			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 1f, 0f, 0.25f));
+			StartCoroutine (FadeUI (pause, 0f, 1f, 0.25f));
+			StartCoroutine(SetTimeScale(0,0.25f));
 		} else 
 		{
+			paused = false;
 			Time.timeScale = 1f;
 			ActivateBlur(false);
-			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 0f, 1f, 1f));
-			StartCoroutine (FadeUI (pause, 1f, 0f, 1f));
+			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 0f, 1f, 0.25f));
+			StartCoroutine (FadeUI (pause, 1f, 0f, 0.25f));
 		}
 	}
 	
@@ -167,4 +168,10 @@ public class UIManager : MonoBehaviour {
         tutorial.GetComponent<CanvasGroup>().alpha = to;
 		yield return true;
     }
+
+	IEnumerator SetTimeScale(float scale, float timer) 
+	{
+		yield return new WaitForSeconds (timer);
+		Time.timeScale = scale;
+	}
 }
