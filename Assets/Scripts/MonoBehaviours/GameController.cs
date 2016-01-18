@@ -133,7 +133,7 @@ public class GameController : MonoBehaviour {
 
         var timeSinceReady = Time.time - gsReady;
 
-        if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
+        if ( (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS) && !spaceshipCrashed) {
 			StartCoroutine (CrashSpaceShip ());			
 		}
 
@@ -200,6 +200,7 @@ public class GameController : MonoBehaviour {
     {
         if (spaceshipCrashed)
             yield break;
+
         spaceshipCrashed = true;
         source.PlayOneShot(crashSpaceship, vol);
 
