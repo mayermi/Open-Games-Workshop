@@ -23,7 +23,12 @@ public class Alien : Creature {
 		if (source != null && source is Monster) 
 		{
 			state = AlienState.FLEEING;
-		}
+            /*
+            ParticleSystem p = GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>();
+            if(p.isStopped) p.Play();
+            GameObject.GetComponent<AlienHelper>().StopSignal();
+            */
+        }
 	}
 
 	public override void GetHealed(int d, object source=null) 
@@ -79,12 +84,12 @@ public class Alien : Creature {
         if (target == Vector3.zero)
 			target = GameObject.transform.position;
 
-		if ((GameObject.transform.position - target).magnitude <= 5f)
+		if ((GameObject.transform.position - target).magnitude <= 3f)
 		{
 			Vector3 rndDir = new Vector3(GameObject.transform.forward.x * Random.Range(-1, 1),
 			                             GameObject.transform.forward.y * Random.Range(-1, 1),
 			                             GameObject.transform.forward.z * Random.Range(-1, 1));
-			float distance = Random.Range(10, 60);
+			float distance = Random.Range(25, 60);
 			target = GameObject.transform.position + ((rndDir) * distance);
 			target = CoordinateHelper.GroundPosition(target);
 			waitTimer = Time.time;
@@ -95,7 +100,6 @@ public class Alien : Creature {
 	public void Flee()
     {
         GameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = true;
-		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
 		movingToResource = false;

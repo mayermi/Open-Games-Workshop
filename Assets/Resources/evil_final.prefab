@@ -332,11 +332,11 @@ GameObject:
   - 111: {fileID: 11174472}
   - 114: {fileID: 11425228}
   - 114: {fileID: 11424612}
-  - 65: {fileID: 6599444}
   - 135: {fileID: 13504254}
   - 114: {fileID: 11430888}
   - 114: {fileID: 11499808}
   - 54: {fileID: 5437888}
+  - 136: {fileID: 13644884}
   m_Layer: 8
   m_Name: evil_final
   m_TagString: Untagged
@@ -478,7 +478,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -93.5095901, y: 44.7565155, z: -9.70733738}
+  m_LocalPosition: {x: -27.2446976, y: 43.7880821, z: -79.1575165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 436138}
@@ -617,18 +617,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6599444
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 174110}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.66999996, y: 7.94000006, z: 1.87}
-  m_Center: {x: -.209999993, y: 3.55999994, z: 0}
 --- !u!111 &11174472
 Animation:
   m_ObjectHideFlags: 1
@@ -947,6 +935,9 @@ MonoBehaviour:
   lookSpeed: 10
   drawPath: 1
   locked: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &13504254
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -959,6 +950,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: .5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &13644884
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 174110}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.07000005
+  m_Height: 4.63000011
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.6500001, z: 0}
 --- !u!137 &13708162
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

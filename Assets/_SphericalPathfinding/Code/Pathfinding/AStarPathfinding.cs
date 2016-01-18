@@ -126,10 +126,10 @@ public class AStarPathfinding : MonoBehaviour
 			float diff = Vector3.Distance(directionNew, directionOld);
 
 			//if (directionNew != directionOld)
-			if(diff >= 0.1f)
-			{
+			//if(diff >= 0.1f)
+			//{
 				waypoints.Add(path[i].worldPosition);
-			}
+			//}
 
 			directionOld = directionNew;
 		}

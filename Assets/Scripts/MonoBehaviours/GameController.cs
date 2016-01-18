@@ -54,11 +54,13 @@ public class GameController : MonoBehaviour {
         source3.playOnAwake = false;
 
         gs.ActiveSkill = 0;
+        gs.CollectedResources = 0;
         bakeTimer = Time.time;
       
         // Create planet landscape
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
+        
 
         readyToBakePathfinding = true;
 	}
@@ -79,6 +81,7 @@ public class GameController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 GameObject.Find("StoryCanvas").SetActive(false);
+                ui.SetResourceSlider();
                 gs.gameReady = true;
                 tc.ShowNavigation();               
             }
@@ -87,7 +90,12 @@ public class GameController : MonoBehaviour {
          
         if(gs.gameReady)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				ui.TogglePause();
+			}
+			
+			if (Input.GetKeyDown(KeyCode.Tab))
             {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
@@ -99,7 +107,7 @@ public class GameController : MonoBehaviour {
                 if (gs.aliensSaved > 0)
                     StartCoroutine(Win());
                 else
-                    ui.showLose();
+                    ui.ShowLose();
             }
         }       
 
@@ -214,7 +222,7 @@ public class GameController : MonoBehaviour {
             yield return false;
         }
 
-        ui.showWin();
+        ui.ShowWin();
     }
 
 

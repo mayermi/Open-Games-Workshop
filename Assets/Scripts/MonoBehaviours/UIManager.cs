@@ -18,11 +18,13 @@ public class UIManager : MonoBehaviour {
 	public Slider lightningSlider;
 	public Slider healSlider;
 
+	public GameObject pause;
     public GameObject failure;
     public GameObject win;
 
     GameState gs;
 	bool gameEnded = false;
+	bool paused = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -89,18 +91,36 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    public void showWin()
-    {
-        win.transform.Find("Message").GetComponent<Text>().text = "Du hast <color=#ff6699>" + gs.aliensSaved + "</color> Aliens gerettet.";
-        ActivateBlur();
+	public void TogglePause()
+	{
+		if (!paused) {
+			paused = true;
+			ActivateBlur (true);
+			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 1f, 0f, 0.25f));
+			StartCoroutine (FadeUI (pause, 0f, 1f, 0.25f));
+			StartCoroutine(SetTimeScale(0,0.25f));
+		} else 
+		{
+			paused = false;
+			Time.timeScale = 1f;
+			ActivateBlur(false);
+			StartCoroutine (FadeUI (GameObject.Find ("GameUI"), 0f, 1f, 0.25f));
+			StartCoroutine (FadeUI (pause, 1f, 0f, 0.25f));
+		}
+	}
+	
+	public void ShowWin()
+	{
+		win.transform.Find("Message").GetComponent<Text>().text = "Du hast <color=#ff6699>" + gs.aliensSaved + "</color> Aliens gerettet.";
+        ActivateBlur(true);
 		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(win, 0f, 1f, 1f));
     }
 
-    public void showLose()
+    public void ShowLose()
     {
-        ActivateBlur();
+        ActivateBlur(true);
 		gameEnded = true;
         StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
         StartCoroutine(FadeUI(failure, 0f, 1f, 3f));
@@ -132,9 +152,9 @@ public class UIManager : MonoBehaviour {
 			
 	}
 
-    void ActivateBlur()
+    void ActivateBlur(bool on)
     {
-        Camera.main.GetComponent<BlurOptimized>().enabled = true;
+        Camera.main.GetComponent<BlurOptimized>().enabled = on;
     }
 
     IEnumerator FadeUI(GameObject tutorial, float from, float to, float duration)
@@ -146,5 +166,12 @@ public class UIManager : MonoBehaviour {
             yield return false;
         }
         tutorial.GetComponent<CanvasGroup>().alpha = to;
+		yield return true;
     }
+
+	IEnumerator SetTimeScale(float scale, float timer) 
+	{
+		yield return new WaitForSeconds (timer);
+		Time.timeScale = scale;
+	}
 }

@@ -36,20 +36,20 @@ public abstract class Creature {
         GameObject.GetComponent<PathNavigator>().StopMoving();
     }
 
-    public virtual void TakeDamage(int d, object source=null) 
-	{
-		CurrentHealth = CurrentHealth - d;
-        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+    public virtual void TakeDamage(int d, object source = null)
+    {
+        CurrentHealth = CurrentHealth - d;
         GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
-        if (CurrentHealth <= 0) Die();
-	}
 
-	public virtual void GetHealed(int d, object source=null) 
+        if (CurrentHealth <= 0) Die();
+    }
+
+    public virtual void GetHealed(int d, object source=null) 
 	{
 		CurrentHealth = CurrentHealth + d;
 		if (CurrentHealth > MaxHealth)
 			CurrentHealth = MaxHealth;
-        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        
         GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
     }
 

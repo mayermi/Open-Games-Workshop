@@ -49,9 +49,6 @@ public class CameraRotation_Realsense : VirtualWorldBoxAction
 
     #region Protected methods
 
-    /// <summary>
-    /// Sets the default triggers for that action.
-    /// </summary>
     override protected void SetDefaultTriggers()
     {
         SupportedTriggers = new Trigger[3]{

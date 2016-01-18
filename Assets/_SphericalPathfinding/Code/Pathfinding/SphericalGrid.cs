@@ -41,14 +41,14 @@ public class SphericalGrid : MonoBehaviour
 {
 	// Icosahedron values
 	[Range(1, 56)]
-	public int subDivisions = 20;	
+	public int subDivisions = 24;	
 
 	// planet
 	public float planetRadius = 50f;
 	public Vector3 planetCenter = Vector3.zero;
 
 	// node
-	public float nodeRadius = 0.04f;
+	public float nodeRadius = 0.4f;
 
 	// icosahedron
 	public Mesh[] icosahedronMesh;
@@ -292,7 +292,7 @@ public class SphericalGrid : MonoBehaviour
 	public NodeType GroundTypeFromWorldPoint(Vector3 worldPos)
 	{
 		Vector3 dir = (planetCenter - worldPos).normalized;
-		Vector3 startRayPos = -dir * (planetRadius * 1.1f);
+		Vector3 startRayPos = -dir * (planetRadius * 1.25f);
 
 		Ray ray = new Ray();
 		ray.origin = startRayPos;
@@ -300,9 +300,6 @@ public class SphericalGrid : MonoBehaviour
 		
 		int nodeTypeLayer = 1<<10;
 		RaycastHit hit;
-
-		//Debug.DrawRay(startRayPos,  dir * radius);
-		//Debug.Break();
 
 		if(Physics.SphereCast(ray, nodeRadius, out hit, nodeTypeLayer))
 		{

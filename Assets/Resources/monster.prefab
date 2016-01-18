@@ -334,13 +334,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 455274}
   - 111: {fileID: 11196364}
-  - 65: {fileID: 6523904}
   - 135: {fileID: 13545812}
   - 114: {fileID: 11477936}
   - 114: {fileID: 11441406}
   - 114: {fileID: 11415900}
   - 114: {fileID: 11449632}
   - 54: {fileID: 5448348}
+  - 136: {fileID: 13655672}
   m_Layer: 8
   m_Name: monster
   m_TagString: Untagged
@@ -939,7 +939,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -28.4169254, y: 42.7415848, z: -81.342804}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 449026}
@@ -1115,18 +1115,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6523904
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142286}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 2.18000007}
-  m_Center: {x: 0, y: .519999981, z: -.150000006}
 --- !u!111 &11196364
 Animation:
   m_ObjectHideFlags: 1
@@ -1135,11 +1123,12 @@ Animation:
   m_GameObject: {fileID: 142286}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: aee6fc89654de5c478875246d6fac753, type: 3}
+  m_Animation: {fileID: 7400006, guid: e0ecb3f67113d478a8d4754c608c1f4a, type: 3}
   m_Animations:
-  - {fileID: 7400000, guid: aee6fc89654de5c478875246d6fac753, type: 3}
-  - {fileID: 7400002, guid: aee6fc89654de5c478875246d6fac753, type: 3}
-  - {fileID: 7400004, guid: aee6fc89654de5c478875246d6fac753, type: 3}
+  - {fileID: 7400000, guid: e0ecb3f67113d478a8d4754c608c1f4a, type: 3}
+  - {fileID: 7400002, guid: e0ecb3f67113d478a8d4754c608c1f4a, type: 3}
+  - {fileID: 7400004, guid: e0ecb3f67113d478a8d4754c608c1f4a, type: 3}
+  - {fileID: 7400006, guid: e0ecb3f67113d478a8d4754c608c1f4a, type: 3}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -1187,6 +1176,9 @@ MonoBehaviour:
   lookSpeed: 10
   drawPath: 1
   locked: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &11423364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1456,6 +1448,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: .519999981, z: 0}
+--- !u!136 &13655672
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .74000001
+  m_Height: 2.30999994
+  m_Direction: 2
+  m_Center: {x: 0, y: .50999999, z: 0}
 --- !u!137 &13741238
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
