@@ -5,9 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/main_menu.unity
   - enabled: 0
     path: Assets/_Scenes/sphere_movement.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/sphere_movement_backup.unity
+  - enabled: 1
+    path: Assets/_Scenes/main_game.unity
