@@ -9,6 +9,7 @@ public class AlienHelper : CreatureHelper {
     public bool movingToShipToLeave = false;
     bool infectionReady = true;
 	private AudioClip resourceSound;
+	private AudioSource resourceSource;
 
 	public override void Start () {
 		base.Start ();
@@ -16,10 +17,10 @@ public class AlienHelper : CreatureHelper {
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
         gameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
-		source = gameObject.AddComponent<AudioSource>();
+		resourceSource = gameObject.AddComponent<AudioSource>();
         resourceSound = (AudioClip)Resources.Load ("resource");
-		source.clip = resourceSound;
-		source.playOnAwake = false;
+		resourceSource.clip = resourceSound;
+		resourceSource.playOnAwake = false;
     }
 
 	public override void Update () {
@@ -120,7 +121,7 @@ public class AlienHelper : CreatureHelper {
             }
 
             gs.CollectedResources += 1;
-            source.Play();
+            resourceSource.Play();
             GameObject res = alien.Resource;
             // check if other Aliens were trying to reach this specific resource too
             RemoveResourceReferences(res);
