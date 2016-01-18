@@ -30,6 +30,14 @@ public class GameController : MonoBehaviour {
     private AudioClip jetstartSound;
     private bool fleeing = false;
     private AudioSource source3;
+	public AudioClip alarmMusic;
+	private AudioSource alarmMusicSource;
+	public AudioClip backgroundMusic;
+	private AudioSource backgroundMusicSource;
+	public AudioClip finalMusic;
+	private AudioSource finalMusicSource;
+	public AudioClip sadFinalMusic;
+	private AudioSource sadFinalMusicSource;
 
     List<Alien> fleeingAliens = new List<Alien>();
 
@@ -52,6 +60,16 @@ public class GameController : MonoBehaviour {
         jetstartSound = (AudioClip)Resources.Load("jetstart");
         source3.clip = jetstartSound;
         source3.playOnAwake = false;
+
+		alarmMusicSource = GetComponent<AudioSource>();
+
+		backgroundMusicSource = GetComponent<AudioSource>();
+		backgroundMusicSource.PlayOneShot(backgroundMusic,vol);
+//		backgroundMusicSource.Play();
+
+		finalMusicSource = GetComponent<AudioSource>();
+
+		sadFinalMusicSource = GetComponent<AudioSource>();
 
         gs.ActiveSkill = 0;
         gs.CollectedResources = 0;
@@ -129,14 +147,28 @@ public class GameController : MonoBehaviour {
 				if(fleeingAliens.Contains(alien) && alien.state != Alien.AlienState.FLEEING)
                 {
 					fleeingAliens.Remove(alien);
+					if(fleeingAliens.Count == 0) {
+						alarmMusicSource.enabled = false;
+//						backgroundMusicSource.enabled = true;
+						
+						backgroundMusicSource.playOnAwake = true;
+//						alarmMusicSource.Pause ();
+					}
 				}
 			}
 		}
-
     }
 
 	IEnumerator playAlarmSound(){
 		source2.Play();
+//		if (!alarmMusicSource.isPlaying) {
+//			backgroundMusicSource.enabled = false;
+//			backgroundMusicSource.playOnAwake = false;
+//			backgroundMusicSource.mute = true;
+			alarmMusicSource.enabled = true;
+//			alarmMusicSource.PlayOneShot(alarmMusic,vol);
+//			alarmMusicSource.Play();
+//		}
 		yield return new WaitForSeconds (10);
 		fleeing = false;
 	}
