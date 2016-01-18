@@ -26,9 +26,7 @@ public class GameController : MonoBehaviour {
     bool spaceshipCrashed = false;
 
 	private AudioSource source;
-	private float volLowRange = .5f;
-	private float volHighRange = 1.0f;
-	private float vol;
+	private float vol = 1.0f;
 	private AudioClip attackSound;
 	private AudioSource source2;
     private AudioClip jetstartSound;
@@ -53,7 +51,6 @@ public class GameController : MonoBehaviour {
         planet = GameObject.Find("Planet");
 
 		source = GetComponent<AudioSource>();
-		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
 
 		source2 = gameObject.AddComponent<AudioSource>();
 		attackSound = (AudioClip)Resources.Load ("alarm");
@@ -137,8 +134,7 @@ public class GameController : MonoBehaviour {
         var timeSinceReady = Time.time - gsReady;
 
         if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
-			StartCoroutine (CrashSpaceShip ());
-			source.PlayOneShot(crashSpaceship,vol);
+			StartCoroutine (CrashSpaceShip ());			
 		}
 
 		List<Alien> aliens = gs.getAliens ();
@@ -205,6 +201,7 @@ public class GameController : MonoBehaviour {
         if (spaceshipCrashed)
             yield break;
         spaceshipCrashed = true;
+        source.PlayOneShot(crashSpaceship, vol);
 
         Vector3 pos = GameValues.ShipPos;
         Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
