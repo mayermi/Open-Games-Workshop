@@ -158,9 +158,9 @@ public class PathNavigator : MonoBehaviour
 		
 		while (true && !locked) 
 		{
-			float dist = (transform.position - currentWaypoint).sqrMagnitude;
+			float dist = (transform.position - currentWaypoint).magnitude;
 
-			if (dist <= 0.25f) 
+			if (dist <= 0.75f) 
 			{
 				targetIndex ++;
 				if (targetIndex >= path.Length) 

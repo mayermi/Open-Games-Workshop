@@ -307,7 +307,7 @@ public class GameController : MonoBehaviour {
             spawnPos = CoordinateHelper.GroundPosition(spawnPos);
 			bool contagious = false;
 			if(Random.Range(0f,1f) < 0.15f) contagious = true;
-            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 2f, range: 10, contagious: contagious);
+            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
             m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);
