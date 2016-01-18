@@ -137,6 +137,8 @@ public class AlienHelper : CreatureHelper {
     void CallAliensToShip()
     {
         GameObject.Find("GameController").SendMessage("ReplaceShipModel");
+		GameObject.Find("GameController").SendMessage("StartLeaveTimer");
+
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
@@ -144,9 +146,7 @@ public class AlienHelper : CreatureHelper {
             if (a.Resource) a.DropResource();
         }
     }
-
-
-
+	
     bool DoesNotBelongToOtherAlien(GameObject res)
     {
         foreach (DictionaryEntry d in gs.aliens)
