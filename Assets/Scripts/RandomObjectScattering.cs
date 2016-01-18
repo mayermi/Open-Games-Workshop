@@ -17,16 +17,24 @@ public class RandomObjectScattering : MonoBehaviour
     GameState gameState;
     GameObject objects;
 
-    List<string> planetMats = new List<string>(); 
+    Material rockMaterial;
+
+    List<string> planetMats = new List<string>();
+    List<string> rockMats = new List<string>();
 
     void Start()
     {
+		GameValues.PlanetRadius = gameObject.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * gameObject.transform.localScale.x;
+
         objects = new GameObject();
         objects.name = "EnvironmentObjects";
 
         planetMats.Add("PlanetGround_1");
         planetMats.Add("PlanetGround_2");
         planetMats.Add("PlanetGround_3");
+        rockMats.Add("Rocks_1");
+        rockMats.Add("Rocks_2");
+        rockMats.Add("Rocks_3");
     }
 
     void Update()
@@ -49,9 +57,12 @@ public class RandomObjectScattering : MonoBehaviour
 
     void PaintPlanet()
     {
-        string name = planetMats.Any();
+        int i = UnityEngine.Random.Range(0, planetMats.Count);
+        string name = planetMats[i];
         Material mat = Resources.Load("Materials/" + name) as Material;
         gameObject.GetComponent<Renderer>().material = mat;
+
+        rockMaterial = Resources.Load("Materials/" + rockMats[i]) as Material;
     }
 
 	void PlaceSpaceship() 
@@ -67,8 +78,12 @@ public class RandomObjectScattering : MonoBehaviour
         */
 
         //Let Camera look directly at spaceship
-		Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().getCamDistance();
-		Camera.main.transform.LookAt (transform.position);
+		if (Camera.main.GetComponent<CameraRotation> ())
+		{
+			Camera.main.transform.position = verts [index].normalized * Camera.main.GetComponent<CameraRotation> ().getCamDistance();
+			Camera.main.transform.LookAt (transform.position);
+		}
+
 	}
 
     void PlaceMonsterSpawnPoints()
@@ -86,6 +101,8 @@ public class RandomObjectScattering : MonoBehaviour
             GameObject spawn = Creator.Create("flyingrock", pos, string.Format("MonsterSpawnPoint_{0}", i));
             Vector3 up = -(transform.position - pos).normalized;
             spawn.transform.up = up;
+            foreach (var renderer in spawn.GetComponentsInChildren<Renderer>())
+                renderer.material = rockMaterial;
         }
 
     }
@@ -98,7 +115,7 @@ public class RandomObjectScattering : MonoBehaviour
 
 			if(pos == ship_pos)
                 continue;
-            if(gameState.MonsterSpawnPoints.Contains(pos))
+            if(gameState.MonsterSpawnPoints.Count > 0 && gameState.MonsterSpawnPoints.Contains(pos))
                 continue;
 
 			float distToShip = (ship_pos-pos).magnitude;
@@ -118,6 +135,7 @@ public class RandomObjectScattering : MonoBehaviour
 				mainObject.transform.localScale *= scale;
                 mainObject.transform.SetParent(objects.transform);
 				mainObject.layer = 10;
+                mainObject.GetComponentInChildren<Renderer>().material = rockMaterial;
 
                 var detailCount = Random.Range(minDetails, maxDetails);
                 Vector3 helpVector = RandomVector();

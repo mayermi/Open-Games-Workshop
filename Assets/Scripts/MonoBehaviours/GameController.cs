@@ -39,7 +39,6 @@ public class GameController : MonoBehaviour {
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
-        GameValues.PlanetRadius = planet.GetComponent<MeshFilter>().mesh.bounds.size.x * 0.5f * planet.transform.localScale.x;
 
 		source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
@@ -91,7 +90,12 @@ public class GameController : MonoBehaviour {
          
         if(gs.gameReady)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				ui.TogglePause();
+			}
+			
+			if (Input.GetKeyDown(KeyCode.Tab))
             {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
@@ -103,7 +107,7 @@ public class GameController : MonoBehaviour {
                 if (gs.aliensSaved > 0)
                     StartCoroutine(Win());
                 else
-                    ui.showLose();
+                    ui.ShowLose();
             }
         }       
 
@@ -218,7 +222,7 @@ public class GameController : MonoBehaviour {
             yield return false;
         }
 
-        ui.showWin();
+        ui.ShowWin();
     }
 
 
@@ -303,7 +307,7 @@ public class GameController : MonoBehaviour {
             spawnPos = CoordinateHelper.GroundPosition(spawnPos);
 			bool contagious = false;
 			if(Random.Range(0f,1f) < 0.15f) contagious = true;
-            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
+            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 2f, range: 10, contagious: contagious);
             m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
             gs.monsters.Add(m.GameObject, m);
             gs.creatures.Add(m.GameObject, m as Creature);

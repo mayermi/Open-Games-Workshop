@@ -15,10 +15,16 @@ public class GrabController : MonoBehaviour {
     private Vector3 prevPos;
     private GameObject handOfGod;
 	Quaternion pos;
+    GameObject vis;
+    GameObject pBig;
+    GameObject pSmall;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
         handOfGod = GameObject.Find("HandOfGod");
+        vis = GameObject.Find("Vis");
+        pBig = vis.transform.Find("Particles_big").gameObject;
+        pSmall = vis.transform.Find("Particles_small").gameObject;
         source = GetComponent<AudioSource>();
 		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
         prevPos = handOfGod.transform.position;
@@ -44,6 +50,9 @@ public class GrabController : MonoBehaviour {
 
         gameObject.transform.position = v3;
 
+        moveVis(gameObject);
+            
+
         if (Input.GetMouseButtonDown(1))
         {
             if (!grabbing) Grab();
@@ -54,6 +63,24 @@ public class GrabController : MonoBehaviour {
 
         moveDir = -(prevPos - handOfGod.transform.position);
         prevPos = handOfGod.transform.position;
+    }
+
+    public void moveVis(GameObject gameObject)
+    {
+        if (!objectToBeGrabbed)
+        {
+            if (pBig.activeSelf == false) pBig.SetActive(true);
+            if (pSmall.activeSelf == true) pSmall.SetActive(false);
+            vis.transform.position = gameObject.transform.position.normalized * GameValues.PlanetRadius * 1.01f;
+            vis.transform.right = vis.transform.position.normalized;
+        }
+        else
+        {
+            if (pSmall.activeSelf == false) pSmall.SetActive(true);
+            if (pBig.activeSelf == true) pBig.SetActive(false);
+            vis.transform.position = objectToBeGrabbed.transform.position;
+            vis.transform.right = vis.transform.position.normalized;
+        }
     }
 
     void Grab()
@@ -75,6 +102,8 @@ public class GrabController : MonoBehaviour {
                 objectToBeGrabbed.transform.localPosition = new Vector3(-4f, 5f, 1f);
 
                 source.PlayOneShot(grabSound,vol);
+
+                vis.SetActive(false);
             }
     }
 
@@ -93,6 +122,8 @@ public class GrabController : MonoBehaviour {
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;
+
+            vis.SetActive(true);
         }
     }
 

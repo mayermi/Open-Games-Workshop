@@ -23,9 +23,11 @@ public class Alien : Creature {
 		if (source != null && source is Monster) 
 		{
 			state = AlienState.FLEEING;
+            /*
             ParticleSystem p = GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>();
             if(p.isStopped) p.Play();
             GameObject.GetComponent<AlienHelper>().StopSignal();
+            */
         }
 	}
 
@@ -97,6 +99,7 @@ public class Alien : Creature {
 
 	public void Flee()
     {
+        GameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = true;
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
 		movingToResource = false;
@@ -108,7 +111,7 @@ public class Alien : Creature {
 
 		if (waitTimer != -1f && Time.time - waitTimer > WAITTIME) 
 		{
-            GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
+            GameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
 			state = AlienState.SEARCHING;
 			waitTimer = -1f;
 		}
