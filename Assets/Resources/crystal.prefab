@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460982}
   - 95: {fileID: 9510122}
-  - 65: {fileID: 6581770}
+  - 136: {fileID: 13656760}
   m_Layer: 0
   m_Name: crystal
   m_TagString: Walkable
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147082}
   m_LocalRotation: {x: -.0148501387, y: 0, z: 0, w: .999889731}
-  m_LocalPosition: {x: -35.7061844, y: -33.192337, z: -31.545332}
+  m_LocalPosition: {x: -26.2575569, y: -44.63274, z: -132.02594}
   m_LocalScale: {x: .600000024, y: .600000024, z: .600000024}
   m_Children:
   - {fileID: 473156}
@@ -181,18 +181,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 109450}
   m_Mesh: {fileID: 4300002, guid: e2469216c3edb114482fe586f08a03c5, type: 3}
---- !u!65 &6581770
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147082}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.97490716, y: 5.77801704, z: 2.70858359}
-  m_Center: {x: .126087189, y: 2.38928413, z: .26567471}
 --- !u!95 &9510122
 Animator:
   serializedVersion: 3
@@ -210,6 +198,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!136 &13656760
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147082}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .620000005
+  m_Height: 5.42000008
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.03999996, z: 0}
 --- !u!198 &19870792
 ParticleSystem:
   m_ObjectHideFlags: 1
