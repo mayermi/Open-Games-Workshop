@@ -134,7 +134,6 @@ public class GameController : MonoBehaviour {
 
         if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
 			StartCoroutine (CrashSpaceShip ());
-            source.Play();
         }
 
         List<Alien> aliens = gs.getAliens ();
@@ -182,7 +181,7 @@ public class GameController : MonoBehaviour {
     }
 	IEnumerator playAlarmSound(){
         //source.PlayOneShot(attackSound, 1.0f);
-        attackSource.Play();
+        if(!attackSource.isPlaying) attackSource.Play();
         yield return new WaitForSeconds (10);
 		fleeing = false;
 	}
@@ -212,6 +211,8 @@ public class GameController : MonoBehaviour {
         if (spaceshipCrashed)
             yield break;
         spaceshipCrashed = true;
+
+        if (!source.isPlaying)  source.Play();
 
         Vector3 pos = GameValues.ShipPos;
         Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
@@ -428,7 +429,7 @@ public class GameController : MonoBehaviour {
         Destroy(GameObject.Find("SpaceShip"));
         GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
         new_ship.transform.up = GameValues.ShipPos.normalized;
-        jetStartSource.Play();
+        if(!jetStartSource.isPlaying) jetStartSource.Play();
     }
 
     void StartLeaveTimer()

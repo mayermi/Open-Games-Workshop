@@ -29,7 +29,7 @@ public class SoundHelper : MonoBehaviour {
             source.volume = 1f;
             StartCoroutine(CoFadeOut(source, dur));
         }
-        source.Play();
+        if(!source.isPlaying) source.Play();
     }
 
     IEnumerator CoFadeIn(AudioSource source,  float dur)
