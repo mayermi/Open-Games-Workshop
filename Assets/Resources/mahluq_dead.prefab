@@ -39,6 +39,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 468738}
   - 111: {fileID: 11147162}
+  - 114: {fileID: 11462908}
   m_Layer: 0
   m_Name: mahluq_dead
   m_TagString: Untagged
@@ -282,7 +283,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133554}
-  m_LocalRotation: {x: -.50606209, y: -.0621049628, z: .856469929, w: .0806429833}
+  m_LocalRotation: {x: -.50606215, y: -.0621049702, z: .856470048, w: .0806429908}
   m_LocalPosition: {x: -.816506743, y: 7.33828074e-08, z: -5.60249014e-10}
   m_LocalScale: {x: 1, y: .999999821, z: .999999821}
   m_Children:
@@ -437,6 +438,17 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &11462908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9395265218e78274398d07db181d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &13767342
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
