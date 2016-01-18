@@ -408,8 +408,27 @@ public class GameController : MonoBehaviour {
         source3.Play();
     }
 
-   
+	void StartLeaveTimer()
+	{
+		StartCoroutine (LeaveTimer ());
+	}
 
+	IEnumerator LeaveTimer()
+	{
+		yield return new WaitForSeconds(60f);
+		foreach (DictionaryEntry d in gs.aliens)
+		{
+			Alien a = d.Value as Alien;
+			StartCoroutine(BeamAlienToShip(a));
+		}
+	}
 
-
+	IEnumerator BeamAlienToShip(Alien a) 
+	{
+		a.GameObject.transform.Find ("Beam").GetComponent<ParticleSystem> ().Play ();
+		yield return new WaitForSeconds(1f);
+		a.GameObject.transform.position = GameValues.ShipPos;
+	}
+	
+	
 }
