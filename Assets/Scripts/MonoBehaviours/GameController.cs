@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour {
 	public AudioClip backgroundMusic;
 	public AudioClip finalMusic;
 	public AudioClip sadFinalMusic;
+    private SoundHelper sh;
 
     List<Alien> fleeingAliens = new List<Alien>();
     private bool fleeing = false;
@@ -46,6 +47,7 @@ public class GameController : MonoBehaviour {
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
+        sh = GameObject.Find("SoundHelper").GetComponent<SoundHelper>();
         planet = GameObject.Find("Planet");
 
         musicsource = gameObject.GetComponent<AudioSource>();
@@ -75,8 +77,9 @@ public class GameController : MonoBehaviour {
 
     IEnumerator startMusic()
     {
-        musicsource.Play();
-        yield return new WaitForSeconds(0);
+        sh.Fade(musicsource, true, 3);
+        //musicsource.Play();
+        yield return true;
     }
 
     void Update()
@@ -142,16 +145,20 @@ public class GameController : MonoBehaviour {
 					fleeingAliens.Add (alien);
 					fleeing = true;
 					StartCoroutine (playAlarmSound ());
-                    musicsource.clip = alarmMusic;
-                    musicsource.Play();
+
+                    sh.SwitchFade(musicsource, musicsource.clip, alarmMusic, 1.5f);
+                    //musicsource.clip = alarmMusic;
+                    //musicsource.Play();
                     break;
                 }
                 else
                 {
                     if (musicsource.clip == alarmMusic && musicsource.clip != finalMusic && musicsource.clip != sadFinalMusic)
                     {
-                        musicsource.clip = backgroundMusic;
-                        musicsource.Play();
+
+                        sh.SwitchFade(musicsource, musicsource.clip, backgroundMusic, 1.5f);
+                        // musicsource.clip = backgroundMusic;
+                        // musicsource.Play();
                     }
                 }
 				if(fleeingAliens.Contains(alien) && alien.state != Alien.AlienState.FLEEING)
@@ -161,12 +168,15 @@ public class GameController : MonoBehaviour {
 			}
 		}
     }
+
+
     IEnumerator playLoseSound()
     {
         if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
         {
-            musicsource.clip = sadFinalMusic;
-            musicsource.Play();
+            sh.SwitchFade(musicsource, musicsource.clip, sadFinalMusic, 1.5f);
+            //musicsource.clip = sadFinalMusic;
+            //musicsource.Play();
         }
         yield return new WaitForSeconds(0);
     }
@@ -242,8 +252,9 @@ public class GameController : MonoBehaviour {
     {
         if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
         {
-            musicsource.clip = finalMusic;
-            musicsource.Play();
+            sh.SwitchFade(musicsource, musicsource.clip, finalMusic, 1.5f);
+            //musicsource.clip = finalMusic;
+            //musicsource.Play();
         }
         float start = Time.time;
         GameObject ship = GameObject.Find("SpaceShip");
