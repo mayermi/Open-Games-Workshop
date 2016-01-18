@@ -23,7 +23,7 @@ public abstract class Monster : Creature {
 
 	public void Attack(Alien a)
     {   
-		if (AttackReady) {
+		if (AttackReady && GameObject.tag != "Dead") {
 			state = MonsterState.ATTACKING;
 			a.TakeDamage(AttackDamage, this);
             if (isContagious && !a.Infected)
@@ -32,7 +32,7 @@ public abstract class Monster : Creature {
                 a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
             }
 
-            GameObject.GetComponent<Animation>().Play("Attack");
+            GameObject.GetComponent<Animation>().CrossFade("Attack", 0.1f, PlayMode.StopAll);
 
             if((GameObject.transform.position - a.GameObject.transform.position).sqrMagnitude > 2f)
                 MoveTo(a.GameObject.transform.position);

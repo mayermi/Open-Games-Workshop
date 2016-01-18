@@ -10,6 +10,8 @@ public abstract class Creature {
 	public int VisionRange { get; set;}
 	public GameObject GameObject { get; set;}
 
+    private bool dead;
+
 	public Creature(int health, float speed, int range) {
 		MaxHealth = health;
 		CurrentHealth = MaxHealth;
@@ -19,37 +21,49 @@ public abstract class Creature {
 
 	public void MoveTo(Vector3 target)
 	{
-        GameObject.GetComponent<PathNavigator>().locked = false;
-        GameObject.GetComponent<PathNavigator> ().SetTarget (target);
+        if (GameObject.tag != "Dead")
+        {
+            GameObject.GetComponent<PathNavigator>().locked = false;
+            GameObject.GetComponent<PathNavigator>().SetTarget(target);
+        }
     }
 
     public void StopMoving()
     {
+        Animation anim = GameObject.GetComponent<Animation>();
+        if (anim["Run"]) anim.Stop("Run");
+        if (anim["Walk"]) anim.Stop("Walk");
         GameObject.GetComponent<PathNavigator>().StopMoving();
     }
 
-    public virtual void TakeDamage(int d, object source=null) 
-	{
-		CurrentHealth = CurrentHealth - d;
-        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+    public virtual void TakeDamage(int d, object source = null)
+    {
+        CurrentHealth = CurrentHealth - d;
         GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
-        if (CurrentHealth <= 0) Die();
-	}
 
-	public virtual void GetHealed(int d, object source=null) 
+        if (CurrentHealth <= 0) Die();
+    }
+
+    public virtual void GetHealed(int d, object source=null) 
 	{
 		CurrentHealth = CurrentHealth + d;
 		if (CurrentHealth > MaxHealth)
 			CurrentHealth = MaxHealth;
-        //GameObject.GetComponentInChildren<Slider>().value = (float)CurrentHealth / (float)MaxHealth;
+        
         GameObject.GetComponent<CreatureHelper>().AdjustHealthBar();
     }
 
 	public virtual void Die() 
 	{
-		GameObject.Find ("GameController").SendMessage ("RemoveReferences", this);
-		GameObject.Find ("GameState").SendMessage ("RemoveCreature", this);
-        GameObject.SetActive(false);
+        if (!dead)
+        {
+            dead = true;
+            GameObject.tag = "Dead";
+            GameObject.Find("GameController").SendMessage("RemoveReferences", this);
+            GameObject.Find("GameState").SendMessage("RemoveCreature", this);
+            StopMoving();
+            GameObject.GetComponent<CreatureHelper>().StartDying();
+        }
 	}
 
 	public bool IsInRange(GameObject g)

@@ -8,18 +8,16 @@ public class AlienHelper : CreatureHelper {
     bool movingToShipWithResource = false;
     public bool movingToShipToLeave = false;
     bool infectionReady = true;
-	/*private AudioClip attackSound;
-	private AudioSource source;*/
+	private AudioClip resourceSound;
 
 	public override void Start () {
 		base.Start ();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
-		/*source = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("alarm2");
-		source.clip = attackSound;
-		source.playOnAwake = false;*/
+        resourceSound = (AudioClip)Resources.Load ("resource");
+		source.clip = resourceSound;
+		source.playOnAwake = false;
     }
 
 	public override void Update () {
@@ -40,7 +38,6 @@ public class AlienHelper : CreatureHelper {
 		else if (alien.state == Alien.AlienState.FLEEING)
 		{
 			alien.Flee();
-			//StartCoroutine(playAlarmSound());
 		}
 
         if (alien.movingToResource) CheckDistToResource();
@@ -53,11 +50,6 @@ public class AlienHelper : CreatureHelper {
 		}
     }
 
-	/*public IEnumerator playAlarmSound(){
-		source.Play();
-		yield return new WaitForSeconds (3);
-	}*/
-
     public override void NoPathFound()
     {
         base.NoPathFound();
@@ -66,7 +58,7 @@ public class AlienHelper : CreatureHelper {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.name == "resource" && alien.state == Alien.AlienState.SEARCHING)
+        if(other.gameObject.name == "resource" && alien.state == Alien.AlienState.SEARCHING && !movingToShipToLeave)
         {
             // check if resource is free to pick up
             if(DoesNotBelongToOtherAlien(other.gameObject))
@@ -120,12 +112,13 @@ public class AlienHelper : CreatureHelper {
             if(movingToShipToLeave)
             {
                 gs.aliensSaved += 1;
-                alien.Die();
+                alien.EnterSpaceShip();
                 movingToShipToLeave = false;
                 return;
             }
 
             gs.CollectedResources += 1;
+            source.Play();
             GameObject res = alien.Resource;
             // check if other Aliens were trying to reach this specific resource too
             RemoveResourceReferences(res);
@@ -146,6 +139,7 @@ public class AlienHelper : CreatureHelper {
         {
             Alien a = d.Value as Alien;
             a.ReturnToShip(true);
+            if (a.Resource) a.DropResource();
         }
     }
 
@@ -182,7 +176,18 @@ public class AlienHelper : CreatureHelper {
         }
     }
 
-	IEnumerator InfectionDamage(float sec)
+    public void StopSignal()
+    {
+        StartCoroutine(StopDistressSignal());
+    }
+
+    IEnumerator StopDistressSignal()
+    {
+        yield return new WaitForSeconds(5f);
+        gameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
+    }
+
+    IEnumerator InfectionDamage(float sec)
 	{
 		alien.TakeDamage (2);
 		yield return new WaitForSeconds (sec);

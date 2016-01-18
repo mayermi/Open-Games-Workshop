@@ -23,7 +23,10 @@ public class Alien : Creature {
 		if (source != null && source is Monster) 
 		{
 			state = AlienState.FLEEING;
-		}
+            ParticleSystem p = GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>();
+            if(p.isStopped) p.Play();
+            GameObject.GetComponent<AlienHelper>().StopSignal();
+        }
 	}
 
 	public override void GetHealed(int d, object source=null) 
@@ -62,6 +65,15 @@ public class Alien : Creature {
         GameObject.Find("UI").GetComponent<UIManager>().SetAlienSlider();
     } 
 
+    public void EnterSpaceShip()
+    {
+        if (Resource) DropResource();
+        GameObject.Find("GameController").SendMessage("RemoveReferences", this);
+        GameObject.Find("GameState").SendMessage("RemoveCreature", this);
+
+        GameObject.SetActive(false);
+    }
+
 	public void Search()
 	{
         state = AlienState.SEARCHING;
@@ -85,7 +97,6 @@ public class Alien : Creature {
 
 	public void Flee()
     {
-		//Debug.Log ("Fleeing");
         state = AlienState.FLEEING;
 		if(Resource) DropResource ();
 		movingToResource = false;
@@ -97,6 +108,7 @@ public class Alien : Creature {
 
 		if (waitTimer != -1f && Time.time - waitTimer > WAITTIME) 
 		{
+            GameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
 			state = AlienState.SEARCHING;
 			waitTimer = -1f;
 		}

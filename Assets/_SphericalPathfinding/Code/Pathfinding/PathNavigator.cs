@@ -60,6 +60,7 @@ public class PathNavigator : MonoBehaviour
 		
 	}
 
+
 	#endregion
 
 
@@ -85,7 +86,7 @@ public class PathNavigator : MonoBehaviour
 		Debug.DrawLine (castFrom, castTo, Color.cyan, 2f);
 		if (Physics.Raycast (ray, out hit, 20)) {
 			if(hit.transform.tag == "NotWalkable") {
-				Debug.Log ("Hit obstacle. Requesting Pathfinding.");
+				//Debug.Log ("Hit obstacle. Requesting Pathfinding.");
 				travellingStraight = false;
                 travelling = true;
 				PathRequestManager.RequestPath (transform.position, t, OnPathFound);
@@ -93,7 +94,7 @@ public class PathNavigator : MonoBehaviour
 			}
 		} 
 		travellingStraight = true;
-		Debug.Log ("Way is clear.");
+		//Debug.Log ("Way is clear.");
 		StopCoroutine("FollowPathStraight");
 		StopCoroutine("FollowPath");
 		path = new Vector3[0];
@@ -102,7 +103,7 @@ public class PathNavigator : MonoBehaviour
 
 	public void SetTarget(Vector3 t) 
 	{ 
-		Debug.Log ("changed target");
+		//Debug.Log ("changed target");
 		travelling = false;
 		target.position = t;
 	}
@@ -120,7 +121,7 @@ public class PathNavigator : MonoBehaviour
         {
             if (pathSuccessful && newPath.Length > 0)
             {
-				Debug.Log ("Path found in: " + (Time.time-timer));
+				//Debug.Log ("Path found in: " + (Time.time-timer));
 				path = newPath;
 				StopCoroutine("FollowPathStraight");
 				StopCoroutine("FollowPath");
@@ -175,13 +176,13 @@ public class PathNavigator : MonoBehaviour
 		}
 	}
 
-	public void MoveTowards(Vector3 targetPos)
+	public void MoveTowards(Vector3 tPos)
 	{
-		Quaternion newRot = planetBody.LookAtTarget(targetPos);
+		Quaternion newRot = planetBody.LookAtTarget(tPos);
 		transform.rotation = Quaternion.Slerp(transform.rotation, newRot, lookSpeed * Time.deltaTime);
 
 		//transform.position 	= planetBody.MoveForward(moveSpeed);
-		GetComponent<MoveOnSphere> ().moveTowards(targetPos);
+		GetComponent<MoveOnSphere> ().moveTowards(tPos);
 	}
 
 
