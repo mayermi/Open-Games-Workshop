@@ -53,6 +53,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 467272}
+  - 114: {fileID: 11490122}
   m_Layer: 0
   m_Name: Alien_Dead
   m_TagString: Untagged
@@ -392,6 +393,17 @@ Transform:
   - {fileID: 459960}
   m_Father: {fileID: 483340}
   m_RootOrder: 1
+--- !u!114 &11490122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9395265218e78274398d07db181d74e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &13749540
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
