@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour {
     TutorialController tc;
     UIManager ui;   
     GameObject planet;
-	public AudioClip crashSpaceship;
+	
 
     public const float CRASH_SPACESHIP_AFTER_SECONDS = 60f;
 
@@ -26,24 +26,20 @@ public class GameController : MonoBehaviour {
     bool spaceshipCrashed = false;
 
 	private AudioSource source;
-	private float volLowRange = .5f;
-	private float volHighRange = 1.0f;
-	private float vol;
-	private AudioClip attackSound;
-	private AudioSource source2;
-    private AudioClip jetstartSound;
-    private bool fleeing = false;
-    private AudioSource source3;
+    private AudioSource attackSource;
+    private AudioSource musicsource;
+    private AudioSource jetStartSource;
+
+	public AudioClip attackSound;
+    public AudioClip jetstartSound;
+    public AudioClip crashSpaceship;
 	public AudioClip alarmMusic;
-	private AudioSource alarmMusicSource;
 	public AudioClip backgroundMusic;
-	private AudioSource backgroundMusicSource;
 	public AudioClip finalMusic;
-	private AudioSource finalMusicSource;
 	public AudioClip sadFinalMusic;
-	private AudioSource sadFinalMusicSource;
 
     List<Alien> fleeingAliens = new List<Alien>();
+    private bool fleeing = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -52,28 +48,18 @@ public class GameController : MonoBehaviour {
         ui = GameObject.Find("UI").GetComponent<UIManager>();
         planet = GameObject.Find("Planet");
 
-		source = GetComponent<AudioSource>();
-		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+        musicsource = gameObject.GetComponent<AudioSource>();
+        StartCoroutine(startMusic());
 
-		source2 = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("alarm");
-		source2.clip = attackSound;
-		source2.playOnAwake = false;
-
-        source3 = gameObject.AddComponent<AudioSource>();
-        jetstartSound = (AudioClip)Resources.Load("jetstart");
-        source3.clip = jetstartSound;
-        source3.playOnAwake = false;
-
-		alarmMusicSource = GetComponent<AudioSource>();
-
-		backgroundMusicSource = GetComponent<AudioSource>();
-		backgroundMusicSource.PlayOneShot(backgroundMusic,vol);
-//		backgroundMusicSource.Play();
-
-		finalMusicSource = GetComponent<AudioSource>();
-
-		sadFinalMusicSource = GetComponent<AudioSource>();
+        source = gameObject.AddComponent<AudioSource>();
+        source.clip = crashSpaceship;
+        source.loop = false;
+        attackSource = gameObject.AddComponent<AudioSource>();
+        attackSource.clip = attackSound;
+        attackSource.loop = false;
+        jetStartSource = gameObject.AddComponent<AudioSource>();
+        jetStartSource.clip = jetstartSound;
+        jetStartSource.loop = false;
 
         gs.ActiveSkill = 0;
         gs.CollectedResources = 0;
@@ -87,6 +73,11 @@ public class GameController : MonoBehaviour {
         readyToBakePathfinding = true;
 	}
 
+    IEnumerator startMusic()
+    {
+        musicsource.Play();
+        yield return new WaitForSeconds(0);
+    }
 
     void Update()
     {    
@@ -125,12 +116,14 @@ public class GameController : MonoBehaviour {
 				ui.UpdateSkillToggle();
             }
 
-            if(!firstSpawn && gs.aliens.Count == 0)
+            if (!firstSpawn && gs.aliens.Count == 0)
             {
-                if (gs.aliensSaved > 0)
+                if (gs.aliensSaved > 0) {
                     StartCoroutine(Win());
-                else
+            }else {
+                    StartCoroutine(playLoseSound());
                     ui.ShowLose();
+                }
             }
         }
 
@@ -138,10 +131,10 @@ public class GameController : MonoBehaviour {
 
         if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
 			StartCoroutine (CrashSpaceShip ());
-			source.PlayOneShot(crashSpaceship,vol);
-		}
+            source.Play();
+        }
 
-		List<Alien> aliens = gs.getAliens ();
+        List<Alien> aliens = gs.getAliens ();
 
 		if (!fleeing) {
 			foreach (Alien alien in aliens) {
@@ -149,34 +142,38 @@ public class GameController : MonoBehaviour {
 					fleeingAliens.Add (alien);
 					fleeing = true;
 					StartCoroutine (playAlarmSound ());
-					break;
-				}
+                    musicsource.clip = alarmMusic;
+                    musicsource.Play();
+                    break;
+                }
+                else
+                {
+                    if (musicsource.clip == alarmMusic && musicsource.clip != finalMusic && musicsource.clip != sadFinalMusic)
+                    {
+                        musicsource.clip = backgroundMusic;
+                        musicsource.Play();
+                    }
+                }
 				if(fleeingAliens.Contains(alien) && alien.state != Alien.AlienState.FLEEING)
                 {
 					fleeingAliens.Remove(alien);
-					if(fleeingAliens.Count == 0) {
-						alarmMusicSource.enabled = false;
-//						backgroundMusicSource.enabled = true;
-						
-						backgroundMusicSource.playOnAwake = true;
-//						alarmMusicSource.Pause ();
-					}
 				}
 			}
 		}
     }
-
+    IEnumerator playLoseSound()
+    {
+        if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
+        {
+            musicsource.clip = sadFinalMusic;
+            musicsource.Play();
+        }
+        yield return new WaitForSeconds(0);
+    }
 	IEnumerator playAlarmSound(){
-		source2.Play();
-//		if (!alarmMusicSource.isPlaying) {
-//			backgroundMusicSource.enabled = false;
-//			backgroundMusicSource.playOnAwake = false;
-//			backgroundMusicSource.mute = true;
-			alarmMusicSource.enabled = true;
-//			alarmMusicSource.PlayOneShot(alarmMusic,vol);
-//			alarmMusicSource.Play();
-//		}
-		yield return new WaitForSeconds (10);
+        //source.PlayOneShot(attackSound, 1.0f);
+        attackSource.Play();
+        yield return new WaitForSeconds (10);
 		fleeing = false;
 	}
 
@@ -243,6 +240,11 @@ public class GameController : MonoBehaviour {
 
     IEnumerator Win()
     {
+        if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
+        {
+            musicsource.clip = finalMusic;
+            musicsource.Play();
+        }
         float start = Time.time;
         GameObject ship = GameObject.Find("SpaceShip");
         Vector3 start_pos = ship.transform.position;
@@ -415,10 +417,10 @@ public class GameController : MonoBehaviour {
         Destroy(GameObject.Find("SpaceShip"));
         GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
         new_ship.transform.up = GameValues.ShipPos.normalized;
-        source3.Play();
+        jetStartSource.Play();
     }
 
-	void StartLeaveTimer()
+    void StartLeaveTimer()
 	{
 		StartCoroutine (LeaveTimer ());
 	}
