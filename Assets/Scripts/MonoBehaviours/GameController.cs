@@ -277,7 +277,8 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " ShyMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.MonsterSpawnPoints.Any();
+            Vector3 pos = gs.MonsterSpawnPoints.Any() + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            pos = CoordinateHelper.GroundPosition(pos);
             ShyMonster m = new ShyMonster(attack: 5, health: 25, speed: 2.5f, range: 7, contagious: false);
             m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
             gs.monsters.Add(m.GameObject, m);
@@ -290,25 +291,40 @@ public class GameController : MonoBehaviour {
 
     void SpawnPredators()
     {
-        int count = Random.Range(1,5);
+        int count = Random.Range(2,5);
         Vector3 pos = gs.MonsterSpawnPoints.Any();
         Debug.Log("Spawning " + count + " Predators");
         for (int i = 0; i < count; i++)
-        {        
-            Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            spawnPos = CoordinateHelper.GroundPosition(spawnPos);
-			bool contagious = false;
-			if(Random.Range(0f,1f) < 0.15f) contagious = true;
-            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
-            m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
-            gs.monsters.Add(m.GameObject, m);
-            gs.creatures.Add(m.GameObject, m as Creature);
-			if(contagious)
-				m.GameObject.transform.Find ("Infection").GetComponent<ParticleSystem>().Play();
-
-            GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.forward = -(planet.transform.position -pos).normalized;
+        {
+            float wait = i * 2.0f;
+            if (i != 0)
+                StartCoroutine(SpawnCoroutine(pos, wait));
+            else
+                DoPredatorSpawn(pos);
         }
+    }
+
+    IEnumerator SpawnCoroutine(Vector3 pos, float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        DoPredatorSpawn(pos);
+    }
+
+    void DoPredatorSpawn(Vector3 pos)
+    {    
+        Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        spawnPos = CoordinateHelper.GroundPosition(spawnPos);
+        bool contagious = false;
+        if (Random.Range(0f, 1f) < 0.15f) contagious = true;
+        PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
+        m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
+        gs.monsters.Add(m.GameObject, m);
+        gs.creatures.Add(m.GameObject, m as Creature);
+        if (contagious)
+            m.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
+
+        GameObject effect = Creator.Create("Spawner", pos, "Spawner");
+        effect.transform.forward = -(planet.transform.position - pos).normalized;
     }
 
     void SpawnEvilMonsters()
@@ -317,7 +333,9 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " EvilMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.MonsterSpawnPoints.Any();
+            Vector3 pos = gs.MonsterSpawnPoints.Any() + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            pos = CoordinateHelper.GroundPosition(pos);
+
             EvilMonster m = new EvilMonster(attack: 10, health: 125, speed: 3.25f, range: 8, contagious: false);
             m.GameObject = Creator.Create("monster", pos, "EvilMonster");
             gs.monsters.Add(m.GameObject, m);
