@@ -42,6 +42,8 @@ public class UIManager : MonoBehaviour {
 		if(gameEnded)
 		{
 			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
+			if(GameObject.Find("GameUI").GetComponent<CanvasGroup>().alpha < 0.02f)
+				GameObject.Find("GameUI").GetComponent<CanvasGroup>().alpha = 0f;
 		}
     }
 	
@@ -114,7 +116,7 @@ public class UIManager : MonoBehaviour {
 		win.transform.Find("Message").GetComponent<Text>().text = "Du hast <color=#ff6699>" + gs.aliensSaved + "</color> Aliens gerettet.";
         ActivateBlur(true);
 		gameEnded = true;
-        StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
+        StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 0.75f));
         StartCoroutine(FadeUI(win, 0f, 1f, 1f));
     }
 
@@ -122,7 +124,7 @@ public class UIManager : MonoBehaviour {
     {
         ActivateBlur(true);
 		gameEnded = true;
-        StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 1f));
+        StartCoroutine(FadeUI(GameObject.Find("GameUI"), 1f, 0f, 0.75f));
         StartCoroutine(FadeUI(failure, 0f, 1f, 3f));
     }
 
@@ -157,16 +159,15 @@ public class UIManager : MonoBehaviour {
         Camera.main.GetComponent<BlurOptimized>().enabled = on;
     }
 
-    IEnumerator FadeUI(GameObject tutorial, float from, float to, float duration)
+    IEnumerator FadeUI(GameObject obj, float from, float to, float duration)
     {
         float start = Time.time;
         while (Time.time - start < duration)
         {
-            tutorial.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(from, to, (Time.time - start) / duration);
+            obj.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(from, to, (Time.time - start) / duration);
             yield return false;
         }
-        tutorial.GetComponent<CanvasGroup>().alpha = to;
-		yield return true;
+        obj.GetComponent<CanvasGroup>().alpha = to;
     }
 
 	IEnumerator SetTimeScale(float scale, float timer) 

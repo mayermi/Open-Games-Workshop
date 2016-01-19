@@ -26,7 +26,7 @@ public class SoundHelper : MonoBehaviour {
         }
         if (!fadeIn)
         {
-            source.volume = 1f;
+            source.volume = 0.5f;
             StartCoroutine(CoFadeOut(source, dur));
         }
         if(!source.isPlaying) source.Play();
@@ -47,7 +47,7 @@ public class SoundHelper : MonoBehaviour {
         float start = Time.time;
         while (Time.time - start < dur)
         {
-            source.volume = 1f - ((Time.time - start) / dur);
+            source.volume = 0.5f - ((Time.time - start) / dur);
             yield return false;
         }
     }

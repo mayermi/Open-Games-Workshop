@@ -307,7 +307,7 @@ public class GameController : MonoBehaviour {
     void DecideMonsterSpawning()
     {
         float rand = Random.Range(0f, 1f);
-        float value = Mathf.Pow(1.00116f, Time.time-lastSpawn)- 1;
+        float value = Mathf.Pow(1.00316f, Time.time-lastSpawn)- 1;
         if(rand < value)
         {
             DecideMonsterFamily();
