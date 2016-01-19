@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.ImageEffects;
+using System;
 
 public class TutorialController : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class TutorialController : MonoBehaviour {
     public GameObject skills;
     public GameObject monsters;
     GameObject cam;
+
+    public EventHandler OnNavigationTutorialClosed { get; set; }
 
 
 	void Start () {
@@ -63,7 +66,12 @@ public class TutorialController : MonoBehaviour {
 
     public void HideTutorials()
     {
-        if (navigation.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(navigation, 1f, 0f));
+        if (navigation.GetComponent<CanvasGroup>().alpha > 0.95f)
+        {
+            StartCoroutine(FadeTutorial(navigation, 1f, 0f));
+            if(OnNavigationTutorialClosed != null)
+                OnNavigationTutorialClosed(this, new EventArgs());
+        }
         if (story.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(story, 1f, 0f));
         if (skills.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(skills, 1f, 0f));
         if (monsters.GetComponent<CanvasGroup>().alpha > 0.95f) StartCoroutine(FadeTutorial(monsters, 1f, 0f));

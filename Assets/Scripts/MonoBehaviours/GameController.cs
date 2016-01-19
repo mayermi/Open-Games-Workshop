@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
     GameObject planet;
 	
 
-    public const float CRASH_SPACESHIP_AFTER_SECONDS = 35f;
+    public const float CRASH_SPACESHIP_AFTER_SECONDS = 30.0f;
 
     float lastSpawn;
     float bakeTimer;
@@ -100,8 +100,11 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 ui.SetResourceSlider();
                 gs.gameReady = true;
-                tc.ShowNavigation();   
-				gsReady = gsReady > 0.0f ? gsReady : Time.time;
+                tc.ShowNavigation();
+                tc.OnNavigationTutorialClosed += delegate(object sender, System.EventArgs e)
+                {
+                    gsReady = gsReady > 0.0f ? gsReady : Time.time;
+                };
             }
                 
         }
