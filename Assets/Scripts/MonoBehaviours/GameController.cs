@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
     GameObject planet;
 	
 
-    public const float CRASH_SPACESHIP_AFTER_SECONDS = 60f;
+    public const float CRASH_SPACESHIP_AFTER_SECONDS = 35f;
 
     float lastSpawn;
     float bakeTimer;
@@ -128,13 +128,16 @@ public class GameController : MonoBehaviour {
                     StartCoroutine(Lose());
             	}
             }
+
+            var timeSinceReady = Time.time - gsReady;
+
+            if ((Input.GetKeyDown(KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS))
+            {
+                StartCoroutine(CrashSpaceShip());
+            }
         }
 
-        var timeSinceReady = Time.time - gsReady;
-
-        if ( (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS)) {
-			StartCoroutine (CrashSpaceShip ());
-        }
+        
 
         List<Alien> aliens = gs.getAliens ();
 
