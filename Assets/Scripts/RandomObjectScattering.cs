@@ -95,6 +95,8 @@ public class RandomObjectScattering : MonoBehaviour
             var pos = verts[index].normalized * radius;
             if (gameState.MonsterSpawnPoints.Contains(pos) || pos == ship_pos)
                 continue; //make sure each point is unique and we do not spawn on top of the ship
+            if (CoordinateHelper.calcDistance(pos, ship_pos) < 600.0f)
+                continue; //Do not spawn to close to the ship
 
             i++;
             gameState.MonsterSpawnPoints.Add(pos);
