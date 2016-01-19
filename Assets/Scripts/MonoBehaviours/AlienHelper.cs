@@ -99,7 +99,7 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToResource()
     {
         float dist = (gameObject.transform.position - alien.Resource.transform.position).magnitude;
-        if (dist <= 3.5f)
+        if (dist <= 4f)
         {
             alien.TakeResource();
             alien.movingToResource = false;
