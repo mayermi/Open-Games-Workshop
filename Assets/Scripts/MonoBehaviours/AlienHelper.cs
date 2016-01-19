@@ -187,7 +187,7 @@ public class AlienHelper : CreatureHelper {
     IEnumerator StopDistressSignal()
     {
         yield return new WaitForSeconds(5f);
-        gameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
+        gameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
     }
 
     IEnumerator InfectionDamage(float sec)
