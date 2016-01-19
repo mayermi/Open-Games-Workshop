@@ -71,6 +71,13 @@ public class TutorialController : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+	public bool StoryVisible()
+	{
+		if (story.GetComponent<CanvasGroup> ().alpha > 0.95f)
+			return true;
+		return false;
+	}
+
     void ActivateBlur()
     {
         cam.GetComponent<BlurOptimized>().enabled = true;
