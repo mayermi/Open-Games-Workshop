@@ -279,7 +279,8 @@ public class GameController : MonoBehaviour {
         }
 
         ui.ShowWin();
-    }
+		yield break;
+	}
 
 
     void SpawnAliens(int count) 
