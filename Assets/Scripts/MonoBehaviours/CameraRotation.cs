@@ -5,6 +5,7 @@ public class CameraRotation : MonoBehaviour {
 
     public int camDistance = 185;
     GameObject planet;
+    GameObject light;
     Camera cam;
     float fov;
     public float fovSpeed = 8f;
@@ -16,6 +17,7 @@ public class CameraRotation : MonoBehaviour {
         planet = GameObject.Find("Planet");
         cam = Camera.main;
         fov = cam.fieldOfView;
+        light = GameObject.Find("Headlight");
     }
 
     void LateUpdate()
@@ -68,6 +70,8 @@ public class CameraRotation : MonoBehaviour {
         {
             StartCoroutine(Focus(GameValues.ShipPos, 35f));
         }
+
+        UpdateLight();
     }
 
     public void FocusOnPoint(Vector3 pos, float newFov)
@@ -89,6 +93,7 @@ public class CameraRotation : MonoBehaviour {
         {
             cam.transform.forward = Vector3.Slerp(fromRot, -pos.normalized, (Time.time - startTime) / SLERPTIME);
             cam.transform.position = Vector3.Slerp(fromPos, cameraPosition, (Time.time - startTime) / SLERPTIME);
+            UpdateLight();
             yield return null;
         }       
 
@@ -104,5 +109,11 @@ public class CameraRotation : MonoBehaviour {
     public int getCamDistance()
     {
         return camDistance;
+    }
+
+    void UpdateLight()
+    {
+        light.transform.position = transform.position;
+        light.transform.rotation = transform.rotation;
     }
 }

@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour {
 
     List<Alien> fleeingAliens = new List<Alien>();
     private bool fleeing = false;
+    private int actionSwitched = 0;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
@@ -168,6 +169,16 @@ public class GameController : MonoBehaviour {
 		}
     }
 
+    void switchActiveSkill()
+    {
+        actionSwitched++;
+        if (actionSwitched % 2 != 0)
+        {
+            gs.ActiveSkill += 1;
+            if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
+            ui.UpdateSkillToggle();
+        }
+    }
 
     IEnumerator playLoseSound()
     {
