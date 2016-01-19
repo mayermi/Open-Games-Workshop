@@ -9,7 +9,7 @@ public class AlienHelper : CreatureHelper {
     public bool movingToShipToLeave = false;
     bool infectionReady = true;
 	private AudioClip resourceSound;
-	private AudioSource source;
+	private AudioSource resourceSource;
 
 	public override void Start () {
 		base.Start ();
@@ -17,10 +17,10 @@ public class AlienHelper : CreatureHelper {
         alien = gs.aliens[gameObject] as Alien;
         gameObject.GetComponent<SphereCollider>().radius = alien.VisionRange;
         gameObject.transform.Find("Fleeing").GetComponent<MeshRenderer>().enabled = false;
-		source = gameObject.AddComponent<AudioSource>();
+		resourceSource = gameObject.AddComponent<AudioSource>();
         resourceSound = (AudioClip)Resources.Load ("resource");
-		source.clip = resourceSound;
-		source.playOnAwake = false;
+		resourceSource.clip = resourceSound;
+		resourceSource.playOnAwake = false;
     }
 
 	public override void Update () {
@@ -79,6 +79,7 @@ public class AlienHelper : CreatureHelper {
         {
             if (gs.aliens.Contains(other.gameObject))
             {
+                Debug.Log("Infected other alien");
                 Alien a = gs.aliens[other.gameObject] as Alien;
                 a.Infected = true;
                 a.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
@@ -98,7 +99,7 @@ public class AlienHelper : CreatureHelper {
     void CheckDistToResource()
     {
         float dist = (gameObject.transform.position - alien.Resource.transform.position).magnitude;
-        if (dist <= 5f)
+        if (dist <= 3.5f)
         {
             alien.TakeResource();
             alien.movingToResource = false;
@@ -120,7 +121,7 @@ public class AlienHelper : CreatureHelper {
             }
 
             gs.CollectedResources += 1;
-            source.Play();
+            resourceSource.Play();
             GameObject res = alien.Resource;
             // check if other Aliens were trying to reach this specific resource too
             RemoveResourceReferences(res);
@@ -137,6 +138,8 @@ public class AlienHelper : CreatureHelper {
     void CallAliensToShip()
     {
         GameObject.Find("GameController").SendMessage("ReplaceShipModel");
+		GameObject.Find("GameController").SendMessage("StartLeaveTimer");
+
         foreach (DictionaryEntry d in gs.aliens)
         {
             Alien a = d.Value as Alien;
@@ -144,9 +147,7 @@ public class AlienHelper : CreatureHelper {
             if (a.Resource) a.DropResource();
         }
     }
-
-
-
+	
     bool DoesNotBelongToOtherAlien(GameObject res)
     {
         foreach (DictionaryEntry d in gs.aliens)
@@ -178,7 +179,18 @@ public class AlienHelper : CreatureHelper {
         }
     }
 
-	IEnumerator InfectionDamage(float sec)
+    public void StopSignal()
+    {
+        StartCoroutine(StopDistressSignal());
+    }
+
+    IEnumerator StopDistressSignal()
+    {
+        yield return new WaitForSeconds(5f);
+        gameObject.transform.Find("Attacked").GetComponent<ParticleSystem>().Stop();
+    }
+
+    IEnumerator InfectionDamage(float sec)
 	{
 		alien.TakeDamage (2);
 		yield return new WaitForSeconds (sec);

@@ -5,7 +5,7 @@ public class CreatureHelper : MonoBehaviour {
 
     Creature creature;
     protected GameState gs;
-    private AudioSource source;
+    protected AudioSource source;
     private AudioClip deadsound;
 
     public string deadName;
@@ -86,6 +86,7 @@ public class CreatureHelper : MonoBehaviour {
     IEnumerator playDeathSound()
     {
         yield return new WaitForSeconds(0.2f);
-        source.Play();
+        source.volume = 1f;
+        if(!source.isPlaying) source.Play();
     }
 }

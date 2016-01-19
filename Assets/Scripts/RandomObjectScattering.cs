@@ -98,7 +98,7 @@ public class RandomObjectScattering : MonoBehaviour
 
             i++;
             gameState.MonsterSpawnPoints.Add(pos);
-            GameObject spawn = Creator.Create("flyingrock", pos, string.Format("MonsterSpawnPoint_{0}", i));
+            GameObject spawn = Creator.Create("Spawn_Point", pos, string.Format("MonsterSpawnPoint_{0}", i));
             Vector3 up = -(transform.position - pos).normalized;
             spawn.transform.up = up;
             foreach (var renderer in spawn.GetComponentsInChildren<Renderer>())
@@ -134,6 +134,7 @@ public class RandomObjectScattering : MonoBehaviour
                 var scale = scaleFactor * ScaleFunction(Random.Range(1.0f, 2.0f));
 				mainObject.transform.localScale *= scale;
                 mainObject.transform.SetParent(objects.transform);
+				mainObject.layer = 10;
                 mainObject.GetComponentInChildren<Renderer>().material = rockMaterial;
 
                 var detailCount = Random.Range(minDetails, maxDetails);
@@ -189,6 +190,7 @@ public class RandomObjectScattering : MonoBehaviour
         {
             Debug.Log("Only " + placedResources + " placed.");
         }
+
     }
 
     string DecideMainObject()
@@ -201,10 +203,6 @@ public class RandomObjectScattering : MonoBehaviour
             mainObjectName = "rock_group_1";
         else if (r > 0.85f)
 			mainObjectName = "rock_group_3";
-		/*
-        else if (r > 0.82f)
-			mainObjectName = "brunnen";
-        */
 
         return mainObjectName;
     }

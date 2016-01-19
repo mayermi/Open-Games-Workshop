@@ -11,76 +11,76 @@ public class GameController : MonoBehaviour {
     TutorialController tc;
     UIManager ui;   
     GameObject planet;
-	public AudioClip crashSpaceship;
+	
+
+    public const float CRASH_SPACESHIP_AFTER_SECONDS = 60f;
 
     float lastSpawn;
     float bakeTimer;
+    float gsReady = 0.0f;
    
     bool readyToBakePathfinding = false;
     bool bakingDone = false;
     bool baking = false;
     bool firstSpawn = true;
+    bool spaceshipCrashed = false;
 
 	private AudioSource source;
-	private float volLowRange = .5f;
-	private float volHighRange = 1.0f;
-	private float vol;
-	private AudioClip attackSound;
-	private AudioSource source2;
-    private AudioClip jetstartSound;
-    private bool fleeing = false;
-    private AudioSource source3;
+    private AudioSource attackSource;
+    private AudioSource musicsource;
+    private AudioSource jetStartSource;
+
+	public AudioClip attackSound;
+    public AudioClip jetstartSound;
+    public AudioClip crashSpaceship;
 	public AudioClip alarmMusic;
-	private AudioSource alarmMusicSource;
 	public AudioClip backgroundMusic;
-	private AudioSource backgroundMusicSource;
 	public AudioClip finalMusic;
-	private AudioSource finalMusicSource;
 	public AudioClip sadFinalMusic;
-	private AudioSource sadFinalMusicSource;
+    private SoundHelper sh;
 
     List<Alien> fleeingAliens = new List<Alien>();
+    private bool fleeing = false;
 
     void Start () {
         gs = GameObject.Find("GameState").GetComponent<GameState>();
 		gc = GameObject.Find("HandOfGod").GetComponent<GrabController>();
         tc = GameObject.Find("Tutorials").GetComponent<TutorialController>();
         ui = GameObject.Find("UI").GetComponent<UIManager>();
+        sh = GameObject.Find("SoundHelper").GetComponent<SoundHelper>();
         planet = GameObject.Find("Planet");
 
-		source = GetComponent<AudioSource>();
-		vol = UnityEngine.Random.Range (volLowRange, volHighRange);
+        musicsource = gameObject.GetComponent<AudioSource>();
+        StartCoroutine(startMusic());
 
-		source2 = gameObject.AddComponent<AudioSource>();
-		attackSound = (AudioClip)Resources.Load ("alarm");
-		source2.clip = attackSound;
-		source2.playOnAwake = false;
-
-        source3 = gameObject.AddComponent<AudioSource>();
-        jetstartSound = (AudioClip)Resources.Load("jetstart");
-        source3.clip = jetstartSound;
-        source3.playOnAwake = false;
-
-		alarmMusicSource = GetComponent<AudioSource>();
-
-		backgroundMusicSource = GetComponent<AudioSource>();
-		backgroundMusicSource.PlayOneShot(backgroundMusic,vol);
-//		backgroundMusicSource.Play();
-
-		finalMusicSource = GetComponent<AudioSource>();
-
-		sadFinalMusicSource = GetComponent<AudioSource>();
+        source = gameObject.AddComponent<AudioSource>();
+        source.clip = crashSpaceship;
+        source.loop = false;
+        attackSource = gameObject.AddComponent<AudioSource>();
+        attackSource.clip = attackSound;
+        attackSource.loop = false;
+        jetStartSource = gameObject.AddComponent<AudioSource>();
+        jetStartSource.clip = jetstartSound;
+        jetStartSource.loop = false;
 
         gs.ActiveSkill = 0;
+        gs.CollectedResources = 0;
         bakeTimer = Time.time;
       
         // Create planet landscape
         planet.layer = 10;
         planet.GetComponent<RandomObjectScattering> ().Setup ();
+        
 
         readyToBakePathfinding = true;
 	}
 
+    IEnumerator startMusic()
+    {
+        sh.Fade(musicsource, true, 3);
+        //musicsource.Play();
+        yield return true;
+    }
 
     void Update()
     {    
@@ -97,6 +97,7 @@ public class GameController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 GameObject.Find("StoryCanvas").SetActive(false);
+                ui.SetResourceSlider();
                 gs.gameReady = true;
                 tc.ShowNavigation();               
             }
@@ -105,28 +106,37 @@ public class GameController : MonoBehaviour {
          
         if(gs.gameReady)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            gsReady = gsReady > 0.0f ? gsReady : Time.time;
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				ui.TogglePause();
+			}
+			
+			if (Input.GetKeyDown(KeyCode.Tab))
             {
                 gs.ActiveSkill += 1;
                 if (gs.ActiveSkill > 2) gs.ActiveSkill = 0;
 				ui.UpdateSkillToggle();
             }
 
-            if(!firstSpawn && gs.aliens.Count == 0)
+            if (!firstSpawn && gs.aliens.Count == 0)
             {
-                if (gs.aliensSaved > 0)
+                if (gs.aliensSaved > 0) {
                     StartCoroutine(Win());
-                else
-                    ui.showLose();
+            }else {
+                    StartCoroutine(playLoseSound());
+                    ui.ShowLose();
+                }
             }
-        }       
+        }
 
-        if (Input.GetKeyDown (KeyCode.O)) {
+        var timeSinceReady = Time.time - gsReady;
+
+        if (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS ) {
 			StartCoroutine (CrashSpaceShip ());
-			source.PlayOneShot(crashSpaceship,vol);
-		}
+        }
 
-		List<Alien> aliens = gs.getAliens ();
+        List<Alien> aliens = gs.getAliens ();
 
 		if (!fleeing) {
 			foreach (Alien alien in aliens) {
@@ -134,34 +144,45 @@ public class GameController : MonoBehaviour {
 					fleeingAliens.Add (alien);
 					fleeing = true;
 					StartCoroutine (playAlarmSound ());
-					break;
-				}
+
+                    sh.SwitchFade(musicsource, musicsource.clip, alarmMusic, 1.5f);
+                    //musicsource.clip = alarmMusic;
+                    //musicsource.Play();
+                    break;
+                }
+                else
+                {
+                    if (musicsource.clip == alarmMusic && musicsource.clip != finalMusic && musicsource.clip != sadFinalMusic)
+                    {
+
+                        sh.SwitchFade(musicsource, musicsource.clip, backgroundMusic, 1.5f);
+                        // musicsource.clip = backgroundMusic;
+                        // musicsource.Play();
+                    }
+                }
 				if(fleeingAliens.Contains(alien) && alien.state != Alien.AlienState.FLEEING)
                 {
 					fleeingAliens.Remove(alien);
-					if(fleeingAliens.Count == 0) {
-						alarmMusicSource.enabled = false;
-//						backgroundMusicSource.enabled = true;
-						
-						backgroundMusicSource.playOnAwake = true;
-//						alarmMusicSource.Pause ();
-					}
 				}
 			}
 		}
     }
 
+
+    IEnumerator playLoseSound()
+    {
+        if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
+        {
+            sh.SwitchFade(musicsource, musicsource.clip, sadFinalMusic, 1.5f);
+            //musicsource.clip = sadFinalMusic;
+            //musicsource.Play();
+        }
+        yield return new WaitForSeconds(0);
+    }
 	IEnumerator playAlarmSound(){
-		source2.Play();
-//		if (!alarmMusicSource.isPlaying) {
-//			backgroundMusicSource.enabled = false;
-//			backgroundMusicSource.playOnAwake = false;
-//			backgroundMusicSource.mute = true;
-			alarmMusicSource.enabled = true;
-//			alarmMusicSource.PlayOneShot(alarmMusic,vol);
-//			alarmMusicSource.Play();
-//		}
-		yield return new WaitForSeconds (10);
+        //source.PlayOneShot(attackSound, 1.0f);
+        if(!attackSource.isPlaying) attackSource.Play();
+        yield return new WaitForSeconds (10);
 		fleeing = false;
 	}
 
@@ -187,7 +208,12 @@ public class GameController : MonoBehaviour {
 
     IEnumerator CrashSpaceShip()
     {
-        
+        if (spaceshipCrashed)
+            yield break;
+        spaceshipCrashed = true;
+
+        if (!source.isPlaying)  source.Play();
+
         Vector3 pos = GameValues.ShipPos;
         Vector3 start_pos = (pos.normalized + new Vector3(0.1f, 0, 0)) * GameValues.PlanetRadius * 5f;
         GameObject ship = Creator.Create("Spaceship_whole", start_pos, "SpaceShip");
@@ -225,6 +251,12 @@ public class GameController : MonoBehaviour {
 
     IEnumerator Win()
     {
+        if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
+        {
+            sh.SwitchFade(musicsource, musicsource.clip, finalMusic, 1.5f);
+            //musicsource.clip = finalMusic;
+            //musicsource.Play();
+        }
         float start = Time.time;
         GameObject ship = GameObject.Find("SpaceShip");
         Vector3 start_pos = ship.transform.position;
@@ -246,7 +278,7 @@ public class GameController : MonoBehaviour {
             yield return false;
         }
 
-        ui.showWin();
+        ui.ShowWin();
     }
 
 
@@ -309,38 +341,40 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " ShyMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.MonsterSpawnPoints.Any();
+            Vector3 pos = gs.MonsterSpawnPoints.Any() + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            pos = CoordinateHelper.GroundPosition(pos);
             ShyMonster m = new ShyMonster(attack: 5, health: 25, speed: 2.5f, range: 7, contagious: false);
-            m.GameObject = Creator.Create("mahluq", pos, "ShyMonster");
-            gs.monsters.Add(m.GameObject, m);
-            gs.creatures.Add(m.GameObject, m as Creature);
-
-            GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.forward = -(planet.transform.position - pos).normalized;
+            DoSpawn(position: pos, monster: m, resName: "mahluq", ingameName: "ShyMonster");
         }
     }
 
     void SpawnPredators()
     {
-        int count = Random.Range(1,5);
+        int count = Random.Range(2,5);
         Vector3 pos = gs.MonsterSpawnPoints.Any();
-        Debug.Log("Spawning " + count + " Predators");
         for (int i = 0; i < count; i++)
-        {        
-            Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            spawnPos = CoordinateHelper.GroundPosition(spawnPos);
-			bool contagious = false;
-			if(Random.Range(0f,1f) < 0.15f) contagious = true;
-            PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
-            m.GameObject = Creator.Create("monster_small", spawnPos, "PredatoryMonster");
-            gs.monsters.Add(m.GameObject, m);
-            gs.creatures.Add(m.GameObject, m as Creature);
-			if(contagious)
-				m.GameObject.transform.Find ("Infection").GetComponent<ParticleSystem>().Play();
-
-            GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.forward = -(planet.transform.position -pos).normalized;
+        {
+            float wait = i * 2.0f;
+            if (i != 0)
+                StartCoroutine(SpawnCoroutine(pos, wait));
+            else
+                DoPredatorSpawn(pos);
         }
+    }
+
+    IEnumerator SpawnCoroutine(Vector3 pos, float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        DoPredatorSpawn(pos);
+    }
+
+    void DoPredatorSpawn(Vector3 pos)
+    {    
+        Vector3 spawnPos = pos + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        spawnPos = CoordinateHelper.GroundPosition(spawnPos);
+        bool contagious = Random.Range(0f, 1f) < 0.15f;
+        PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
+        DoSpawn(position: pos, monster: m, resName: "monster_small", ingameName: "PredatoryMonster");
     }
 
     void SpawnEvilMonsters()
@@ -349,14 +383,10 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning " + count + " EvilMonsters");
         for (int i = 0; i < count; i++)
         {
-            Vector3 pos = gs.MonsterSpawnPoints.Any();
+            Vector3 pos = gs.MonsterSpawnPoints.Any() + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            pos = CoordinateHelper.GroundPosition(pos);
             EvilMonster m = new EvilMonster(attack: 10, health: 125, speed: 3.25f, range: 8, contagious: false);
-            m.GameObject = Creator.Create("monster", pos, "EvilMonster");
-            gs.monsters.Add(m.GameObject, m);
-            gs.creatures.Add(m.GameObject, m as Creature);
-
-            GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-            effect.transform.forward = -(planet.transform.position - pos).normalized;
+            DoSpawn(position: pos, monster: m, resName: "monster", ingameName: "EvilMonster");
         }
     }
 
@@ -365,12 +395,17 @@ public class GameController : MonoBehaviour {
         Debug.Log("Spawning 1 ReallyEvilMonster");
         Vector3 pos = gs.MonsterSpawnPoints.Any();
         EvilMonster m = new EvilMonster(attack: 20, health: 200, speed: 2.75f, range: 6, contagious: false);
-        m.GameObject = Creator.Create("evil_final", pos, "EvilMonster");
-        gs.monsters.Add(m.GameObject, m);
-        gs.creatures.Add(m.GameObject, m as Creature);
+        DoSpawn(position: pos, monster: m, resName: "evil_final", ingameName: "EvilMonster");
+    }
 
-        GameObject effect = Creator.Create("Spawner", pos, "Spawner");
-        effect.transform.forward = -(planet.transform.position - pos).normalized;
+    void DoSpawn(Vector3 position, Monster monster, string resName, string ingameName)
+    {
+        monster.GameObject = Creator.Create(resName, position, ingameName);
+        gs.monsters.Add(monster.GameObject, monster);
+        gs.creatures.Add(monster.GameObject, monster as Creature);
+
+        GameObject effect = Creator.Create("Spawner", position, "Spawner");
+        effect.transform.forward = -(planet.transform.position - position).normalized;
     }
 
     void RemoveReferences(Creature c) {
@@ -394,11 +429,30 @@ public class GameController : MonoBehaviour {
         Destroy(GameObject.Find("SpaceShip"));
         GameObject new_ship = Creator.Create("Spaceship_whole", GameValues.ShipPos, "SpaceShip");
         new_ship.transform.up = GameValues.ShipPos.normalized;
-        source3.Play();
+        if(!jetStartSource.isPlaying) jetStartSource.Play();
     }
 
-   
+    void StartLeaveTimer()
+	{
+		StartCoroutine (LeaveTimer ());
+	}
 
+	IEnumerator LeaveTimer()
+	{
+		yield return new WaitForSeconds(60f);
+		foreach (DictionaryEntry d in gs.aliens)
+		{
+			Alien a = d.Value as Alien;
+			StartCoroutine(BeamAlienToShip(a));
+		}
+	}
 
-
+	IEnumerator BeamAlienToShip(Alien a) 
+	{
+		a.GameObject.transform.Find ("Beam").GetComponent<ParticleSystem> ().Play ();
+		yield return new WaitForSeconds(1f);
+		a.GameObject.transform.position = GameValues.ShipPos;
+	}
+	
+	
 }

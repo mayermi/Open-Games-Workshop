@@ -22,7 +22,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
 
     //Smoothing parameters
     private SmoothingUtility _translationSmoothingUtility = new SmoothingUtility();
-    private float SmoothingFactor = 20;
+    private float SmoothingFactor = 15;
     private SmoothingUtility.SmoothingTypes SmoothingType = SmoothingUtility.SmoothingTypes.Weighted;
 
     #endregion
@@ -205,6 +205,7 @@ public class HandTrackingAction : VirtualWorldBoxAction
                     this.gameObject.transform.localPosition = new Vector3(lastVecX, lastVecY, lastVecZ);    
                 }
 
+                //move projection:
                 grab = GameObject.Find("HandOfGod").GetComponent<GrabController>();
                 grab.moveVis(gameObject);
             }
