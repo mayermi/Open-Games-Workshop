@@ -100,14 +100,14 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("StoryCanvas").SetActive(false);
                 ui.SetResourceSlider();
                 gs.gameReady = true;
-                tc.ShowNavigation();               
+                tc.ShowNavigation();   
+				gsReady = gsReady > 0.0f ? gsReady : Time.time;
             }
                 
         }
          
         if(gs.gameReady)
-        {
-            gsReady = gsReady > 0.0f ? gsReady : Time.time;
+        {       
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				ui.TogglePause();
@@ -133,6 +133,7 @@ public class GameController : MonoBehaviour {
         var timeSinceReady = Time.time - gsReady;
 
         if ( (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS) && !tc.StoryVisible() ) {
+			Debug.Log (tc.StoryVisible());
 			StartCoroutine (CrashSpaceShip ());
         }
 

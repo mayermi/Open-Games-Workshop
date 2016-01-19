@@ -73,7 +73,7 @@ public class TutorialController : MonoBehaviour {
 
 	public bool StoryVisible()
 	{
-		if (story.GetComponent<CanvasGroup> ().alpha > 0.95f)
+		if (GameObject.Find ("StoryCanvas").activeSelf)
 			return true;
 		return false;
 	}
