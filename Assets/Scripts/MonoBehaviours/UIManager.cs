@@ -47,7 +47,8 @@ public class UIManager : MonoBehaviour {
 		if(gameEnded)
 		{
 			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
-			if(GameObject.Find("GameUI").GetComponent<CanvasGroup>().alpha < 0.02f)
+
+			if(GameObject.Find("GameUI").GetComponent<CanvasGroup>().alpha < 0.05f)
 				GameObject.Find("GameUI").SetActive(false);
 		}
     }
