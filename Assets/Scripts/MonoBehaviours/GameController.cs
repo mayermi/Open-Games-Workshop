@@ -393,12 +393,12 @@ public class GameController : MonoBehaviour {
     void SpawnEvilMonsters()
     {
         int count = Random.Range(1, 3);
-        Debug.Log("Spawning " + count + " EvilMonsters");
+        Debug.Log("Spawning " + count + " Wolf-Monsters");
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = gs.MonsterSpawnPoints.Any() + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             pos = CoordinateHelper.GroundPosition(pos);
-            EvilMonster m = new EvilMonster(attack: 10, health: 125, speed: 3.25f, range: 8, contagious: false);
+            PredatoryMonster m = new PredatoryMonster(attack: 10, health: 125, speed: 3.25f, range: 8, contagious: false);
             DoSpawn(position: pos, monster: m, resName: "monster", ingameName: "EvilMonster");
         }
     }

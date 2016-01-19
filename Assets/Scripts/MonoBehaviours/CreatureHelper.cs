@@ -62,7 +62,9 @@ public class CreatureHelper : MonoBehaviour {
     public void StartDying()
     {
         StartCoroutine(playDeathSound());
-        
+
+        gameObject.transform.position = CoordinateHelper.GroundPosition(gameObject.transform.position);
+
         transform.Find("Canvas").Find("Health").gameObject.SetActive(false);
 
         Animation anim = gameObject.GetComponent<Animation>();
@@ -76,7 +78,7 @@ public class CreatureHelper : MonoBehaviour {
     {
         yield return new WaitForSeconds(5f);
         Quaternion rot = gameObject.transform.rotation;
-        Vector3 pos = gameObject.transform.position;
+        Vector3 pos = CoordinateHelper.GroundPosition(gameObject.transform.position);
 
         GameObject deadCreature = Creator.Create(deadName, pos, "Corpse");
         deadCreature.transform.rotation = rot;
