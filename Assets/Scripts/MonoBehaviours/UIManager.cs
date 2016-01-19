@@ -39,6 +39,11 @@ public class UIManager : MonoBehaviour {
     {
         if(gs == null) gs = GameObject.Find("GameState").GetComponent<GameState>();
 
+		if (paused) 
+		{
+			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
+		}
+
 		if(gameEnded)
 		{
 			if(Input.GetKeyDown(KeyCode.Return)) Application.LoadLevel("main_menu");
