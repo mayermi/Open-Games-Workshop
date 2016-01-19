@@ -375,6 +375,7 @@ public class GameController : MonoBehaviour {
         bool contagious = Random.Range(0f, 1f) < 0.15f;
         PredatoryMonster m = new PredatoryMonster(attack: 7, health: 50, speed: 3.5f, range: 10, contagious: contagious);
         DoSpawn(position: pos, monster: m, resName: "monster_small", ingameName: "PredatoryMonster");
+		if(contagious) m.GameObject.transform.Find("Infection").GetComponent<ParticleSystem>().Play();
     }
 
     void SpawnEvilMonsters()
