@@ -132,8 +132,7 @@ public class GameController : MonoBehaviour {
 
         var timeSinceReady = Time.time - gsReady;
 
-        if ( (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS) && !tc.StoryVisible() ) {
-			Debug.Log (tc.StoryVisible());
+        if ( (Input.GetKeyDown (KeyCode.O) || timeSinceReady > CRASH_SPACESHIP_AFTER_SECONDS)) {
 			StartCoroutine (CrashSpaceShip ());
         }
 
