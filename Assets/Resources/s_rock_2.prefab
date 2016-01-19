@@ -27,7 +27,6 @@ GameObject:
   - 4: {fileID: 440254}
   - 33: {fileID: 3330202}
   - 23: {fileID: 2353946}
-  - 95: {fileID: 9584552}
   m_Layer: 0
   m_Name: simple_rock_2
   m_TagString: Untagged
@@ -115,23 +114,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.92832208, y: 4.80999994, z: 1.65059423}
   m_Center: {x: .569999993, y: 1.38999999, z: -.387980223}
---- !u!95 &9584552
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 156220}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e6ed02ccfaac8174583b82ffc7a924d2, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

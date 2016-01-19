@@ -117,10 +117,10 @@ public class GrabController : MonoBehaviour {
             Monster m = gs.monsters[objectToBeGrabbed] as Monster;
             objectToBeGrabbed.transform.SetParent(null);
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
-			float force = moveDir.magnitude * 15f;
+			float force = moveDir.magnitude * 10f;
 			force = (force > 10f) ? 10f : force;
-            objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * force * 2f, ForceMode.Impulse);
-            m.TakeDamage( (int) Mathf.Ceil(force) );
+            objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * force, ForceMode.Impulse);
+            m.TakeDamage( (int) Mathf.Ceil(force*2f) );
             m.Idle();
             grabbing = false;
             objectToBeGrabbed = null;
