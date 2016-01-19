@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3318454}
   - 23: {fileID: 2349488}
   - 65: {fileID: 6517084}
-  - 136: {fileID: 13606798}
+  - 65: {fileID: 6597388}
   m_Layer: 0
   m_Name: rock_group_3
   m_TagString: NotWalkable
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183350}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.1866302, y: 44.3226585, z: -80.8553772}
+  m_LocalPosition: {x: -53.847332, y: 83.1808395, z: -4.20320845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +74,8 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.42000008, y: 8.23999977, z: 4.86999989}
   m_Center: {x: -.800000012, y: 1.66999996, z: .680000007}
---- !u!136 &13606798
-CapsuleCollider:
+--- !u!65 &6597388
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -83,10 +83,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2.22000003
-  m_Height: 12.2600002
-  m_Direction: 1
-  m_Center: {x: 2.06999993, y: 1.36000001, z: -3.02999997}
+  serializedVersion: 2
+  m_Size: {x: 4.30000019, y: 9.27000046, z: 4.75}
+  m_Center: {x: 1.19000006, y: 1.42999995, z: -2.61999989}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
