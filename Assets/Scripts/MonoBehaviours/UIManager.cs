@@ -56,14 +56,14 @@ public class UIManager : MonoBehaviour {
     {
         int resourcesCount = gs.CollectedResources;
        
-        countResourcesText.text = "Resources found: " + resourcesCount.ToString() + "/" + gs.resourcesNeeded;
+        countResourcesText.text = "Gesammelte Ressourcen: " + resourcesCount.ToString() + "/" + gs.resourcesNeeded;
         resourceSlider.value = resourcesCount;
     }
 
     public void SetAlienSlider()
     {
         int aliensCount = gs.aliens.Count + gs.aliensSaved;
-        countAliensText.text = "Aliens alive: " + aliensCount.ToString();
+        countAliensText.text = "Lebende Aliens: " + aliensCount.ToString();
         alienSlider.value = aliensCount;
     }
 
