@@ -74,7 +74,7 @@ public class CreatureHelper : MonoBehaviour {
 
     IEnumerator ReplaceModel()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5f);
         Quaternion rot = gameObject.transform.rotation;
         Vector3 pos = gameObject.transform.position;
 

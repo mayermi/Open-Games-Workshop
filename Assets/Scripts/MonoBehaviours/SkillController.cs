@@ -66,7 +66,7 @@ public class SkillController : MonoBehaviour {
     public void PerformActiveSkill()
     {
         Skills active = (Skills)gs.ActiveSkill;
-        if (skillDisabled[active])
+        if (skillDisabled[active] || gc.IsGrabbing())
             return;
 
         GameObject.Find("hand").GetComponent<Animation>().Play("Skill");

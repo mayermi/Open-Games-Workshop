@@ -119,7 +119,6 @@ public class GrabController : MonoBehaviour {
             objectToBeGrabbed.GetComponent<Rigidbody>().isKinematic = false;
 			float force = moveDir.magnitude * 25f;
 			force = (force > 20f) ? 20f : force;
-			Debug.Log (force);
             objectToBeGrabbed.GetComponent<Rigidbody>().AddForce(moveDir * force, ForceMode.Impulse);
             m.TakeDamage( (int) Mathf.Ceil(force) );
             m.Idle();
