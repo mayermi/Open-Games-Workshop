@@ -37,6 +37,7 @@ public class SoundHelper : MonoBehaviour {
         float start = Time.time;
         while(Time.time-start < dur)
         {
+            if(source.volume < 0.3f)
             source.volume = ( (Time.time - start) / dur );
             yield return true;
         }
