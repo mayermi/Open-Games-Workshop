@@ -168,7 +168,8 @@ public class UIManager : MonoBehaviour {
             yield return false;
         }
         obj.GetComponent<CanvasGroup>().alpha = to;
-    }
+		yield break;
+	}
 
 	IEnumerator SetTimeScale(float scale, float timer) 
 	{
