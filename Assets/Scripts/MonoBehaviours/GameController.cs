@@ -123,10 +123,9 @@ public class GameController : MonoBehaviour {
             {
                 if (gs.aliensSaved > 0) {
                     StartCoroutine(Win());
-            }else {
-                    StartCoroutine(playLoseSound());
-                    ui.ShowLose();
-                }
+            	} else {
+                    StartCoroutine(Lose());
+            	}
             }
         }
 
@@ -169,7 +168,7 @@ public class GameController : MonoBehaviour {
     }
 
 
-    IEnumerator playLoseSound()
+    IEnumerator Lose()
     {
         if (musicsource.clip == backgroundMusic || musicsource.clip == alarmMusic)
         {
@@ -177,7 +176,8 @@ public class GameController : MonoBehaviour {
             //musicsource.clip = sadFinalMusic;
             //musicsource.Play();
         }
-        yield return new WaitForSeconds(0);
+		ui.ShowLose();
+		yield break;
     }
 	IEnumerator playAlarmSound(){
         //source.PlayOneShot(attackSound, 1.0f);
