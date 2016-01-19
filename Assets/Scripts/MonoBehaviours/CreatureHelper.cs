@@ -86,6 +86,7 @@ public class CreatureHelper : MonoBehaviour {
     IEnumerator playDeathSound()
     {
         yield return new WaitForSeconds(0.2f);
-        source.Play();
+        source.volume = 1f;
+        if(!source.isPlaying) source.Play();
     }
 }
